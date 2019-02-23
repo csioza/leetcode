@@ -252,3 +252,15 @@ int main3()
     getchar();
     return 0;
 }
+//4. 寻找两个有序数组的中位数
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+
+}
+int main()
+{
+    string s = "abcabcbb";
+    int num = lengthOfLongestSubstring(s);
+    printf("%d", num);
+    getchar();
+    return 0;
+}
