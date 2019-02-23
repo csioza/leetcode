@@ -253,14 +253,171 @@ int main3()
     return 0;
 }
 //4. 寻找两个有序数组的中位数
-double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-
-}
-int main()
+//double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+//
+//}
+//5. 最长回文子串
+int main5()
 {
     string s = "abcabcbb";
     int num = lengthOfLongestSubstring(s);
     printf("%d", num);
+    getchar();
+    return 0;
+}
+
+//6. Z 字形变换 
+//只能找规律
+string convert(string s, int numRows) 
+{
+    const char *str = s.c_str();
+    int len = strlen(str);
+    string rlt;
+    int zhou = 2 * numRows - 2;
+    if (zhou <= 0 || len <= 0)//差了个等号zhou <= 0
+    {
+        return s;
+    }
+    int numZhou = len / zhou + 1;
+    for (int i = 0; i < numRows; i++)
+    {
+        for (int j = 0; j < numZhou; j++)
+        {
+            int numnum = zhou * j + i;
+            if (numnum < len)
+            {
+                rlt.push_back(str[numnum]);
+            }
+            else
+            {
+                break;
+            }
+            int gap = (numRows - i - 1) * 2;
+            if (gap == 0 || gap == zhou)
+            {
+                continue;
+            }
+            numnum += gap;
+            if (numnum < len)
+            {
+                rlt.push_back(str[numnum]);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    return rlt;
+}
+int main6()
+{
+    string s = "LEETCODEISHIRING";
+    string s2 = convert(s,4);
+    printf("%s", s2.c_str());
+    getchar();
+    return 0;
+}
+
+//7. 整数反转
+int reverse(int x) 
+{
+    int f = 1;
+    long long xx = x;
+    if (xx < 0)
+    {
+        f = -1;
+        xx = -xx;//这个都能不写，没谁了
+    }
+    long long rlt = 0;
+    while (xx > 0)
+    {
+        int yu = xx % 10;
+        rlt = rlt * 10 + yu;
+        xx = xx / 10;
+    }
+    if (f < 0 && rlt > 2147483648)
+    {
+        return 0;
+    }
+    if (f > 0 && rlt > 2147483647)
+    {
+        return 0;
+    }
+    rlt *= f;
+    return int(rlt);
+}
+int main7()
+{
+    int ss = reverse(-123);
+    printf("%d", ss);
+    getchar();
+    return 0;
+}
+//8. 字符串转换整数 (atoi)
+int myAtoi(string str) {
+    const char * s = str.c_str();
+    int len = strlen(s);
+    int isFirst = true;
+    int f = 1;
+    long long num = 0;
+    for (int i = 0; i < len; i++)
+    {
+        if (isFirst)
+        {
+            if (s[i] == ' ')
+            {
+            }
+            else if (s[i] == '-')
+            {
+                f = -1;
+                isFirst = false;
+            }
+            else if (s[i] == '+')
+            {
+                isFirst = false;
+            }
+            else if (s[i] >= '0' && s[i] <= '9')
+            {
+                num = s[i] - '0';
+                isFirst = false;
+            }
+            else
+            {
+                return 0;
+            }
+            continue;
+        }
+        if (s[i] >= '0' && s[i] <= '9')
+        {
+            if (num > 0xffffffffffffff)
+            {
+                break;
+            }
+            num *= 10;
+            num += s[i] - '0';
+        }
+        else
+        {
+            break;
+        }
+    }
+    //
+    if (f < 0 && num > 0x80000000)
+    {
+        return 0x80000000;
+    }
+    if (f > 0 && num > 0x7fffffff)
+    {
+        return 0x7fffffff;
+    }
+    num *= f;
+    return int(num);
+}
+int main8()
+{
+    int ss = myAtoi("-91283472332");
+    printf("%d", ss);
     getchar();
     return 0;
 }
