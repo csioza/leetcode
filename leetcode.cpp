@@ -611,7 +611,107 @@ bool isValid(string s) {
     return true;
 }
 
-
+//21. 合并两个有序链表
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+    if (l1 == NULL)
+        return l2;
+    if (l2 == NULL)
+        return l1;
+    ListNode *head = l1;
+    ListNode *pre = NULL;
+    while (l1 && l2)
+    {
+        if (l1->val <= l2->val)
+        {
+            pre = l1;
+            l1 = l1->next;
+        }
+        else
+        {
+            int tmp = l1->val;
+            l1->val = l2->val;
+            l2->val = tmp;
+            //
+            ListNode *l11 = l1->next;
+            ListNode *l22 = l2->next;
+            l1->next = l2;
+            l2->next = l11;
+            pre = l1;
+            l1 = l1->next;
+            l2 = l22;
+        }
+    }
+    if (l1 == NULL && pre && l2)
+    {
+        pre->next = l2;
+    }
+    return head;
+}
+//26. 删除排序数组中的重复项
+int removeDuplicates(vector<int>& nums) {
+    int len = nums.size();
+    if (len == 0 || len == 1)
+    {
+        return len;
+    }
+    int gap = 0;
+    for (int i = 1; i < len; ++i)
+    {
+        if (nums[i] == nums[i - 1])
+        {
+            gap++;
+        }
+        else
+        {
+            nums[i - gap] = nums[i];
+        }
+    }
+    return len - gap;
+}
+//27. 移除元素
+int removeElement(vector<int>& nums, int val) {
+    int len = nums.size();
+    if (len == 0)
+    {
+        return len;
+    }
+    int gap = 0;
+    for (int i = 0; i < len; ++i)
+    {
+        if (nums[i] == val)
+        {
+            gap++;
+        }
+        else
+        {
+            nums[i - gap] = nums[i];
+        }
+    }
+    return len - gap;
+}
+//28. 实现strStr()
+int strStr(string haystack, string needle) {//TODO:KMP
+    int hlen = haystack.size();
+    int nlen = needle.size();
+    if (nlen == 0)
+    {
+        return 0;
+    }
+    if (hlen == 0)
+    {
+        return -1;
+    }
+    for (int i = 0; i < hlen; i++)
+    {
+        int k = 0, j = i;
+        for (; k < nlen && j < hlen && haystack[j] == needle[k]; j++, k++);
+        if (k == nlen)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
 int main()
 {
     string ss = longestCommonPrefix("ab", ".*c");
