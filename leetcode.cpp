@@ -530,9 +530,9 @@ int main10()
     return 0;
 }
 //13. 罗马数字转整数
-int romanToInt(string s) {
-    
-}
+//int romanToInt(string s) {
+//    
+//}
 //14. 最长公共前缀
 string longestCommonPrefix(vector<string>& strs) 
 {
@@ -712,17 +712,103 @@ int strStr(string haystack, string needle) {//TODO:KMP
     }
     return -1;
 }
+//35. 搜索插入位置
+int searchInsert(vector<int>& nums, int target) {
+    int max = nums.size() - 1;
+    int min = 0;
+    int mid = 0;
+    for (; min < max;)
+    {
+        mid = min + (max - min) / 2;
+        if (nums[mid] == target)
+        {
+            return mid;
+        }
+        else if (target > nums[mid])
+        {
+            min = mid + 1;
+        }
+        else
+        {
+            max = mid - 1;
+        }
+    }
+    if (min > max)
+        return min;
+    if (nums[max] < target)
+    {
+        return max + 1;
+    }
+    return max;
+}
+int searchInsert2(vector<int>& nums, int target) {//错误答案
+    int max = nums.size();//考虑不减一情况
+    int min = 0;
+    int mid = 0;
+    for (; min < max;)
+    {
+        mid = min + (max - min) / 2;
+        if (nums[mid] == target)
+        {
+            return mid;
+        }
+        else if (target > nums[mid])
+        {
+            min = mid + 1;
+        }
+        else
+        {
+            max = mid - 1;
+        }
+    }
+    if (min == max)
+    {
+        return max;
+    }
+    if (nums[min] < target)
+    {
+        return min + 1;
+    }
+    return min;
+}
+//38. 报数
+string countAndSay(int n) {
+    string s;
+    if (n <= 0)
+    {
+        return s;
+    }
+    s.push_back('1');
+    for (int i = 2; i <= n; i++)
+    {
+        string t;
+        int len = s.size();
+        int cnt = 1;
+        int j = 1;
+        for (; j < len; j++)
+        {
+            if (s[j] == s[j - 1])
+            {
+                cnt++;
+            }
+            else
+            {
+                t.push_back('0' + cnt);
+                t.push_back(s[j - 1]);
+                cnt = 1;
+            }
+        }
+        t.push_back('0' + cnt);
+        t.push_back(s[j - 1]);
+        s = t;
+        printf("%s\n", s.c_str());
+    }
+    return s;
+}
 int main()
 {
-    string ss = longestCommonPrefix("ab", ".*c");
-    if (ss)
-    {
-        printf("true");
-    }
-    else
-    {
-        printf("false");
-    }
+    string ss = countAndSay(6);
+    //printf("%s",ss.c_str());
     getchar();
     return 0;
 }
