@@ -421,3 +421,208 @@ int main8()
     getchar();
     return 0;
 }
+//9. 回文数
+bool isPalindrome(int x) {
+    if (x < 0)
+    {
+        return false;
+    }
+    else if (x == 0)
+    {
+        return true;
+    }
+    long long xx = x;
+    long long xxx = x;
+    long long rnum = 0;
+    while (xx > 0)
+    {
+        if (rnum > 0xffffffffffffff)
+        {
+            break;
+        }
+        int yu = xx % 10;
+        rnum = rnum * 10 + yu;
+        xx = xx / 10;
+    }
+    if (xxx == rnum)
+    {
+        return true;
+    }
+    return false;
+}
+bool isPalindrome2(int x) {
+    if (x < 0 || (x != 0 && x % 10 == 0))
+    {
+        return false;
+    }
+    else if (x == 0)
+    {
+        return true;
+    }
+    long long xx = x;
+    long long rnum = 0;
+    while (xx > rnum)
+    {
+        if (rnum > 0xffffffffffffff)
+        {
+            break;
+        }
+        rnum = rnum * 10 + xx % 10;
+        xx = xx / 10;
+    }
+    return (xx == rnum) || ((rnum / 10) == xx);
+}
+//10. 正则表达式匹配
+bool isMatch(string s, string p) {//错误答案
+    int slen = s.size();
+    int plen = p.size();
+    if (slen == 0 || plen == 0)
+        return false;
+    int charIndex = -1; 
+    int i = 0, j = 0;
+    for ( ; i < slen; i++)
+    {
+        if (j >= plen)
+            return false;
+        if (p[j] == '.')
+            j++;
+        else if (p[j] == '*')
+        {
+            if (i > 0 && s[i] == s[i - 1]) 
+            {
+
+            }
+            else if (j > 0 && p[j - 1] == '.') {}
+            else
+            {
+                for (j++; j < plen && (/*p[j] == '*' || p[j] == '.' ||*/p[j] == s[i - 1]); j++);
+                i--;
+            }
+        }
+        else if (s[i] == p[j])
+            j++;
+        else if (s[i] != p[j] && j + 1 < plen && p[j + 1] == '*')
+        {
+            i--;
+            j+=2;
+        }
+    }
+    if (j < plen)
+    {
+        for (; j < plen && p[j] == '*'; j++);
+        if (j < plen)
+            return false;
+    }
+    return true;
+}
+int main10()
+{
+    bool ss = isMatch("ab",".*c");
+    if (ss)
+    {
+        printf("true");
+    }
+    else
+    {
+        printf("false");
+    }
+    getchar();
+    return 0;
+}
+//13. 罗马数字转整数
+int romanToInt(string s) {
+    
+}
+//14. 最长公共前缀
+string longestCommonPrefix(vector<string>& strs) 
+{
+    int strnum = strs.size();
+    string rlt;
+    if (strnum <= 0 || strs[0].size() <= 0)
+    {
+        return rlt;
+    }
+    int size0 = strs[0].size();
+    for (int j = 0; size0 > j; ++j)
+    {
+        char tmp = strs[0][j];
+        for (int i = 1; i < strnum; ++i)
+        {
+            if (j < strs[i].size())
+            {
+                if (tmp == strs[i][j])
+                {
+
+                }
+                else
+                {
+                    return rlt;
+                }
+            }
+            else
+            {
+                return rlt;
+            }
+        }
+        rlt.push_back(tmp);
+    }
+    return rlt;
+}
+//20. 有效的括号
+bool isValid(string s) {
+    int slen = s.size();
+    string stack;
+    for (int i = 0; i < slen; ++i)
+    {
+        int k = stack.size();
+        if (k > 0)
+        {
+            if (stack[k - 1] == '(' && s[i] == ')')
+            {
+                stack.erase(k - 1);
+            }
+            else if (stack[k - 1] == '{' && s[i] == '}')
+            {
+                stack.erase(k - 1);
+            }
+            else if (stack[k - 1] == '[' && s[i] == ']')
+            {
+                stack.erase(k - 1);
+            }
+            else
+            {
+                stack.push_back(s[i]);
+            }
+        }
+        else
+        {
+            if (s[i] == ')' || s[i] == '}' || s[i] == ']')
+            {
+                return false;
+            }
+            stack.push_back(s[i]);
+        }
+    }
+    int m = stack.size();
+    if (m > 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+
+int main()
+{
+    string ss = longestCommonPrefix("ab", ".*c");
+    if (ss)
+    {
+        printf("true");
+    }
+    else
+    {
+        printf("false");
+    }
+    getchar();
+    return 0;
+}
