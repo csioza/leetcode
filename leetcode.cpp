@@ -805,10 +805,199 @@ string countAndSay(int n) {
     }
     return s;
 }
+//53. 最大子序和
+int maxSubArray(vector<int>& nums) {//我的答案，有点笨
+    int len = nums.size();
+    if (len <= 0)
+    {
+        return 0;
+    }
+    if (len == 1)
+    {
+        return nums[0];
+    }
+    vector<int> sums;
+    sums.resize(len);
+    sums[0] = nums[0];
+    for (int i = 1; i < len; i++)
+    {
+        if (sums[i-1] > 0)
+        {
+            sums[i] = sums[i - 1] + nums[i];
+        }
+        else
+        {
+            sums[i] = nums[i];
+        }
+    }
+    vector<int> sums2;
+    sums2.resize(len);
+    sums2[len - 1] = nums[len - 1];
+    int max = sums[len - 1] + sums2[len - 1] - nums[len - 1];
+    for (int j = len - 2; j >= 0; j--)
+    {
+        if (sums2[j + 1] > 0)
+        {
+            sums2[j] = sums2[j + 1] + nums[j];
+        }
+        else
+        {
+            sums2[j] = nums[j];
+        }
+        int max2 = sums[j] + sums2[j] - nums[j];
+        if (max < max2)
+        {
+            max = max2;
+        }
+    }
+    return max;
+}
+int maxSubArray2(vector<int>& nums) {//优秀答案
+    int len = nums.size();
+    if (len <= 0)
+        return 0;
+    int max = nums[0];
+    int sum = 0;
+    for (int i = 0; i < len; i++)
+    {
+        if (sum > 0)
+        {
+            sum = sum + nums[i];
+        }
+        else
+        {
+            sum = nums[i];
+        }
+        if (sum > max)
+        {
+            max = sum;
+        }
+    }
+    return max;
+}
+int main53()
+{
+    vector<int> nums;
+    nums.push_back(-2);
+    nums.push_back(1);
+    nums.push_back(-3);
+    nums.push_back(4);
+    nums.push_back(-1);
+    nums.push_back(2);
+    nums.push_back(1);
+    nums.push_back(-5);
+    nums.push_back(4);
+    int ss = maxSubArray2(nums);
+    printf("%d", ss);
+    getchar();
+    return 0;
+}
+//54. 螺旋矩阵
+vector<int> spiralOrder(vector<vector<int>>& matrix) {
+    vector<int> rlt;
+    if (matrix.size() <= 0)
+    {
+        return rlt;
+    }
+    int up = 0; 
+    int down = matrix.size() - 1;
+    int left = 0;
+    int right = matrix[0].size() - 1;
+    bool isL2R = true;
+    bool isZheng = true;
+    int i = 0, j = 0;
+    while (up < down && left < right)
+    {
+        if (isL2R)
+        {
+            if (isZheng)
+            {
+                rlt.push_back(matrix[i][j]);
+                if (j < right)
+                {
+                    j++;
+                }
+                else
+                {
+                    up++;
+                    isL2R = false;
+                    isZheng = true;
+                    i = up;
+                }
+            }
+            else
+            {
+                rlt.push_back(matrix[i][j]);
+                if (j > left)
+                {
+                    j--;
+                }
+                else
+                {
+                    down--;
+                    isL2R = false;
+                    isZheng = false;
+                    i = down;
+                }
+            }
+        }
+        else
+        {
+            if (isZheng)
+            {
+                rlt.push_back(matrix[i][j]);
+                if (i < down)
+                {
+                    i++;
+                }
+                else
+                {
+                    right--;
+                    isL2R = true;
+                    isZheng = false;
+                    j = right;
+                }
+            }
+            else
+            {
+                rlt.push_back(matrix[i][j]);
+                if (i > up)
+                {
+                    i--;
+                }
+                else
+                {
+                    left++;
+                    isL2R = true;
+                    isZheng = true;
+                    j = left;
+                }
+            }
+        }
+    }
+    return rlt;
+}
 int main()
 {
-    string ss = countAndSay(6);
-    //printf("%s",ss.c_str());
+    vector<vector<int>> matrix;
+    vector<int> nums1;
+    nums1.push_back(1);
+    nums1.push_back(2);
+    nums1.push_back(3);
+    vector<int> nums2;
+    nums2.push_back(4);
+    nums2.push_back(5);
+    nums2.push_back(6);
+    vector<int> nums3;
+    nums3.push_back(7);
+    nums3.push_back(8);
+    nums3.push_back(9);
+    matrix.push_back(nums1);
+    matrix.push_back(nums2);
+    matrix.push_back(nums3);
+
+    vector<int> ss = spiralOrder(matrix);
+    //printf("%d", ss);
     getchar();
     return 0;
 }
