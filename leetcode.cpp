@@ -1128,54 +1128,75 @@ string getPermutation(int n, int k) {
         sum *= j;
         n1[n - j] = sum;
     }
-    for (int i = 0; i < n; i++)
+    if (k > 1)
     {
-        if (k >= n1[i])
+        for (int i = 0; i < n; i++)
         {
-            if (k = 1)
+            if (k >= n1[i])
             {
-                break;
-            }
-            if (i == 0)
-            {
-                int start = i;
-                int end = n - 1;
-                while (start < end)
+                int zheng = k / n1[i];
+                int yu = k % n1[i];
+                if (yu == 0)
                 {
-                    int tmp = nn[start];
-                    nn[start] = nn[end];
-                    nn[end] = tmp;
-                    start++;
-                    end--;
+                    if (zheng % 2 == 1)
+                    {
+                        if (zheng > 1)
+                        {
+                            int endend = i - 2 + zheng;
+                            int startstart = i - 1;
+                            int tmp = nn[endend];
+                            for (int jj = endend; jj > startstart; jj--)
+                            {
+                                nn[jj] = nn[jj - 1];
+                            }
+                            nn[startstart] = tmp;
+                        }
+                        int start = i;
+                        int end = n - 1;
+                        while (start < end)
+                        {
+                            int tmp = nn[start];
+                            nn[start] = nn[end];
+                            nn[end] = tmp;
+                            start++;
+                            end--;
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        int endend = i - 2 + zheng;
+                        int startstart = i - 1;
+                        int tmp = nn[endend];
+                        for (int jj = endend; jj > startstart; jj--)
+                        {
+                            nn[jj] = nn[jj - 1];
+                        }
+                        nn[startstart] = tmp;
+                        int start = i;
+                        int end = n - 1;
+                        while (start < end)
+                        {
+                            int tmp = nn[start];
+                            nn[start] = nn[end];
+                            nn[end] = tmp;
+                            start++;
+                            end--;
+                        }
+                        break;
+                    }
                 }
-                break;
-            }
-            int zheng = k / n1[i];
-            int tmp = nn[i - 1];
-            nn[i - 1] = nn[i - 1 + zheng];
-            nn[i - 1 + zheng] = nn[i];
-            nn[i] = tmp;
-            int yu = k % n1[i];
-            if (yu == 0)
-            {
-                int start = i + 1;
-                int end = n - 1;
-                while (start < end)
+                else
                 {
-                    int tmp = nn[start];
-                    nn[start] = nn[end];
-                    nn[end] = tmp;
-                    start++;
-                    end--;
+                    int endend = i - 1 + zheng;
+                    int startstart = i - 1;
+                    int tmp = nn[endend];
+                    for (int jj = endend; jj > startstart; jj--)
+                    {
+                        nn[jj] = nn[jj - 1];
+                    }
+                    nn[startstart] = tmp;
                 }
-                break;
-            }
-            else if (yu == 1)
-            {
-                break;
-            }
-            else
-            {
                 k = yu;
             }
         }
@@ -1189,7 +1210,7 @@ string getPermutation(int n, int k) {
 }
 int main()
 {
-    string ss = getPermutation(3,1);
+    string ss = getPermutation(4,);
     printf("%s",ss.c_str());
     getchar();
 }
