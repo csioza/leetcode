@@ -1214,3 +1214,39 @@ int main()
     printf("%s",ss.c_str());
     getchar();
 }
+//66. º”“ª
+vector<int> plusOne(vector<int>& digits) {
+    int len = digits.size();
+    if (len == 0)
+    {
+        return digits;
+    }
+    vector<int> rlt;
+    int jin = 0;
+    digits[len - 1] ++;
+    for (int i = len - 1; i >= 0; i--)
+    {
+        int sum = digits[i] + jin;
+        if (sum >= 10)
+        {
+            digits[i] = sum % 10;
+            jin = 1;
+        }
+        else
+        {
+            digits[i] = sum % 10;//¬©–¥¡À
+            jin = 0;
+            break;
+        }
+    }
+    if (jin > 0)
+    {
+        rlt.push_back(jin);
+        for (int i = 0; i < len; i++)
+        {
+            rlt.push_back(digits[i]);
+        }
+        return rlt;
+    }
+    return digits;
+}
