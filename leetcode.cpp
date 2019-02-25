@@ -906,7 +906,7 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
     bool isL2R = true;
     bool isZheng = true;
     int i = 0, j = 0;
-    while (up < down && left < right)
+    while (up <= down && left <= right)
     {
         if (isL2R)
         {
@@ -977,7 +977,7 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
     }
     return rlt;
 }
-int main()
+int main54()
 {
     vector<vector<int>> matrix;
     vector<int> nums1;
@@ -1000,4 +1000,28 @@ int main()
     //printf("%d", ss);
     getchar();
     return 0;
+}
+//58. 最后一个单词的长度
+int lengthOfLastWord(string s) {
+    int len = s.size();
+    int cnt = 0;
+    for (int i = len - 1; i >= 0; i--)
+    {
+        if (s[i] == ' ')
+        {
+            if (cnt == 0)
+            {
+                continue;
+            }
+            else
+            {
+                break;
+            }
+        }
+        else
+        {
+            cnt++;
+        }
+    }
+    return cnt;
 }
