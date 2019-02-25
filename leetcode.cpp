@@ -977,6 +977,94 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
     }
     return rlt;
 }
+//59. ÂÝÐý¾ØÕó II
+vector<vector<int>> generateMatrix(int n) {
+    vector<vector<int>> matrix;
+    for (int i = 0; i < n; i++)
+    {
+        vector<int> nums;
+        nums.resize(n);
+        matrix.push_back(nums);
+    }
+    int up = 0;
+    int down = n - 1;
+    int left = 0;
+    int right = n - 1;
+    bool isL2R = true;
+    bool isZheng = true;
+    int i = 0, j = 0;
+    int cnt = 1;
+    while (up <= down && left <= right)
+    {
+        if (isL2R)
+        {
+            if (isZheng)
+            {
+                matrix[i][j] = cnt++;
+                if (j < right)
+                {
+                    j++;
+                }
+                else
+                {
+                    up++;
+                    isL2R = false;
+                    isZheng = true;
+                    i = up;
+                }
+            }
+            else
+            {
+                matrix[i][j] = cnt++;
+                if (j > left)
+                {
+                    j--;
+                }
+                else
+                {
+                    down--;
+                    isL2R = false;
+                    isZheng = false;
+                    i = down;
+                }
+            }
+        }
+        else
+        {
+            if (isZheng)
+            {
+                matrix[i][j] = cnt++;
+                if (i < down)
+                {
+                    i++;
+                }
+                else
+                {
+                    right--;
+                    isL2R = true;
+                    isZheng = false;
+                    j = right;
+                }
+            }
+            else
+            {
+                matrix[i][j] = cnt++;
+                if (i > up)
+                {
+                    i--;
+                }
+                else
+                {
+                    left++;
+                    isL2R = true;
+                    isZheng = true;
+                    j = left;
+                }
+            }
+        }
+    }
+    return matrix;
+}
 int main54()
 {
     vector<vector<int>> matrix;
@@ -1024,4 +1112,84 @@ int lengthOfLastWord(string s) {
         }
     }
     return cnt;
+}
+//60. µÚk¸öÅÅÁÐ
+string getPermutation(int n, int k) {
+    vector<int> nn;
+    vector<int> n1;
+    n1.resize(n);
+    for (int i = 1; i <= n; i++)
+    {
+        nn.push_back(i);
+    }
+    int sum = 1;
+    for (int j = 1; j <= n; j++)
+    {
+        sum *= j;
+        n1[n - j] = sum;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (k >= n1[i])
+        {
+            if (k = 1)
+            {
+                break;
+            }
+            if (i == 0)
+            {
+                int start = i;
+                int end = n - 1;
+                while (start < end)
+                {
+                    int tmp = nn[start];
+                    nn[start] = nn[end];
+                    nn[end] = tmp;
+                    start++;
+                    end--;
+                }
+                break;
+            }
+            int zheng = k / n1[i];
+            int tmp = nn[i - 1];
+            nn[i - 1] = nn[i - 1 + zheng];
+            nn[i - 1 + zheng] = nn[i];
+            nn[i] = tmp;
+            int yu = k % n1[i];
+            if (yu == 0)
+            {
+                int start = i + 1;
+                int end = n - 1;
+                while (start < end)
+                {
+                    int tmp = nn[start];
+                    nn[start] = nn[end];
+                    nn[end] = tmp;
+                    start++;
+                    end--;
+                }
+                break;
+            }
+            else if (yu == 1)
+            {
+                break;
+            }
+            else
+            {
+                k = yu;
+            }
+        }
+    }
+    string rlt;
+    for (int i = 0; i < n; i++)
+    {
+        rlt.push_back('0' + nn[i]);
+    }
+    return rlt;
+}
+int main()
+{
+    string ss = getPermutation(3,1);
+    printf("%s",ss.c_str());
+    getchar();
 }
