@@ -45,7 +45,7 @@ vector<int> twoSum2(vector<int>& nums, int target) {
     return rlt;
 }
 //2. 两数相加
- //Definition for singly - linked list.
+//Definition for singly - linked list.
  struct ListNode {
     int val;
     ListNode *next;
@@ -265,7 +265,6 @@ int main5()
     getchar();
     return 0;
 }
-
 //6. Z 字形变换 
 //只能找规律
 string convert(string s, int numRows) 
@@ -318,7 +317,6 @@ int main6()
     getchar();
     return 0;
 }
-
 //7. 整数反转
 int reverse(int x) 
 {
@@ -610,7 +608,6 @@ bool isValid(string s) {
     }
     return true;
 }
-
 //21. 合并两个有序链表
 ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     if (l1 == NULL)
@@ -1187,9 +1184,142 @@ string getPermutation(int n, int k) {
     }
     return rlt;
 }
-int main()
+int main60()
 {
     string ss = getPermutation(3,1);
     printf("%s",ss.c_str());
     getchar();
+    return 0;
+}
+//67. 二进制求和
+string addBinary(string a, string b) {//错误答案
+    //a = "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101"
+    //b = "110101001011101110001111100110001010100001101011101010000011011011001011101111001100000011011110011"
+
+    int aa = a.size();
+    int bb = b.size();
+    int cnt = 0;
+    int num = 0;
+    for (int i = aa - 1, j = bb - 1; i >= 0 || j >= 0; i--,j--,cnt++)
+    {
+        if (i >= 0)
+        {
+            int t = a[i] - '0';
+            num += (t << cnt);
+        }
+        if (j >= 0)
+        {
+            int t = b[j] - '0';
+            num += (t << cnt);
+        }
+    }
+    
+    if (num & (1<<cnt))//多加了个1 .cnt+1
+    {
+        cnt++;
+    }
+    string ss;
+    for (int i = cnt - 1; i >= 0; i--)
+    {
+        if (num & (1 << i))
+        {
+            ss.push_back('1');
+        }
+        else
+        {
+            ss.push_back('0');
+        }
+    }
+    return ss;
+}
+string addBinary2(string a, string b) {//我的正确答案
+    int aa = a.size();
+    int bb = b.size();
+    string ss;
+    int cnt = 0;
+    int jin = 0;
+    for (int i = aa - 1, j = bb - 1; i >= 0 || j >= 0; i--, j--, cnt++)
+    {
+        int num = jin;
+        if (i >= 0)
+        {
+            int t = a[i] - '0';
+            num += t;
+        }
+        if (j >= 0)
+        {
+            int t = b[j] - '0';
+            num += t;
+        }
+        //
+        if (num == 0)
+        {
+            jin = 0;
+            ss.push_back('0');
+        }
+        else if (num == 1)
+        {
+            jin = 0;
+            ss.push_back('1');
+        }
+        else if (num == 2)
+        {
+            jin = 1;
+            ss.push_back('0');
+        }
+        else if (num == 3)
+        {
+            jin = 1;
+            ss.push_back('1');
+        }
+    }
+    if (jin > 0)
+    {
+        ss.push_back('1');//漏写了
+    }
+    cnt = ss.size();
+    for (int i = 0,j = cnt - 1; i < j; i++,j--)
+    {
+        char tmp = ss[i];
+        ss[i] = ss[j];
+        ss[j] = tmp;
+    }
+    return ss;
+}
+int main67()
+{
+    string ss = addBinary2("11","1");
+    printf("%s", ss.c_str());
+    getchar();
+    return 0;
+}
+//69. x 的平方根
+int mySqrt(int x) {
+    int min = 0;
+    int max = x;
+    while (min < max)
+    {
+        int mid = min + (max - min) / 2;//边界问题确实恶心
+        int mm = mid * mid;
+        if (x > mm)
+        {
+            min = mid + 1;
+        }
+        else if (x < mm)
+        {
+            max = mid - 1;
+        }
+        else//x == mm
+        {
+            return mid;
+        }
+    }
+    return min > max ? max : min;
+}
+int main()
+{
+    int ss = mySqrt(50);
+    printf("%d", ss);
+    getchar();
+    return 0;
 }
