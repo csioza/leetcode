@@ -1489,7 +1489,7 @@ bool isSymmetric(TreeNode* root) {
             }
         }
         //¼ì²éÒ»²ãÊÇ·ñ¾µÏñ
-        for (int j = i, int k = val.size() - 1; j < k; j++,k--)
+        for (int j = i, k = val.size() - 1; j < k; j++,k--)
         {
             if (val[j] && val[k])
             {
