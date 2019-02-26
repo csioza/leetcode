@@ -1471,7 +1471,7 @@ bool isSameTree(TreeNode* p, TreeNode* q) {
     return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 }
 //101. 对称二叉树
-bool isSymmetric(TreeNode* root) {
+bool isSymmetric(TreeNode* root) {//迭代方法
     if (root == NULL)
         return true;
     vector<TreeNode*> val;
@@ -1506,4 +1506,40 @@ bool isSymmetric(TreeNode* root) {
         }
     }
     return true;
+}
+bool isSymmetric3(TreeNode* left, TreeNode* right)
+{
+    if (left == NULL && right ==NULL)
+    {
+        return true;
+    }
+    else if (left && right)
+    {
+        if (left->val == right->val)
+        {
+            return isSymmetric3(left->right, right->left) && isSymmetric3(left->left, right->right);
+        }
+        return false;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool isSymmetric2(TreeNode* root) {//递归方法
+    if (root == NULL)
+        return true;
+    return isSymmetric3(root->left,root->right);
+}
+//104. 二叉树的最大深度
+int maxDepth(TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    int left = maxDepth(root->left);
+    int right = maxDepth(root->right);
+    return (left > right ? left : right) + 1;
+}
+//107. 二叉树的层次遍历 II
+vector<vector<int>> levelOrderBottom(TreeNode* root) {
+
 }
