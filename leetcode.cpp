@@ -1446,7 +1446,6 @@ int main88()
     getchar();
     return 0;
 }
-
 //100. 相同的树
 //Definition for a binary tree node.
 struct TreeNode {
@@ -1541,5 +1540,51 @@ int maxDepth(TreeNode* root) {
 }
 //107. 二叉树的层次遍历 II
 vector<vector<int>> levelOrderBottom(TreeNode* root) {
-
+    vector<vector<int>> rlt;
+    vector<TreeNode*> treelist;
+    if (root == NULL)
+    {
+        return rlt;
+    }
+    vector<int> tmp;
+    tmp.push_back(root->val);
+    rlt.push_back(tmp);
+    treelist.push_back(root);
+    int i = 0;
+    while (true)
+    {
+        int len = treelist.size();
+        for ( ; i < len; i++)
+        {
+            if (treelist[i]->left)
+            {
+                treelist.push_back(treelist[i]->left);
+            }
+            if (treelist[i]->right)
+            {
+                treelist.push_back(treelist[i]->right);
+            }
+        }
+        len = treelist.size();
+        if (i < len)
+        {
+            vector<int> tmp1;
+            for (int j = i; j < len; j++)
+            {
+                tmp1.push_back(treelist[j]->val);
+            }
+            rlt.push_back(tmp1);
+        }
+        else
+        {
+            break;
+        }
+    }
+    vector<vector<int>> rlt2;
+    int rltLen = rlt.size();
+    for (int m = rltLen - 1; m >= 0; m--)
+    {
+        rlt2.push_back(rlt[m]);
+    }
+    return rlt2;
 }
