@@ -1588,3 +1588,71 @@ vector<vector<int>> levelOrderBottom(TreeNode* root) {
     }
     return rlt2;
 }
+//108. 将有序数组转换为二叉搜索树
+TreeNode* sortedArrayToBST(vector<int>& nums) {
+    int len = nums.size();
+    if (len == 0)
+        return NULL;
+    return sortedArrayToBST2(nums,0,len-1);
+}
+TreeNode* sortedArrayToBST2(vector<int>& nums,int min, int max) {
+    if (min > max)
+        return NULL;
+    int mid = min + (max - min) / 2;
+    int val = nums[mid];
+    TreeNode * node = new TreeNode(val);
+    node->left = sortedArrayToBST2(nums, min, mid - 1);
+    node->right = sortedArrayToBST2(nums, mid + 1, max);
+    return node;
+}
+int main108()
+{
+    vector<int> nums;
+    nums.push_back(-10);
+    nums.push_back(-3);
+    nums.push_back(0);
+    nums.push_back(5);
+    nums.push_back(9);
+    sortedArrayToBST(nums);
+    getchar();
+    return 0;
+}
+//110. 平衡二叉树
+bool isBalanced(TreeNode* root) {
+    if (root == NULL)
+    {
+        return true;
+    }
+    int num = 0;
+    return isisBalanced(root, num);
+}
+bool isisBalanced(TreeNode* root,int &num)
+{
+    if (root == NULL)
+    {
+        num = 0;
+        return true;
+    }
+    int left = 0;
+    bool bl = isisBalanced(root->left, left);
+    int right = 0;
+    bool br = isisBalanced(root->right, right);
+    if (bl && br)
+    {
+        int max = left > right ? left : right;
+        int min = left > right ? right : left;
+        if (max - min >= 2)
+        {
+            return false;
+        }
+        else
+        {
+            num = max + 1;
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
