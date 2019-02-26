@@ -1321,17 +1321,128 @@ int mySqrt(int x) {
     }
     return rlt;
 }
-int mySqrt2(int x) {
-    long t = x;
+int mySqrt2(int x) {//神奇的代码
+    long long t = x;
     t = 0x5f3759df - (t >> 1);
     while (!(t*t <= x && (t + 1)*(t + 1) > x))
         t = (x / t + t) / 2;
     return (int)t;
 }
-int main()
+int main69()
 {
     int ss = mySqrt(8);
     printf("%d", ss);
+    getchar();
+    return 0;
+}
+//70. 爬楼梯
+int climbStairs(int n) {
+    if (n == 0)
+    {
+        return 0;
+    }
+    if (n == 1)
+    {
+        return 1;
+    }
+    if (n == 2)
+    {
+        return 2;
+    }
+    int f1 = 1;
+    int f2 = 2;
+    int sum = 0;
+    for (int i = 3; i <= n; i++)
+    {
+        sum = f1 + f2;
+        f1 = f2;
+        f2 = sum;
+    }
+    return sum;
+}
+int main70()
+{
+    int ss = climbStairs(2);
+    printf("%d", ss);
+    getchar();
+    return 0;
+}
+//83. 删除排序链表中的重复元素
+/**
+*Definition for singly - linked list.
+* struct ListNode {
+    *int val;
+    *ListNode *next;
+    *ListNode(int x) : val(x), next(NULL) {}
+    *
+};
+*/
+ListNode* deleteDuplicates(ListNode* head) {
+    if (!head)
+    {
+        return head;
+    }
+    ListNode* pre = head;
+    ListNode* p = head->next;
+    while (p)
+    {
+        if (pre->val == p->val)
+        {
+            pre->next = p->next;
+            p = p->next;
+        }
+        else
+        {
+            pre = pre->next;
+            p = p->next;
+        }
+    }
+    return head;
+}
+//88. 合并两个有序数组
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+    int len = m + n;
+    for (int i = len - 1,k = m - 1,j = n - 1; i >= 0; i--)
+    {
+        if (k >= 0 && j >= 0)
+        {
+            if (nums1[k] > nums2[j])
+            {
+                nums1[i] = nums1[k];
+                k--;
+            }
+            else
+            {
+                nums1[i] = nums2[j];
+                j--;
+            }
+        }
+        else if (k >= 0)
+        {
+            nums1[i] = nums1[k];
+            k--;
+        }
+        else if (j >= 0)
+        {
+            nums1[i] = nums2[j];
+            j--;
+        }
+    }
+}
+int main88()
+{
+    vector<int> nums1;
+    nums1.push_back(1);
+    nums1.push_back(2);
+    nums1.push_back(3);
+    nums1.push_back(0);
+    nums1.push_back(0);
+    nums1.push_back(0);
+    vector<int> nums2;
+    nums2.push_back(2);
+    nums2.push_back(5);
+    nums2.push_back(6);
+    merge(nums1, 3,nums2,3);
     getchar();
     return 0;
 }
