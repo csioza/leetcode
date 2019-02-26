@@ -1295,12 +1295,12 @@ int main67()
 }
 //69. x 的平方根
 int mySqrt(int x) {
-    int min = 0;
-    int max = x;
+    long long min = 0;
+    long long max = x;
     while (min < max)
     {
-        int mid = min + (max - min) / 2;//边界问题确实恶心
-        int mm = mid * mid;
+        long long mid = min + (max - min) / 2;//边界问题确实恶心
+        long long mm = mid * mid;//int老溢出 
         if (x > mm)
         {
             min = mid + 1;
@@ -1314,11 +1314,23 @@ int mySqrt(int x) {
             return mid;
         }
     }
-    return min > max ? max : min;
+    int rlt = min > max ? max : min;
+    if (rlt * rlt > x)
+    {
+        rlt--;
+    }
+    return rlt;
+}
+int mySqrt2(int x) {
+    long t = x;
+    t = 0x5f3759df - (t >> 1);
+    while (!(t*t <= x && (t + 1)*(t + 1) > x))
+        t = (x / t + t) / 2;
+    return (int)t;
 }
 int main()
 {
-    int ss = mySqrt(50);
+    int ss = mySqrt(8);
     printf("%d", ss);
     getchar();
     return 0;
