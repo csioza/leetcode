@@ -1476,6 +1476,33 @@ bool isSymmetric(TreeNode* root) {
     {
         return true;
     }
+    vector<TreeNode*> val;
+    vector<int> rl;//-1代表left，1代表right,0代表根
+    val.push_back(root);
+    rl.push_back(0);
+    int j = 1;
+    int m = 0;
+    while (m < val.size())
+    {
+        int len = val.size();
+        int i = m;
+        for (; i < len; i++)
+        {
+            if (val[i])
+            {
+                val.push_back(val[i]->left);
+                rl.push_back(-1);
+                val.push_back(val[i]->right);
+                rl.push_back(1);
+            }
+        }
+        //检查一层是否镜像
+        for (int k = i; j < k; j++,k--)
+        {
+
+        }
+
+    }
     if (root->left != NULL && root->right != NULL)
     {
 
