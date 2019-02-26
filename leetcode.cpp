@@ -1470,3 +1470,22 @@ bool isSameTree(TreeNode* p, TreeNode* q) {
     }
     return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 }
+//101. ¶Ô³Æ¶þ²æÊ÷
+bool isSymmetric(TreeNode* root) {
+    if (root == NULL)
+    {
+        return true;
+    }
+    if (root->left != NULL && root->right != NULL)
+    {
+
+    }
+    else if (root->left == NULL && root->right == NULL)
+    {
+
+    }
+    else
+    {
+        return false;
+    }
+}
