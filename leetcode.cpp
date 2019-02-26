@@ -1496,7 +1496,10 @@ bool isSymmetric(TreeNode* root) {
                 if (val[j]->val != val[k]->val)
                     return false;
             }
-            else if (val[j])
+            else if (val[j] == NULL && val[k] == NULL)
+            {
+            }
+            else
             {
                 return false;
             }
