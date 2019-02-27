@@ -1589,13 +1589,7 @@ vector<vector<int>> levelOrderBottom(TreeNode* root) {
     return rlt2;
 }
 //108. 将有序数组转换为二叉搜索树
-TreeNode* sortedArrayToBST(vector<int>& nums) {
-    int len = nums.size();
-    if (len == 0)
-        return NULL;
-    return sortedArrayToBST2(nums,0,len-1);
-}
-TreeNode* sortedArrayToBST2(vector<int>& nums,int min, int max) {
+TreeNode* sortedArrayToBST2(vector<int>& nums, int min, int max) {
     if (min > max)
         return NULL;
     int mid = min + (max - min) / 2;
@@ -1604,6 +1598,12 @@ TreeNode* sortedArrayToBST2(vector<int>& nums,int min, int max) {
     node->left = sortedArrayToBST2(nums, min, mid - 1);
     node->right = sortedArrayToBST2(nums, mid + 1, max);
     return node;
+}
+TreeNode* sortedArrayToBST(vector<int>& nums) {
+    int len = nums.size();
+    if (len == 0)
+        return NULL;
+    return sortedArrayToBST2(nums,0,len-1);
 }
 int main108()
 {
@@ -1618,15 +1618,7 @@ int main108()
     return 0;
 }
 //110. 平衡二叉树
-bool isBalanced(TreeNode* root) {
-    if (root == NULL)
-    {
-        return true;
-    }
-    int num = 0;
-    return isisBalanced(root, num);
-}
-bool isisBalanced(TreeNode* root,int &num)
+bool isisBalanced(TreeNode* root, int &num)
 {
     if (root == NULL)
     {
@@ -1679,6 +1671,14 @@ int minDepth(TreeNode* root) {
         min += right;
     }
     return min;
+}
+bool isBalanced(TreeNode* root) {
+    if (root == NULL)
+    {
+        return true;
+    }
+    int num = 0;
+    return isisBalanced(root, num);
 }
 //112. 路径总和
 bool hasPathSum(TreeNode* root, int sum) {//错误答案，其实看怎么理解
@@ -1791,32 +1791,103 @@ int maxProfit2(vector<int>& prices) {
 }
 //123. 买卖股票的最佳时机 III
 int maxProfit3(vector<int>& prices) {
-
+    return 0;
 }
 //125. 验证回文串
-bool isPalindrome(string s) {
+bool isPalindrome(string s) {//错误答案
     int len = s.size();
     int i = 0;
     int j = len - 1;
     for (;i < j;)
     {
-        if ((s[i] >= '0' && s[i] <= '9') 
-            || (s[i] >= 'a' && s[i] <= 'z')
-            || (s[i] >= 'A' && s[i] <= 'Z'))
+        if (s[i] == s[j])
         {
+            i++;
+            j--;
+            continue;
+        }
+        if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'))
+        {
+            int sub = s[i] - s[j];
+            if ((s[i] >= 'a' && sub == 32) || (s[i] <= 'Z' && sub == -32))
+            {
+                i++;
+                j--;
+            }
+            else
+            {
+                if ((s[j] >= 'a' && s[j] <= 'z') || (s[j] >= 'A' && s[j] <= 'Z'))
+                {
+                    return false;
+                }
+                else
+                {
+                    j--;
+                }
+            }
         }
         else
         {
             i++;
         }
-        if ((s[j] >= '0' && s[j] <= '9')
-            || (s[j] >= 'a' && s[j] <= 'z')
-            || (s[j] >= 'A' && s[j] <= 'Z'))
+        if ((s[j] >= 'a' && s[j] <= 'z') || (s[j] >= 'A' && s[j] <= 'Z'))
         {
         }
         else
         {
-            j++;
+            j--;
         }
     }
+    return true;
+}
+bool isPalindrome2(string s) {//老老实实写各个case
+    int len = s.size();
+    int i = 0;
+    int j = len - 1;
+    for (; i < j;)
+    {
+        if (s[i] == s[j])
+        {
+            i++;
+            j--;
+            continue;
+        }
+        bool i09 = (s[i] >= '0' && s[i] <= '9');
+        bool iaz = (s[i] >= 'a' && s[i] <= 'z');
+        bool iAZ = (s[i] >= 'A' && s[i] <= 'Z');
+        bool j09 = (s[j] >= '0' && s[j] <= '9');
+        bool jaz = (s[j] >= 'a' && s[j] <= 'z');
+        bool jAZ = (s[j] >= 'A' && s[j] <= 'Z');
+        if (!i09 && !iaz && !iAZ)
+        {
+            i++;
+            continue;
+        }
+        if (!j09 && !jaz && !jAZ)
+        {
+            j--;
+            continue;
+        }
+        if (iaz && jAZ && s[i] - s[j] == 32)
+        {
+            i++;
+            j--;
+            continue;
+        }
+        if (iAZ && jaz && s[i] - s[j] == -32)
+        {
+            i++;
+            j--;
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+int main()
+{
+    bool ss = isPalindrome("A man, a plan, a canal: Panama");
+    printf("%d", ss);
+    getchar();
+    return 0;
 }
