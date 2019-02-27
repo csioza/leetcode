@@ -1904,3 +1904,37 @@ int singleNumber(vector<int>& nums) {
     }
     return nums[0];
 }
+//141. 环形链表
+bool hasCycle(ListNode *head) {//错误答案
+    if (head == NULL)
+        return false;
+    ListNode * p = head->next;
+    ListNode * pp = head;
+    while (true)
+    {
+        if (p->next == NULL || pp->next == NULL || pp->next->next == NULL)
+            return false;
+        if (p == pp)
+            return true;
+        p = p->next;//又忘写了
+        pp = pp->next->next;//又忘写了
+    }
+    return false;
+}
+bool hasCycle2(ListNode *head) {//我的正确答案
+
+    if (head == NULL)
+        return false;
+    ListNode * p = head/*->next*/;
+    ListNode * pp = head;
+    while (/*p && */pp)
+    {
+        if (pp->next == NULL || pp->next->next == NULL)
+            return false;
+        p = p->next;//又忘写了
+        pp = pp->next->next;//又忘写了
+        if (p == pp)
+            return true;
+    }
+    return false;
+}
