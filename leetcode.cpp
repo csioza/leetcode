@@ -1656,3 +1656,59 @@ bool isisBalanced(TreeNode* root,int &num)
     }
     return true;
 }
+//111. 二叉树的最小深度
+int minDepth(TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    int left = minDepth(root->left);
+    int right = minDepth(root->right);
+    int min = 1;
+    if (left == 0 && right == 0)
+    {
+    }
+    else if (left != 0 && right != 0)
+    {
+        min += (left > right ? right : left);
+    }
+    else if (left > 0)
+    {
+        min += left;
+    }
+    else if (right > 0)
+    {
+        min += right;
+    }
+    return min;
+}
+//112. 路径总和
+bool hasPathSum(TreeNode* root, int sum) {//错误答案，其实看怎么理解
+    if (root == NULL)
+    {
+        if (sum == 0)
+            return true;
+        else
+            return false;
+    }
+    if (root->val == sum/*&& root->left == NULL && root->right == NULL*/)
+        return true;
+    bool left = hasPathSum(root->left, sum - root->val);
+    bool right = hasPathSum(root->right, sum - root->val);
+    return left || right;
+}
+bool hasPathSum2(TreeNode* root, int sum) {//我的正确答案
+    if (root == NULL)
+        return false;
+    if (root->val == sum && root->left == NULL && root->right == NULL)
+        return true;
+    bool left = false;
+    bool right = false;
+    if (root->left)
+    {
+        left = hasPathSum(root->left, sum - root->val);
+    }
+    if (root->right)
+    {
+        right = hasPathSum(root->right, sum - root->val);
+    }
+    return left || right;
+}
