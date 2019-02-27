@@ -1884,10 +1884,23 @@ bool isPalindrome2(string s) {//老老实实写各个case
     }
     return true;
 }
-int main()
+int main125()
 {
     bool ss = isPalindrome("A man, a plan, a canal: Panama");
     printf("%d", ss);
     getchar();
     return 0;
+}
+//136. 只出现一次的数字
+int singleNumber(vector<int>& nums) {
+    int len = nums.size();
+    if (len == 0)
+    {
+        return 0;
+    }
+    for (int i = 1; i < len; i++)
+    {
+        nums[0] ^= nums[i];
+    }
+    return nums[0];
 }
