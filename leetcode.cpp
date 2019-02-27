@@ -1793,3 +1793,30 @@ int maxProfit2(vector<int>& prices) {
 int maxProfit3(vector<int>& prices) {
 
 }
+//125. 验证回文串
+bool isPalindrome(string s) {
+    int len = s.size();
+    int i = 0;
+    int j = len - 1;
+    for (;i < j;)
+    {
+        if ((s[i] >= '0' && s[i] <= '9') 
+            || (s[i] >= 'a' && s[i] <= 'z')
+            || (s[i] >= 'A' && s[i] <= 'Z'))
+        {
+        }
+        else
+        {
+            i++;
+        }
+        if ((s[j] >= '0' && s[j] <= '9')
+            || (s[j] >= 'a' && s[j] <= 'z')
+            || (s[j] >= 'A' && s[j] <= 'Z'))
+        {
+        }
+        else
+        {
+            j++;
+        }
+    }
+}
