@@ -1751,3 +1751,23 @@ vector<int> getRow(int rowIndex) {
     }
     return rlt;
 }
+//121. 买卖股票的最佳时机
+int maxProfit(vector<int>& prices) {
+    int len = prices.size();
+    int minpos = 0;
+    int maxsub = 0;
+    for (int i = 1; i < len; i++)
+    {
+        if (prices[i] < prices[minpos])
+        {
+            minpos = i;
+            continue;
+        }
+        int sub = prices[i] - prices[minpos];
+        if (sub > maxsub)
+        {
+            maxsub = sub;
+        }
+    }
+    return maxsub;
+}
