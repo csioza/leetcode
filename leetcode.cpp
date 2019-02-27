@@ -1938,3 +1938,40 @@ bool hasCycle2(ListNode *head) {//我的正确答案
     }
     return false;
 }
+//155. 最小栈
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    int data[1024];
+    int len;
+    int min;
+    MinStack() :len(0),min(0){
+        memset(data, 0, sizeof(data));
+    }
+
+    void push(int x) {
+        if (len < 1024)
+        {
+            data[len++] = x;
+            if (x > min)
+            {
+                min = x;
+            }
+        }
+    }
+
+    void pop() {
+        if (len > 0)
+        {
+            len--;
+        }
+    }
+
+    int top() {
+
+    }
+
+    int getMin() {
+
+    }
+};
