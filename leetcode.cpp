@@ -1945,10 +1945,9 @@ public:
     int data[1024];
     int len;
     int min;
-    MinStack() :len(0),min(0){
+    MinStack() : len(0), min(0){
         memset(data, 0, sizeof(data));
     }
-
     void push(int x) {
         if (len < 1024)
         {
@@ -1959,19 +1958,45 @@ public:
             }
         }
     }
-
     void pop() {
         if (len > 0)
         {
             len--;
         }
     }
-
     int top() {
 
     }
-
     int getMin() {
 
     }
 };
+//160. 相交链表
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+    ListNode* ap = headA;
+    ListNode* bp = headB;
+    while (true)
+    {
+        if (ap == NULL || bp == NULL)
+            return NULL;
+        if (ap == bp)
+            return ap;
+        //
+        if (ap->next == NULL)
+        {
+            ap = headB;
+            headB = NULL;//没有写就过不了
+        }
+        else
+            ap = ap->next;
+        //
+        if (bp->next == NULL)
+        {
+            bp = headA;
+            headA = NULL;//没有写就过不了
+        }
+        else
+            bp = bp->next;
+    }
+    return NULL;
+}
