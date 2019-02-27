@@ -1712,3 +1712,42 @@ bool hasPathSum2(TreeNode* root, int sum) {//我的正确答案
     }
     return left || right;
 }
+//118. 杨辉三角
+vector<vector<int>> generate(int numRows) {
+    vector<vector<int>> rlt;
+    for (int i = 0; i < numRows; i++)
+    {
+        vector<int> tmp;
+        tmp.resize(i + 1);
+        tmp[0] = 1;
+        tmp[i] = 1;
+        if (i >= 2)
+        {
+            for (int j = 1;j < i; j++)
+            {
+                tmp[j] = rlt[i - 1][j - 1] + rlt[i - 1][j];
+            }
+        }
+        rlt.push_back(tmp);
+    }
+    return rlt;
+}
+//119. 杨辉三角 II
+vector<int> getRow(int rowIndex) {
+    vector<int> rlt;
+    for (int i = 0; i <= rowIndex; i++)
+    {
+        rlt.push_back(1);
+        if (i >= 2)
+        {
+            int tmp = rlt[0];
+            for (int j = 1; j < i; j++)
+            {
+                int tmp2 = rlt[j];//这块有点绕
+                rlt[j] = rlt[j] + tmp;
+                tmp = tmp2;//这块有点绕
+            }
+        }
+    }
+    return rlt;
+}
