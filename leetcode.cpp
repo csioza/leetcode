@@ -1772,7 +1772,7 @@ int maxProfit(vector<int>& prices) {
     return maxsub;
 }
 //122. 买卖股票的最佳时机 II
-int maxProfit(vector<int>& prices) {
+int maxProfit2(vector<int>& prices) {
     int len = prices.size();
     int minpos = 0;
     int maxsub = 0;
@@ -1788,4 +1788,8 @@ int maxProfit(vector<int>& prices) {
         minpos = i;
     }
     return maxsub;
+}
+//123. 买卖股票的最佳时机 III
+int maxProfit3(vector<int>& prices) {
+
 }
