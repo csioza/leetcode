@@ -2000,3 +2000,61 @@ ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
     }
     return NULL;
 }
+//167. 两数之和 II - 输入有序数组
+vector<int> twoSum(vector<int>& numbers, int target) {
+    vector<int> rlt;
+    int len = numbers.size();
+    if (len <= 1)
+    {
+        return rlt;
+    }
+    for (int i = 0, j = len - 1; i < j; )
+    {
+        int sum = numbers[i] + numbers[j];
+        if (sum > target)
+        {
+            j--;
+        }
+        else if (sum < target)
+        {
+            i++;
+        }
+        else
+        {
+            rlt.push_back(i + 1);
+            rlt.push_back(j + 1);
+            break;//忘写了
+        }
+    }
+    return rlt;
+}
+//168. Excel表列名称
+string convertToTitle(int n) {//难点在于没有0
+    string s;
+    while (n > 0)
+    {
+        int yu = n % 26;
+        n /= 26;
+        if (yu > 0)
+        {
+            s.push_back(yu + 64);
+        }
+        else
+        {
+            s.push_back('Z');
+            n--;
+        }
+    }
+    int slen = s.size();
+    for (int i = 0, j = slen -1; i < j; i++,j--)
+    {
+        char tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
+    }
+    return s;
+}
+//169. 求众数
+int majorityElement(vector<int>& nums) {
+
+}
