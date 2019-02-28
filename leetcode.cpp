@@ -2108,8 +2108,10 @@ int trailingZeroes(int n) {//5,25,125,625...
 //from
 //Person left join Address
 //on Person.PersonId = Address.PersonId;
+
 //176. 第三高的薪水
 //SELECT * FROM table LIMIT[offset, ] rows | rows OFFSET offset
+
 //SELECT
 //IFNULL(
 //(SELECT DISTINCT Salary
@@ -2117,3 +2119,30 @@ int trailingZeroes(int n) {//5,25,125,625...
 //    ORDER BY Salary DESC
 //    LIMIT 1 OFFSET 2),
 //    NULL) AS SecondHighestSalary;
+
+//181. 超过经理收入的员工
+//select A.Name as Employee
+//from Employee as A left join Employee as B
+//on A.ManagerId = B.Id
+//where A.ManagerId = B.Id and A.Salary > B.Salary;//***A.ManagerId = B.Id
+
+//select A.Name as Employee
+//from Employee as A, Employee as B
+//where A.ManagerId = B.Id and A.Salary > B.Salary;
+
+//182. 查找重复的电子邮箱
+//select Email
+//from Person
+//group by Email
+//having count(Email) > 1;
+
+//183. 从不订购的客户
+//select Name as Customers
+//from Customers
+//where Id not in
+//(select distinct CustomerId from Orders);
+
+//select Name as Customers
+//from Customers left join Orders
+//on Customers.Id = Orders.CustomerId
+//where Orders.CustomerId is null;
