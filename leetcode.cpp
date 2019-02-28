@@ -2054,7 +2054,42 @@ string convertToTitle(int n) {//难点在于没有0
     }
     return s;
 }
+//171. Excel表列序号
+int titleToNumber(string s) {
+    int len = s.size();
+    int sum = 0;
+    for (int i = 0; i < len; i++)
+    {
+        int num = s[i] - 64;
+        sum = sum * 26 + num;
+    }
+    return sum;
+}
 //169. 求众数
 int majorityElement(vector<int>& nums) {
-
+    int len = nums.size();
+    if (len == 0)
+        return -1;
+    int zhong = nums[0];
+    int cnt = 0;
+    for (int i = 0; i < len; i++)
+    {
+        if (zhong == nums[i])
+        {
+            cnt++;
+        }
+        else
+        {
+            if (cnt <= 0)//***
+            {
+                zhong = nums[i];
+                cnt = 0;//***
+            }
+            else
+            {
+                cnt--;//***
+            }
+        }
+    }
+    return zhong;
 }
