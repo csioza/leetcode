@@ -2093,3 +2093,27 @@ int majorityElement(vector<int>& nums) {
     }
     return zhong;
 }
+//172. 阶乘后的零
+int trailingZeroes(int n) {//5,25,125,625...
+    int sum = 0;
+    while (n)
+    {
+        n /= 5;
+        sum += n;
+    }
+    return sum;
+}
+//175. 组合两个表 MySQL
+//select FirstName, LastName, City, State
+//from
+//Person left join Address
+//on Person.PersonId = Address.PersonId;
+//176. 第三高的薪水
+//SELECT * FROM table LIMIT[offset, ] rows | rows OFFSET offset
+//SELECT
+//IFNULL(
+//(SELECT DISTINCT Salary
+//    FROM Employee
+//    ORDER BY Salary DESC
+//    LIMIT 1 OFFSET 2),
+//    NULL) AS SecondHighestSalary;
