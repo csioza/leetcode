@@ -2182,3 +2182,94 @@ void rotate(vector<int>& nums, int k) {//错误答案
         }
     }
 }
+//190. 颠倒二进制位
+uint32_t reverseBits(uint32_t n) {
+    uint32_t rlt = 0;
+    for (int i = 0; i < 32; i++)
+    {
+        rlt <<= 1;
+        rlt |= (n & 1);
+        n >>= 1;// n = n >> i;//不应是i呀
+    }
+    return rlt;
+}
+
+int main190()
+{
+    reverseBits(43261596);
+    return 0;
+}
+
+//191. 位1的个数
+int hammingWeight(uint32_t n) {
+    int cnt = 0;
+    while (n > 0)
+    {
+        n = n&(n - 1);
+        cnt++;
+    }
+    return cnt;
+}
+
+//196. 删除重复的电子邮箱
+//delete p1 from Person p1, Person p2
+//where p1.Email = p2.Email and p1.Id > p2.Id
+
+//197. 上升的温度
+//select w1.id
+//from weather w1, weather w2
+//where w1.Temperature > w2.Temperature and w2.RecordDate = DATE_SUB(w1.RecordDate, INTERVAL 1 DAY)
+
+//202. 快乐数
+bool isHappy(int n) {
+    int limit = 1000;
+    while (n != 1 && limit > 0)
+    {
+        int nn = 0;
+        while (n > 0)
+        {
+            int y = n % 10;
+            n /= 10;
+            nn += (y*y);
+        }
+        n = nn;
+        limit--;
+    }
+    if (limit == 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+//203. 移除链表元素
+ListNode* removeElements(ListNode* head, int val) {
+    ListNode*pre = head;
+    ListNode*p = head;
+    while (p)
+    {
+        if (p->val == val)
+        {
+            if (pre == head)//pre不对，应该改为p
+            {
+                head = pre->next;
+                delete pre;
+                p = head;
+                pre = head;
+            }
+            else
+            {
+                pre->next = p->next;
+                ListNode * q = p;
+                p = p->next;
+                delete q;
+            }
+        }
+        else
+        {
+            pre = p;
+            p = p->next;
+        }
+    }
+    return head;
+}
