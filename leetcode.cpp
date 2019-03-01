@@ -2375,7 +2375,7 @@ void QuickSort(int *arr, int p, int r)
         QuickSort(arr, j + 1, r);
     }
 }
-int main()
+int main217()
 {
     long long N = 10000000000;
     printf("\n    交换1和2, %d亿次",N/100000000);
