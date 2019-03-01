@@ -4,6 +4,7 @@
 #include <vector>
 using namespace std;
 #include <time.h>
+#include <sstream>
 
 //1. 两数之和
 vector<int> twoSum1(vector<int>& nums, int target) {
@@ -2522,4 +2523,88 @@ TreeNode* lowestCommonAncestor2(TreeNode* root, TreeNode* p, TreeNode* q) {//BST
     if (p->val > root->val && q->val > root->val)
         return lowestCommonAncestor2(root->right, p, q);
     return root;
+}
+//237. 删除链表中的节点
+void deleteNode(ListNode* node) {
+    if (node == NULL || node->next == NULL)
+        return;
+    node->val = node->next->val;
+    node->next = node->next->next;
+}
+//257. 二叉树的所有路径
+void binaryTreePaths2(vector<string> &v,TreeNode* root,string ss) {//我的答案
+    if (root == NULL)
+        return;
+    ss.append("->");
+    std::stringstream s3s;
+    s3s << root->val;
+    ss.append(s3s.str());
+    if (root->left == NULL && root->right == NULL)
+    {
+        v.push_back(ss);
+        return;
+    }
+    if (root->left)
+        binaryTreePaths2(v, root->left, ss);
+    if (root->right)
+        binaryTreePaths2(v, root->right, ss);
+}
+vector<string> binaryTreePaths(TreeNode* root) {
+    vector<string> v;
+    if (root == NULL)
+    {
+        return v;
+    }
+    std::stringstream s3s;
+    s3s << root->val;
+    string ss = s3s.str();
+    if (root->left == NULL && root->right == NULL)
+    {
+        v.push_back(ss);
+        return v;
+    }
+    binaryTreePaths2(v, root->left, ss);
+    binaryTreePaths2(v, root->right, ss);
+    return v;
+}
+//别人写的
+void preOrder(TreeNode *root, vector<string> &res, string arr)
+{
+    if (!root)
+        return;
+    if (!root->left && !root->right)
+    {
+        arr += to_string(root->val);
+        res.push_back(arr);
+        return;
+    }
+    arr = arr + to_string(root->val) + "->";
+    preOrder(root->left, res, arr);
+    preOrder(root->right, res, arr);
+}
+vector<string> binaryTreePaths(TreeNode *root)
+{
+    vector<string> res;
+    preOrder(root, res, "");
+    return res;
+}
+int main257()
+{
+    TreeNode*n1 = new TreeNode(1);
+    TreeNode*n2 = new TreeNode(2);
+    TreeNode*n3 = new TreeNode(3);
+    TreeNode*n4 = new TreeNode(5);
+    n1->left = n2;
+    n1->right = n3;
+    n2->right = n4;
+    n2->left = NULL;
+    n3->left = NULL;
+    n3->right = NULL;
+    vector<string> vv = binaryTreePaths(n1);
+    for (int i = 0; i < vv.size(); i++)
+    {
+        printf("\n%s", vv[i].c_str());
+    }
+    getchar();
+    return 0;
 }
