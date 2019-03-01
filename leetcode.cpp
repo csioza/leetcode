@@ -2273,3 +2273,19 @@ ListNode* removeElements(ListNode* head, int val) {
     }
     return head;
 }
+
+//206. ·´×ªÁ´±í
+ListNode* reverseList(ListNode* head) {
+    if (head == NULL)
+        return head;
+    ListNode* p = head->next;
+    head->next = NULL;//***
+    while (p)
+    {
+        ListNode* q = p->next;//***
+        p->next = head;
+        head = p;
+        p = q;
+    }
+    return head;
+}
