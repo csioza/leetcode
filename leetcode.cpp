@@ -2146,3 +2146,39 @@ int trailingZeroes(int n) {//5,25,125,625...
 //from Customers left join Orders
 //on Customers.Id = Orders.CustomerId
 //where Orders.CustomerId is null;
+
+//189. 旋转数组
+void rotate(vector<int>& nums, int k) {//错误答案
+    int len = nums.size();
+    k %= len;
+    if (len <= 0 || k <= 0)
+        return;
+    if (len % k == 0)
+    {
+        for (int j = 0; j < k; j++)
+        {
+            int len2 = len / k;
+            int tmp = nums[j];
+            int ik = (j + k) % len;
+            for (int i = 0; i < len2; i++)
+            {
+                int tmp2 = nums[ik];
+                nums[ik] = tmp;
+                tmp = tmp2;
+                ik = (ik + k) % len;
+            }
+        }
+    }
+    else
+    {
+        int tmp = nums[0];
+        int ik = k % len;
+        for (int i = 0; i < len; i++)
+        {
+            int tmp2 = nums[ik];
+            nums[ik] = tmp;
+            tmp = tmp2;
+            ik = (ik + k) % len;
+        }
+    }
+}
