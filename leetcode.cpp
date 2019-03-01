@@ -2453,3 +2453,48 @@ TreeNode* invertTree(TreeNode* root) {
     invertTree(root->right);
     return root;//别忘记写
 }
+//231. 2的幂
+bool isPowerOfTwo(int n) {
+    if (n <= 0)//漏写=号
+        return false;
+    n = n & (-n);
+    if (n == 0)
+        return true;
+    return false;
+}
+//234. 回文链表
+bool isPalindrome(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return true;
+    ListNode*p = head->next;
+    ListNode*p2 = p ? p->next : NULL;
+    while (p2)
+    {
+        p  = p->next;
+        p2 = p2->next ? p2->next->next : NULL;
+    }
+    //p中间偏后的节点 反转p后面的节点
+    p2 = p->next;
+    p->next = NULL;
+    while (p2)
+    {
+        ListNode * tmp = p2->next;
+        p2->next = p;
+        p = p2;
+        p2 = tmp;
+    }
+    p2 = p;
+    while (p2)
+    {
+        if (head->val == p2->val)
+        {
+            head = head->next;
+            p2 = p2->next;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
+}
