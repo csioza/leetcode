@@ -3,6 +3,8 @@
 #include <map>
 #include <vector>
 using namespace std;
+#include <time.h>
+#include <sstream>
 
 //1. 两数之和
 vector<int> twoSum1(vector<int>& nums, int target) {
@@ -2147,6 +2149,41 @@ int trailingZeroes(int n) {//5,25,125,625...
 //on Customers.Id = Orders.CustomerId
 //where Orders.CustomerId is null;
 
+//189. 旋转数组
+void rotate(vector<int>& nums, int k) {//错误答案
+    int len = nums.size();
+    k %= len;
+    if (len <= 0 || k <= 0)
+        return;
+    if (len % k == 0)
+    {
+        for (int j = 0; j < k; j++)
+        {
+            int len2 = len / k;
+            int tmp = nums[j];
+            int ik = (j + k) % len;
+            for (int i = 0; i < len2; i++)
+            {
+                int tmp2 = nums[ik];
+                nums[ik] = tmp;
+                tmp = tmp2;
+                ik = (ik + k) % len;
+            }
+        }
+    }
+    else
+    {
+        int tmp = nums[0];
+        int ik = k % len;
+        for (int i = 0; i < len; i++)
+        {
+            int tmp2 = nums[ik];
+            nums[ik] = tmp;
+            tmp = tmp2;
+            ik = (ik + k) % len;
+        }
+    }
+}
 //190. 颠倒二进制位
 uint32_t reverseBits(uint32_t n) {
     uint32_t rlt = 0;
@@ -2159,7 +2196,7 @@ uint32_t reverseBits(uint32_t n) {
     return rlt;
 }
 
-int main()
+int main190()
 {
     reverseBits(43261596);
     return 0;
@@ -2256,4 +2293,335 @@ int countPrimes(int n) {
         if (isPrime[i]) count++;
     }
     return count;
+//206. 反转链表
+ListNode* reverseList(ListNode* head) {
+    if (head == NULL)
+        return head;
+    ListNode* p = head->next;
+    head->next = NULL;//***
+    while (p)
+    {
+        ListNode* q = p->next;//***
+        p->next = head;
+        head = p;
+        p = q;
+    }
+    return head;
+}
+
+//217. 存在重复元素 快速排序 ==
+
+//bool containsDuplicate(vector<int>& nums) {
+//    vector<int> num(nums);
+//    sort(num.begin(), num.end());
+//    num.erase(unique(num.begin(), num.end()), num.end());  //排序后去除重复元素
+//
+//    return(num.size() < nums.size());
+//}
+void MySwap1(int &a, int &b)
+{
+    if (a != b)
+    {
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+    }
+}
+void MySwap2(int &a, int &b)
+{
+    if (a != b)
+    {
+        int t = a;
+        a     = b;
+        b     = a;
+    }
+}
+void MySwap3(int *arr, int a, int b)
+{
+    int tmp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = tmp;
+}
+void MySwap4(int *arr, int a, int b)
+{
+    //printf("\n arr[%d]=%d, arr[%d]=%d", a,arr[a], b,arr[b]);
+    if (arr[a] != arr[b])
+    {
+        arr[a] = arr[a] ^ arr[b];
+        arr[b] = arr[a] ^ arr[b];
+        arr[a] = arr[a] ^ arr[b];
+    }
+    //printf(" ====> arr[%d]=%d, arr[%d]=%d", a, arr[a], b, arr[b]);
+}
+void QuickSort(int *arr, int p, int r)
+{
+    if (p <= r)
+    {
+        int j = p;
+        for (int i = p + 1; i <= r; ++i)
+        {
+            if (arr[p] > arr[i])
+            {
+                //MySwap(arr[i], arr[++j]);
+                MySwap3(arr,i,++j);
+            }
+        }
+        //MySwap(arr[p], arr[j]);
+        MySwap3(arr, p, j);
+        //
+        QuickSort(arr, p, j - 1);
+        QuickSort(arr, j + 1, r);
+    }
+}
+int main217()
+{
+    printf("交换1和2,100亿次");
+    int m = 1, n = 2;
+    time_t t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        MySwap1(m, n);
+    }
+    time_t t2 = time(0);
+    printf("\nMySwap1:start[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//191s,188s,189s
+
+    m = 1, n = 2;
+    t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        MySwap2(m, n);
+    }
+    t2 = time(0);
+    printf("\nMySwap2:start[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//172s,171s,172s
+    getchar();
+    return 0;
+}
+//
+int main2171()
+{
+    int m = 1, n = 2;
+    time_t t1 = time(0);
+    for (long long i = 0; i < 100000000000; i++)
+    {
+        if (i>0)
+        {
+        }
+    }
+    time_t t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//145,146
+
+    m = 1, n = 2;
+    int j = 0;
+    t1 = time(0);
+    for (long long i = 0; i < 100000000000; i++)
+    {
+        j = i + 3;
+    }
+    t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//195,192
+
+    m = 1, n = 2;
+    j = 0;
+    t1 = time(0);
+    for (long long i = 0; i < 100000000000; i++)
+    {
+        if (i > 0)
+        {
+            j = i + 3;
+        }
+    }
+    t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//-,308
+    getchar();
+    return 0;
+}
+int main2172()
+{
+    int m = 1, n = 2;
+    time_t t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        m << 10;//<<2 18s <<1 16s <<10 17s <<10 16s <<10 100000000000 162
+        m >> 10;
+    }
+    time_t t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//145,146
+
+    m = 1, n = 2;
+    int j = 0;
+    t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        m *= 1024;//  24s   24s   24s   24s 100000000000 231
+        m >> 10;
+    }
+    t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//195,192
+    getchar();
+    return 0;
+}
+//226. 翻转二叉树
+TreeNode* invertTree(TreeNode* root) {
+    if (root == NULL)
+        return root;
+    TreeNode* tmp = root->left;
+    root->left = root->right;
+    root->right = tmp;
+    invertTree(root->left);
+    invertTree(root->right);
+    return root;//别忘记写
+}
+//231. 2的幂
+bool isPowerOfTwo(int n) {
+    if (n <= 0)//漏写=号
+        return false;
+    n = n & (-n);
+    if (n == 0)
+        return true;
+    return false;
+}
+//234. 回文链表
+bool isPalindrome(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return true;
+    ListNode*p = head->next;
+    ListNode*p2 = p ? p->next : NULL;
+    while (p2)
+    {
+        p  = p->next;
+        p2 = p2->next ? p2->next->next : NULL;
+    }
+    //p中间偏后的节点 反转p后面的节点
+    p2 = p->next;
+    p->next = NULL;
+    while (p2)
+    {
+        ListNode * tmp = p2->next;
+        p2->next = p;
+        p = p2;
+        p2 = tmp;
+    }
+    p2 = p;
+    while (p2)
+    {
+        if (head->val == p2->val)
+        {
+            head = head->next;
+            p2 = p2->next;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
+}
+//235. 二叉搜索树的最近公共祖先
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {//通用
+    if (root == NULL)
+        return NULL;
+    if (root == p)
+        return p;
+    if (root == q)
+        return q;
+    TreeNode* left = lowestCommonAncestor(root->left, p, q);
+    TreeNode* right = lowestCommonAncestor(root->right, p, q);
+    if (left == NULL)
+        return right;
+    if (right == NULL)
+        return left;
+    return root;
+}
+TreeNode* lowestCommonAncestor2(TreeNode* root, TreeNode* p, TreeNode* q) {//BST
+    if (root == NULL)
+        return NULL;
+    if (p->val < root->val && q->val < root->val)
+        return lowestCommonAncestor2(root->left, p, q);
+    if (p->val > root->val && q->val > root->val)
+        return lowestCommonAncestor2(root->right, p, q);
+    return root;
+}
+//237. 删除链表中的节点
+void deleteNode(ListNode* node) {
+    if (node == NULL || node->next == NULL)
+        return;
+    node->val = node->next->val;
+    node->next = node->next->next;
+}
+//257. 二叉树的所有路径
+void binaryTreePaths2(vector<string> &v,TreeNode* root,string ss) {//我的答案
+    if (root == NULL)
+        return;
+    ss.append("->");
+    std::stringstream s3s;
+    s3s << root->val;
+    ss.append(s3s.str());
+    if (root->left == NULL && root->right == NULL)
+    {
+        v.push_back(ss);
+        return;
+    }
+    if (root->left)
+        binaryTreePaths2(v, root->left, ss);
+    if (root->right)
+        binaryTreePaths2(v, root->right, ss);
+}
+vector<string> binaryTreePaths(TreeNode* root) {
+    vector<string> v;
+    if (root == NULL)
+    {
+        return v;
+    }
+    std::stringstream s3s;
+    s3s << root->val;
+    string ss = s3s.str();
+    if (root->left == NULL && root->right == NULL)
+    {
+        v.push_back(ss);
+        return v;
+    }
+    binaryTreePaths2(v, root->left, ss);
+    binaryTreePaths2(v, root->right, ss);
+    return v;
+}
+//别人写的
+void preOrder(TreeNode *root, vector<string> &res, string arr)
+{
+    if (!root)
+        return;
+    if (!root->left && !root->right)
+    {
+        arr += to_string(root->val);
+        res.push_back(arr);
+        return;
+    }
+    arr = arr + to_string(root->val) + "->";
+    preOrder(root->left, res, arr);
+    preOrder(root->right, res, arr);
+}
+vector<string> binaryTreePaths(TreeNode *root)
+{
+    vector<string> res;
+    preOrder(root, res, "");
+    return res;
+}
+int main257()
+{
+    TreeNode*n1 = new TreeNode(1);
+    TreeNode*n2 = new TreeNode(2);
+    TreeNode*n3 = new TreeNode(3);
+    TreeNode*n4 = new TreeNode(5);
+    n1->left = n2;
+    n1->right = n3;
+    n2->right = n4;
+    n2->left = NULL;
+    n3->left = NULL;
+    n3->right = NULL;
+    vector<string> vv = binaryTreePaths(n1);
+    for (int i = 0; i < vv.size(); i++)
+    {
+        printf("\n%s", vv[i].c_str());
+    }
+    getchar();
+    return 0;
 }
