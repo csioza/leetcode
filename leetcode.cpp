@@ -2498,3 +2498,28 @@ bool isPalindrome(ListNode* head) {
     }
     return true;
 }
+//235. 二叉搜索树的最近公共祖先
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {//通用
+    if (root == NULL)
+        return NULL;
+    if (root == p)
+        return p;
+    if (root == q)
+        return q;
+    TreeNode* left = lowestCommonAncestor(root->left, p, q);
+    TreeNode* right = lowestCommonAncestor(root->right, p, q);
+    if (left == NULL)
+        return right;
+    if (right == NULL)
+        return left;
+    return root;
+}
+TreeNode* lowestCommonAncestor2(TreeNode* root, TreeNode* p, TreeNode* q) {//BST
+    if (root == NULL)
+        return NULL;
+    if (p->val < root->val && q->val < root->val)
+        return lowestCommonAncestor2(root->left, p, q);
+    if (p->val > root->val && q->val > root->val)
+        return lowestCommonAncestor2(root->right, p, q);
+    return root;
+}
