@@ -2633,3 +2633,100 @@ void preOrder(TreeNode *root, vector<string> &res, string arr)
 //    getchar();
 //    return 0;
 //}
+
+//263. 丑数
+bool isUgly(int num) {
+    if (num < 0)
+        return false;
+    while (num != 1)
+    {
+        if (num % 2 == 0)
+            num /= 2;
+        else if (num % 3 == 0)
+            num /= 3;
+        else if (num % 5 == 0)
+            num /= 5;
+        else
+            return false;
+    }
+    return true;
+}
+bool isUgly2(int num) {
+
+    if (num <= 0) return false;
+    while (num % 2 == 0)
+        num /= 2;
+    while (num % 3 == 0)
+        num /= 3;
+    while (num % 5 == 0)
+        num /= 5;
+    return num == 1;
+}
+//268. 缺失数字
+int missingNumber(vector<int>& nums) {
+    int len = nums.size();
+    int nlen = len + 1;
+    int s = 0;
+    for (int i = 0; i < nlen; i++)
+    {
+        s ^= i;
+        if (i < len)
+            s ^= nums[i];
+    }
+    return s;
+}
+//
+bool isBadVersion(int version) { return false; }
+int firstBadVersion(int n) {
+    int min = 1;
+    int max = n;
+    int mid = 0;
+    while (min <= max)//得有等号
+    {
+        mid = min + (max - min) / 2;
+        if (isBadVersion(mid))
+        {
+            if (mid >= 2)
+            {
+                if (isBadVersion(mid - 1))
+                    max = mid - 1;
+                else
+                    return mid;
+            }
+            else
+                return mid;
+        }
+        else
+        {
+            if (mid < n)
+            {
+                if (isBadVersion(mid + 1))
+                    return mid + 1;
+                else
+                    min = mid + 1;
+            }
+            else
+                return mid;
+        }
+    }
+    return mid;
+}
+//283. 移动零
+void moveZeroes(vector<int>& nums) {
+    int cnt = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (nums[i] == 0)
+        {
+            cnt++;
+        }
+        else
+        {
+            if (cnt > 0)//忘写了
+            {
+                nums[i - cnt] = nums[i];
+                nums[i] = 0;
+            }
+        }
+    }
+}
