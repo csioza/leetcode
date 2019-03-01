@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 using namespace std;
+#include <time.h>
 
 //1. 两数之和
 vector<int> twoSum1(vector<int>& nums, int target) {
@@ -2288,4 +2289,167 @@ ListNode* reverseList(ListNode* head) {
         p = q;
     }
     return head;
+}
+
+//217. 存在重复元素 快速排序 ==
+
+//bool containsDuplicate(vector<int>& nums) {
+//    vector<int> num(nums);
+//    sort(num.begin(), num.end());
+//    num.erase(unique(num.begin(), num.end()), num.end());  //排序后去除重复元素
+//
+//    return(num.size() < nums.size());
+//}
+void MySwap1(int &a, int &b)
+{
+    if (a != b)
+    {
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+    }
+}
+void MySwap2(int &a, int &b)
+{
+    if (a != b)
+    {
+        int t = a;
+        a     = b;
+        b     = a;
+    }
+}
+void MySwap3(int *arr, int a, int b)
+{
+    int tmp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = tmp;
+}
+void MySwap4(int *arr, int a, int b)
+{
+    //printf("\n arr[%d]=%d, arr[%d]=%d", a,arr[a], b,arr[b]);
+    if (arr[a] != arr[b])
+    {
+        arr[a] = arr[a] ^ arr[b];
+        arr[b] = arr[a] ^ arr[b];
+        arr[a] = arr[a] ^ arr[b];
+    }
+    //printf(" ====> arr[%d]=%d, arr[%d]=%d", a, arr[a], b, arr[b]);
+}
+void QuickSort(int *arr, int p, int r)
+{
+    if (p <= r)
+    {
+        int j = p;
+        for (int i = p + 1; i <= r; ++i)
+        {
+            if (arr[p] > arr[i])
+            {
+                //MySwap(arr[i], arr[++j]);
+                MySwap3(arr,i,++j);
+            }
+        }
+        //MySwap(arr[p], arr[j]);
+        MySwap3(arr, p, j);
+        //
+        QuickSort(arr, p, j - 1);
+        QuickSort(arr, j + 1, r);
+    }
+}
+int main217()
+{
+    printf("交换1和2,100亿次");
+    int m = 1, n = 2;
+    time_t t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        MySwap1(m, n);
+    }
+    time_t t2 = time(0);
+    printf("\nMySwap1:start[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//191s,188s,189s
+
+    m = 1, n = 2;
+    t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        MySwap2(m, n);
+    }
+    t2 = time(0);
+    printf("\nMySwap2:start[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//172s,171s,172s
+    getchar();
+    return 0;
+}
+//
+int main2171()
+{
+    int m = 1, n = 2;
+    time_t t1 = time(0);
+    for (long long i = 0; i < 100000000000; i++)
+    {
+        if (i>0)
+        {
+        }
+    }
+    time_t t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//145,146
+
+    m = 1, n = 2;
+    int j = 0;
+    t1 = time(0);
+    for (long long i = 0; i < 100000000000; i++)
+    {
+        j = i + 3;
+    }
+    t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//195,192
+
+    m = 1, n = 2;
+    j = 0;
+    t1 = time(0);
+    for (long long i = 0; i < 100000000000; i++)
+    {
+        if (i > 0)
+        {
+            j = i + 3;
+        }
+    }
+    t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//-,308
+    getchar();
+    return 0;
+}
+int main2172()
+{
+    int m = 1, n = 2;
+    time_t t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        m << 10;//<<2 18s <<1 16s <<10 17s <<10 16s <<10 100000000000 162
+        m >> 10;
+    }
+    time_t t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//145,146
+
+    m = 1, n = 2;
+    int j = 0;
+    t1 = time(0);
+    for (long long i = 0; i < 10000000000; i++)
+    {
+        m *= 1024;//  24s   24s   24s   24s 100000000000 231
+        m >> 10;
+    }
+    t2 = time(0);
+    printf("\nstart[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//195,192
+    getchar();
+    return 0;
+}
+//226. 翻转二叉树
+TreeNode* invertTree(TreeNode* root) {
+    if (root == NULL)
+        return root;
+    TreeNode* tmp = root->left;
+    root->left = root->right;
+    root->right = tmp;
+    invertTree(root->left);
+    invertTree(root->right);
+    return root;//别忘记写
 }
