@@ -2320,7 +2320,7 @@ ListNode* reverseList(ListNode* head) {
 //    return(num.size() < nums.size());
 //}
 
-void MySwap1(int &a, int &b)
+void MySwap1(int &a, int &b)//300亿次对比，比下面的快2.5%
 {
     if (a != b)
     {
@@ -2377,12 +2377,13 @@ void QuickSort(int *arr, int p, int r)
 }
 int main()
 {
-    printf("\n    交换1和2,100亿次");
+    long long N = 10000000000;
+    printf("\n    交换1和2, %d亿次",N/100000000);
     {
         int m = 1, n = 2;
         clock_t start, ends;
         start = clock();
-        for (long long i = 0; i < 1000000000; i++)
+        for (long long i = 0; i < N; i++)
         {
             MySwap1(m, n);
         }
@@ -2393,7 +2394,7 @@ int main()
         int m = 1, n = 2;
         clock_t start, ends;
         start = clock();
-        for (long long i = 0; i < 1000000000; i++)
+        for (long long i = 0; i < N; i++)
         {
             MySwap2(m, n);
         }
