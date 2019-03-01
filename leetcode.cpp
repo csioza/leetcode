@@ -2293,6 +2293,7 @@ int countPrimes(int n) {
         if (isPrime[i]) count++;
     }
     return count;
+}
 //206. 反转链表
 ListNode* reverseList(ListNode* head) {
     if (head == NULL)
@@ -2318,6 +2319,7 @@ ListNode* reverseList(ListNode* head) {
 //
 //    return(num.size() < nums.size());
 //}
+
 void MySwap1(int &a, int &b)
 {
     if (a != b)
@@ -2333,7 +2335,7 @@ void MySwap2(int &a, int &b)
     {
         int t = a;
         a     = b;
-        b     = a;
+        b     = t;
     }
 }
 void MySwap3(int *arr, int a, int b)
@@ -2373,26 +2375,31 @@ void QuickSort(int *arr, int p, int r)
         QuickSort(arr, j + 1, r);
     }
 }
-int main217()
+int main()
 {
-    printf("交换1和2,100亿次");
-    int m = 1, n = 2;
-    time_t t1 = time(0);
-    for (long long i = 0; i < 10000000000; i++)
+    printf("\n    交换1和2,100亿次");
     {
-        MySwap1(m, n);
+        int m = 1, n = 2;
+        clock_t start, ends;
+        start = clock();
+        for (long long i = 0; i < 1000000000; i++)
+        {
+            MySwap1(m, n);
+        }
+        ends = clock();
+        printf("\n    MySwap1:start[%6d],end[%6d],sub[%6d]", start, ends, ends - start);//191s,188s,189s
     }
-    time_t t2 = time(0);
-    printf("\nMySwap1:start[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//191s,188s,189s
-
-    m = 1, n = 2;
-    t1 = time(0);
-    for (long long i = 0; i < 10000000000; i++)
     {
-        MySwap2(m, n);
+        int m = 1, n = 2;
+        clock_t start, ends;
+        start = clock();
+        for (long long i = 0; i < 1000000000; i++)
+        {
+            MySwap2(m, n);
+        }
+        ends = clock();
+        printf("\n    MySwap2:start[%6d],end[%6d],sub[%6d]", start, ends, ends - start);//191s,188s,189s
     }
-    t2 = time(0);
-    printf("\nMySwap2:start[%d],end[%d],sub[%d]", t1, t2, t2 - t1);//172s,171s,172s
     getchar();
     return 0;
 }
@@ -2599,29 +2606,29 @@ void preOrder(TreeNode *root, vector<string> &res, string arr)
     preOrder(root->left, res, arr);
     preOrder(root->right, res, arr);
 }
-vector<string> binaryTreePaths(TreeNode *root)
-{
-    vector<string> res;
-    preOrder(root, res, "");
-    return res;
-}
-int main257()
-{
-    TreeNode*n1 = new TreeNode(1);
-    TreeNode*n2 = new TreeNode(2);
-    TreeNode*n3 = new TreeNode(3);
-    TreeNode*n4 = new TreeNode(5);
-    n1->left = n2;
-    n1->right = n3;
-    n2->right = n4;
-    n2->left = NULL;
-    n3->left = NULL;
-    n3->right = NULL;
-    vector<string> vv = binaryTreePaths(n1);
-    for (int i = 0; i < vv.size(); i++)
-    {
-        printf("\n%s", vv[i].c_str());
-    }
-    getchar();
-    return 0;
-}
+//vector<string> binaryTreePaths(TreeNode *root)
+//{
+//    vector<string> res;
+//    preOrder(root, res, "");
+//    return res;
+//}
+//int main257()
+//{
+//    TreeNode*n1 = new TreeNode(1);
+//    TreeNode*n2 = new TreeNode(2);
+//    TreeNode*n3 = new TreeNode(3);
+//    TreeNode*n4 = new TreeNode(5);
+//    n1->left = n2;
+//    n1->right = n3;
+//    n2->right = n4;
+//    n2->left = NULL;
+//    n3->left = NULL;
+//    n3->right = NULL;
+//    vector<string> vv = binaryTreePaths(n1);
+//    for (int i = 0; i < vv.size(); i++)
+//    {
+//        printf("\n%s", vv[i].c_str());
+//    }
+//    getchar();
+//    return 0;
+//}
