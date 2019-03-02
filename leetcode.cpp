@@ -2938,7 +2938,8 @@ string toHex(int num) {
         s.push_back('0');
     return s;
 }
-//409. 最长回文串
+//409. 最长回文串 
+//给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
 int longestPalindrome(string s) {
     int sum = 0;
     int array['z' - 'A' + 1] = { 0 };
@@ -2947,4 +2948,43 @@ int longestPalindrome(string s) {
     for (int i : array)
         sum += i&-2;
     return sum + (sum < s.size());
+}
+//412. Fizz Buzz
+vector<string> fizzBuzz(int n) {
+    vector<string> rlt;
+    rlt.resize(n);
+    for (int i = 1; i <= n; i++)
+    {
+        int i3 = (i % 3 == 0);
+        int i5 = (i % 5 == 0);
+        if (i3 && i5)
+            rlt[i - 1] = "FizzBuzz";
+        else if (i3)
+            rlt[i - 1] = "Fizz";
+        else if (i5)
+            rlt[i - 1] = "Buzz";
+        else
+            rlt[i - 1] = to_string(i);
+    }
+    return rlt;
+}
+//434. 字符串中的单词数
+int countSegments(string s) {
+    int len = s.size();
+    int cnt = 0;
+    int i = 0;
+    while (i < len)
+    {
+        for (;i < len && s[i] == ' ';i++)
+        {
+        }
+        if (i < len)
+        {
+            cnt++;
+        }
+        for (; i < len && s[i] != ' '; i++)
+        {
+        }
+    }
+    return cnt;
 }
