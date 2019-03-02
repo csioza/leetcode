@@ -2730,3 +2730,7 @@ void moveZeroes(vector<int>& nums) {
         }
     }
 }
+//292. Nim”Œœ∑
+bool canWinNim(int n) {
+    return n % 4 != 0;
+}
