@@ -2735,6 +2735,7 @@ bool canWinNim(int n) {
     return n % 4 != 0;
 }
 //326. 3µÄÃÝ
+//342. 4µÄÃÝ
 bool isPowerOfThree(int n) {
     while (n > 1)
     {
