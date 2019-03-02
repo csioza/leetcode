@@ -2800,3 +2800,49 @@ string reverseVowels(string s) {
     }
     return s;
 }
+//367. 有效的完全平方数
+bool isPerfectSquare(int num) {
+    if (num <= 0)
+        return false;
+    unsigned long long min = 1;
+    unsigned long long max = num;
+    unsigned long long mid = 0;
+    unsigned long long numl = num;
+    while (min <= max)//少写了=号
+    {
+        mid = min + (max - min) / 2;
+        unsigned long long mm = mid * mid;
+        if (numl == mm)
+            return true;
+        else if (numl > mm)
+            min = mid + 1;
+        else
+            max = mid - 1;
+    }
+    return false;
+}
+//371. 两整数之和
+int getSum2(int a, int b) {//-1 + 1 报错
+    return b == 0 ? a : getSum(a^b, (a&b) << 1);
+}
+//
+unsigned int getSum2(unsigned int a, unsigned int b) {
+    return b == 0 ? a : getSum(a^b, (a&b) << 1);
+}
+int getSum(int a, int b) {
+    unsigned int aa = (unsigned int)a;
+    unsigned int bb = (unsigned int)b;
+    return (int)getSum2(aa, bb);
+}
+//
+int getSum2(int a, int b) {
+    unsigned int aa = (unsigned int)a;
+    unsigned int bb = (unsigned int)b;
+    while (bb != 0)
+    {
+        unsigned int y = aa^bb;
+        bb = (aa&bb) << 1;
+        aa = y;
+    }
+    return (int)aa;
+}
