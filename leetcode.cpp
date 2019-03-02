@@ -2749,3 +2749,54 @@ bool isPowerOfThree(int n) {
         return true;
     return false;
 }
+//344. 反转字符串
+void reverseString(vector<char>& s) {
+    for (int i = 0, j = s.size() - 1; i < j; i++,j--)
+    {
+        char tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
+    }
+}
+//345. 反转字符串中的元音字母
+string reverseVowels(string s) {
+    bool is_i = false;
+    bool is_j = false;
+    for (int i = 0, j = s.size() - 1; i < j; )
+    {
+        if (!is_i)
+            is_i = s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u'
+            || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U';
+        if (!is_j)
+            is_j = s[j] == 'a' || s[j] == 'e' || s[j] == 'i' || s[j] == 'o' || s[j] == 'u'
+            || s[j] == 'A' || s[j] == 'E' || s[j] == 'I' || s[j] == 'O' || s[j] == 'U';
+        if (is_i && is_j)
+        {
+            char tmp = s[i];
+            s[i] = s[j];
+            s[j] = tmp;
+            i++;
+            j--;
+            is_i = false;
+            is_j = false;
+        }
+        else if (is_i)
+        {
+            j--;
+            is_j = false;
+        }
+        else if (is_j)
+        {
+            i++;
+            is_i = false;
+        }
+        else
+        {
+            i++;
+            j--;
+            is_i = false;
+            is_j = false;
+        }
+    }
+    return s;
+}
