@@ -2822,17 +2822,17 @@ bool isPerfectSquare(int num) {
     return false;
 }
 //371. 两整数之和
-int getSum2(int a, int b) {//-1 + 1 报错
+int getSum(int a, int b) {//-1 + 1 报错
     return b == 0 ? a : getSum(a^b, (a&b) << 1);
 }
 //
-unsigned int getSum2(unsigned int a, unsigned int b) {
-    return b == 0 ? a : getSum(a^b, (a&b) << 1);
+unsigned int getSum3(unsigned int a, unsigned int b) {
+    return b == 0 ? a : getSum3(a^b, (a&b) << 1);
 }
-int getSum(int a, int b) {
+int getSum4(int a, int b) {
     unsigned int aa = (unsigned int)a;
     unsigned int bb = (unsigned int)b;
-    return (int)getSum2(aa, bb);
+    return (int)getSum3(aa, bb);
 }
 //
 int getSum2(int a, int b) {
@@ -2845,4 +2845,96 @@ int getSum2(int a, int b) {
         aa = y;
     }
     return (int)aa;
+}
+//374. 猜数字大小
+int guess(int num) { return 0; }
+int guessNumber(int n) {
+    if (n <= 0)
+        return 0;
+    int min = 1;
+    int max = n;
+    int mid = 0;
+    while (min <= max)
+    {
+        mid = min + (max - min) / 2;
+        int rlt = guess(mid);
+        switch (rlt)
+        {
+        case 0:
+            return mid;
+        case 1:
+            min = mid + 1;
+            break;//漏写了
+        case -1:
+            max = mid - 1;
+            break;//漏写了
+        }
+    }
+    return 0;
+}
+//383. 赎金信
+bool canConstruct(string ransomNote, string magazine) {
+    return false;
+}
+//389. 找不同
+char findTheDifference(string s, string t) {
+    char p = 0;
+    int slen = s.size();
+    int tlen = t.size();
+    if (tlen <= slen)
+        return 0;
+    for (int i = 0; i < tlen; i++)
+    {
+        if (i < slen)
+        {
+            p ^= s[i];
+        }
+        p ^= t[i];
+    }
+    return p;
+}
+//404. 左叶子之和
+int sumOfLeftLeaves(TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    int sum = 0;
+    if (root->left)
+    {
+        if (root->left->left == NULL && root->left->right == NULL)
+        {
+            sum += root->left->val;
+        }
+        else 
+        {
+            sum += sumOfLeftLeaves(root->left);
+        }
+    }
+    if (root->right)
+    {
+        sum += sumOfLeftLeaves(root->right);
+    }
+    return sum;
+}
+//405. 数字转换为十六进制数
+string toHex(int num) {
+    string s;
+    unsigned int num2 = (unsigned int)num;
+    while (num2 > 0)
+    {
+        unsigned int bit4 = num2 & 0xf;
+        if (bit4 < 10)
+            s.push_back(bit4 + '0');
+        else
+            s.push_back(bit4 - 10 + 'a');
+        num2 >>= 4;//漏写=号
+    }
+    for (int i = 0, j = s.size() - 1; i < j; i++, j--)
+    {
+        char t = s[i];
+        s[i] = s[j];
+        s[j] = t;
+    }
+    if (s.size() == 0)
+        s.push_back('0');
+    return s;
 }
