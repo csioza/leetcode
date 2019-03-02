@@ -2938,3 +2938,13 @@ string toHex(int num) {
         s.push_back('0');
     return s;
 }
+//409. 最长回文串
+int longestPalindrome(string s) {
+    int sum = 0;
+    int array['z' - 'A' + 1] = { 0 };
+    for (char i : s)
+        array[i - 'A']++;
+    for (int i : array)
+        sum += i&-2;
+    return sum + (sum < s.size());
+}
