@@ -2320,7 +2320,7 @@ ListNode* reverseList(ListNode* head) {
 //    return(num.size() < nums.size());
 //}
 
-void MySwap1(int &a, int &b)//300亿次对比，比下面的快2.5%
+void MySwap(int &a, int &b)//300亿次对比，比下面的快2.5%
 {
     if (a != b)
     {
@@ -2364,15 +2364,31 @@ void QuickSort(int *arr, int p, int r)
         {
             if (arr[p] > arr[i])
             {
-                //MySwap(arr[i], arr[++j]);
-                MySwap3(arr,i,++j);
+                MySwap(arr[i], arr[++j]);
+                //MySwap3(arr,i,++j);
             }
         }
-        //MySwap(arr[p], arr[j]);
-        MySwap3(arr, p, j);
+        MySwap(arr[p], arr[j]);
+        //MySwap3(arr, p, j);
         //
         QuickSort(arr, p, j - 1);
         QuickSort(arr, j + 1, r);
+    }
+}
+void QuickSortVec(vector<int>& arr, int p, int r)
+{
+    if (p <= r)
+    {
+        int j = p;
+        for (int i = p + 1; i <= r; ++i)
+        {
+            if (arr[p] > arr[i])
+                MySwap(arr[i], arr[++j]);
+        }
+        MySwap(arr[p], arr[j]);
+        //
+        QuickSortVec(arr, p, j - 1);
+        QuickSortVec(arr, j + 1, r);
     }
 }
 int main217()
@@ -3033,4 +3049,97 @@ int arrangeCoins(int n) {
             return mid;
     }
     return max;//***边界问题
+}
+//443. 压缩字符串
+int compress(vector<char>& chars) {
+    int len = chars.size();
+    if (len <= 1)
+        return len;
+    int cnt = 0;
+    int sub = 0;
+    for (int i = 1; i <= len; i++)
+    {
+        if (i < len && chars[i] == chars[i-1])
+            cnt++;
+        else
+        {
+            if (cnt > 0)
+            {
+                cnt++;
+                //计算位数
+                int weishu = 0;
+                for (int c = cnt; c > 0;) { weishu++; c /= 10; }
+                //计算压缩量
+                sub += (cnt - weishu - 1);
+                chars[i - sub - weishu - 1] = chars[i - 1];
+                for (int k = weishu; k >= 1; k--)
+                {
+                    if (k != 1)
+                    {
+                        int g = cnt / ((k - 1) * 10);
+                        cnt %= ((k - 1) * 10);
+                        chars[i - sub - k] = '0' + g;
+                    }
+                    else
+                    {
+                        chars[i - sub - k] = '0' + cnt;
+                    }
+                }
+                cnt = 0;
+            }
+            else//漏写了
+            {
+                chars[i - sub - 1] = chars[i - 1];
+            }
+        }
+    }
+    return len - sub;
+}
+int main443()
+{
+    vector<char> chars;
+    chars.push_back('a');
+    chars.push_back('a');
+    chars.push_back('a');
+    chars.push_back('a');
+    chars.push_back('b');
+    chars.push_back('b');
+    chars.push_back('b');
+    chars.push_back('c');
+    chars.push_back('c');
+    chars.push_back('c');
+    compress(chars);
+}
+//453. 最小移动次数使数组元素相等
+int minMoves(vector<int>& nums) {
+    int len = nums.size();
+    if (len <= 1)
+        return 0;
+    int sum = 0;
+    int min = nums[0];
+    for (int i = 0; i < len; i++)
+    {
+        if (min > nums[i])
+        {
+            int sub = min - nums[i];
+            sum += (sub * i);
+            min = nums[i];
+        }
+        else if (min < nums[i])
+            sum += (nums[i] - min);
+    }
+    return sum;
+}
+//455. 分发饼干
+int findContentChildren(vector<int>& g, vector<int>& s) {
+    QuickSortVec(g, 0, g.size() - 1);
+    QuickSortVec(s, 0, s.size() - 1);
+    int i = 0;
+    for (int j = 0; i < g.size() && j < s.size();)
+    {
+        if (s[j] >= g[i])
+            i++;
+        j++;
+    }
+    return i;
 }
