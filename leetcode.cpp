@@ -2401,7 +2401,7 @@ int main217()
         start = clock();
         for (long long i = 0; i < N; i++)
         {
-            MySwap1(m, n);
+            MySwap(m, n);
         }
         ends = clock();
         printf("\n    MySwap1:start[%6d],end[%6d],sub[%6d]", start, ends, ends - start);//191s,188s,189s
@@ -3109,6 +3109,7 @@ int main443()
     chars.push_back('c');
     chars.push_back('c');
     compress(chars);
+    return 0;
 }
 //453. 最小移动次数使数组元素相等
 int minMoves(vector<int>& nums) {
@@ -3175,4 +3176,149 @@ int islandPerimeter(vector<vector<int>>& grid) {
         }
     }
     return sum;
+}
+//19. 删除链表的倒数第N个节点
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* pre = head;
+    ListNode* end = head;
+    if (n <= 0)
+        return head;
+    int cnt = 0;
+    while (end)
+    {
+        if (cnt > n)
+            pre = pre->next;
+        end = end->next;
+        cnt++;
+    }
+    if (cnt < n)
+        return head;
+    else if (cnt == n)
+    {
+        ListNode *d = head;
+        head = head->next;
+        delete d;
+        return head;
+    }
+    if (pre && pre->next)
+    {
+        ListNode *d = pre->next;
+        pre->next = pre->next->next;
+        delete d;
+    }
+    return head;
+}
+//24. 两两交换链表中的节点
+ListNode* swapPairs(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return head;
+    ListNode *p = head;
+    ListNode *q = head->next;
+    ListNode *pre = head;
+    while (q)
+    {
+        if (pre == head)
+        {
+            ListNode *t = q->next;
+            q->next = pre;
+            pre->next = t;
+            head = q;
+        }
+        else
+        {
+            ListNode *t = q->next;
+            q->next = pre->next;
+            pre->next = q;
+            p->next = t;
+        }
+        pre = p;
+        p = p->next;
+        if (p && p->next)
+        {
+            q = p->next;
+        }
+        else
+            break;
+    }
+    return head;
+}
+//25. k个一组翻转链表
+//ListNode* reverseKGroup2(ListNode* head, int k) {
+//    if (head == NULL || head->next == NULL || k <= 1)
+//        return NULL;
+//    ListNode * p = head->next;
+//    ListNode * q = p->next;
+//    int i = 1;
+//    for (; i <= k && p->next; i++, p = p->next);
+//    if (i < k)
+//        return NULL;
+//    ListNode*end = p;
+//    p = head->next;
+//    ListNode*rlt = p;
+//    p->next = end;
+//    while (q && k > 1)
+//    {
+//        ListNode*t = q->next;
+//        q->next = p;
+//        p = q;
+//        q = t;
+//        k--;
+//    }
+//    head->next = p;
+//    return rlt;
+//}
+//ListNode* reverseKGroup(ListNode* head, int k) {
+//    ListNode*s = new ListNode(0);
+//    s->next = head;
+//    ListNode *t = reverseKGroup2(s, k);
+//    while (t)
+//        t = reverseKGroup2(t, k);
+//    return s->next;
+//}
+
+ListNode* reverseKGroup2(ListNode* &head, int k) {//我的正确答案
+    if (head == NULL || head->next == NULL || k <= 1)
+        return NULL;
+    ListNode * p = head;
+    int i = 0;
+    for (; i < k && p; i++, p = p->next);
+    if (i < k)
+        return NULL;
+    ListNode* endNext = p;
+    //
+    p = head;
+    ListNode *q = p->next;
+    ListNode* end = p;
+    p->next = endNext;
+    while (q && k > 1)
+    {
+        ListNode*t = q->next;
+        q->next = p;
+        p = q;
+        q = t;
+        k--;
+    }
+    head = p;
+    return end;
+}
+ListNode* reverseKGroup(ListNode* head, int k) {
+    ListNode *end = reverseKGroup2(head, k);
+    while (end)
+        end = reverseKGroup2(end->next, k);
+    return head;
+}
+int main25()
+{
+    ListNode *n1 = new ListNode(1);
+    ListNode *n2 = new ListNode(2);
+    ListNode *n3 = new ListNode(3);
+    ListNode *n4 = new ListNode(4);
+    ListNode *n5 = new ListNode(5);
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    n5->next = NULL;
+    reverseKGroup(n1,2);
+    return 0;
 }
