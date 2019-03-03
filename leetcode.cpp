@@ -3154,3 +3154,25 @@ int hammingDistance(int x, int y) {
     }
     return y;
 }
+//463. 岛屿的周长
+int islandPerimeter(vector<vector<int>>& grid) {
+    int sum = 0;
+    for (int i = 0; i < grid.size();i++)
+    {
+        for (int j = 0; j < grid[i].size(); j++)
+        {
+            if (grid[i][j] == 1)
+            {
+                if (i-1 >= 0 && grid[i-1][j] == 0 || i - 1 < 0)//上
+                    sum++;
+                if (i + 1 < grid.size() && grid[i + 1][j] == 0 || i + 1 >= grid.size())//下
+                    sum++;
+                if (j - 1 >= 0 && grid[i][j-1] == 0 || j - 1 < 0)//left
+                    sum++;
+                if (j + 1 < grid[i].size() && grid[i][j+1] == 0 || j + 1 >= grid[i].size())//right
+                    sum++;
+            }
+        }
+    }
+    return sum;
+}
