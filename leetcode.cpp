@@ -2988,3 +2988,49 @@ int countSegments(string s) {
     }
     return cnt;
 }
+//437. 路径总和 III
+int pathSum3(TreeNode* root, int sum) {//我的错误答案，会少计，和pathSum2对比
+    if (root == NULL)
+        return 0;
+    if (sum == root->val)
+        return 1;
+    return pathSum3(root->left, sum - root->val) + pathSum3(root->right,sum - root->val);
+}
+int pathSum2(TreeNode* root, int sum) {
+    if (root == NULL)
+        return 0;
+    int rlt = 0;
+    if (sum == root->val)
+        rlt++;
+    rlt += pathSum2(root->left, sum - root->val);
+    rlt += pathSum2(root->right, sum - root->val);
+    return rlt;
+}
+int pathSum(TreeNode* root, int sum) {
+    if (root == NULL)
+        return 0;
+    int ret = pathSum2(root, sum);
+    ret += pathSum(root->left, sum);
+    ret += pathSum(root->right, sum);
+    return ret;
+}
+//441. 排列硬币
+int arrangeCoins(int n) {
+    if (n == 0)
+        return 0;
+    int min = 1;
+    int max = n;
+    long long mid = 0;//int mid 会益处
+    while (min <= max)
+    {
+        mid = min + (max - min) / 2;
+        long long sum = mid*(1 + mid) / 2;//int sum 会益处
+        if (n < sum)
+            max = mid - 1;
+        else if (n>sum)
+            min = mid + 1;
+        else 
+            return mid;
+    }
+    return max;//***边界问题
+}
