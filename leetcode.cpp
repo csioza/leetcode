@@ -3143,4 +3143,14 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
     }
     return i;
 }
-//
+//461. ººÃ÷¾àÀë
+int hammingDistance(int x, int y) {
+    x = x ^ y;
+    y = 0;
+    while (x)
+    {
+        y++;
+        x = x&(x-1);
+    }
+    return y;
+}
