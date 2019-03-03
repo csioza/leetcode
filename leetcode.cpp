@@ -3322,3 +3322,23 @@ int main25()
     reverseKGroup(n1,2);
     return 0;
 }
+//61. Ðý×ªÁ´±í
+ListNode* rotateRight(ListNode* head, int k) {
+    if (head == NULL || head->next == NULL || k <= 0)
+        return head;
+    ListNode *p = head;
+    int cnt = 1;
+    while (p->next) {
+        cnt++;
+        p = p->next;
+    }
+    p->next = head;
+    k %= cnt;
+    for (int i = 0; i < cnt - k; i++)
+    {
+        p = p->next;
+    }
+    head = p->next;
+    p->next = NULL;
+    return head;
+}
