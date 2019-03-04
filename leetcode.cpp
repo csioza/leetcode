@@ -3529,7 +3529,7 @@ TreeNode* sortedListToBST(ListNode* head) {
     node->right = sortedListToBST(p->next);
     return node;
 }
-int main()
+int main109()
 {
     ListNode *n1 = new ListNode(-10);
     ListNode *n2 = new ListNode(-3);
@@ -3543,4 +3543,20 @@ int main()
     n5->next = NULL;
     sortedListToBST(n1);
     return 0;
+}
+//876. 链表的中间结点
+ListNode* middleNode(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return head;
+    ListNode *p = head;
+    ListNode *q = head;
+    while (q && q->next)
+    {
+        p = p->next;
+        q = q->next;
+        if (q == NULL)
+            break;
+        q = q->next;
+    }
+    return p;
 }
