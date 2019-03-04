@@ -3499,3 +3499,48 @@ ListNode* reverseBetween(ListNode* head, int m, int n) {
     rend->next = head;
     return h->next;
 }
+//109. ÓÐÐòÁ´±í×ª»»¶þ²æËÑË÷Ê÷
+TreeNode* sortedListToBST(ListNode* head) {
+    if (head == NULL)
+        return NULL;
+    //if (head->next == NULL)//***1***
+    //{
+    //    TreeNode *node = new TreeNode(head->val);
+    //    node->left = NULL;
+    //    node->right = NULL;
+    //    return node;
+    //}
+    ListNode*p = head;
+    ListNode*q = head;
+    ListNode*pre = head;
+    while (q && q->next)
+    {
+        pre = p;
+        p = p->next;
+        q = q->next;
+        if (q == NULL)
+            break;
+        q = q->next;
+    }
+    pre->next = NULL;
+    TreeNode *node = new TreeNode(p->val);
+    if (p != head)//***1***
+        node->left = sortedListToBST(head);
+    node->right = sortedListToBST(p->next);
+    return node;
+}
+int main()
+{
+    ListNode *n1 = new ListNode(-10);
+    ListNode *n2 = new ListNode(-3);
+    ListNode *n3 = new ListNode(0);
+    ListNode *n4 = new ListNode(5);
+    ListNode *n5 = new ListNode(9);
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    n5->next = NULL;
+    sortedListToBST(n1);
+    return 0;
+}
