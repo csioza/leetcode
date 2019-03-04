@@ -3342,3 +3342,135 @@ ListNode* rotateRight(ListNode* head, int k) {
     p->next = NULL;
     return head;
 }
+//82. 删除排序链表中的重复元素 II
+ListNode* deleteDuplicates2(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return head;
+    //节点数>=2
+    ListNode*pre = head;
+    ListNode*p = head;
+    ListNode*q = head->next;
+    //
+    while (true)
+    {
+        if (q && p->val == q->val)
+            q = q->next;
+        else
+        {
+            if (p->next == q)
+            {
+                if (!q)
+                    break;
+                pre = p;
+                p = p->next;
+                q = q->next;
+            }
+            else
+            {
+                if (pre == p)//p => head是不对的
+                {
+                    head = q;
+                    pre = head;
+                    p = head;
+                }
+                else
+                {
+                    pre->next = q;
+                    p = q;
+                }
+                //
+                if (q)
+                    q = q->next;
+                else
+                    break;
+            }
+        }
+    }
+    return head;
+}
+int main82()
+{
+    ListNode *n1 = new ListNode(1);
+    ListNode *n2 = new ListNode(2);
+    ListNode *n3 = new ListNode(2);
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = NULL;
+    deleteDuplicates2(n1);
+    return 0;
+}
+//86. 分隔链表
+ListNode* partition(ListNode* head, int x) {//无头节点
+    if (head == NULL || head->next == NULL)
+        return head;
+    //大于1个节点
+    ListNode *max = NULL;
+    ListNode *maxend = NULL;
+    ListNode *pre = head;
+    ListNode *p = head;
+    while (p)
+    {
+        if (p->val < x)
+        {
+            pre = p;
+            p = p->next;
+        }
+        else
+        {
+            if (max == NULL)
+            {
+                max = p;
+                maxend = p;
+            }
+            else
+                maxend->next = p;
+            //
+            ListNode *t = p->next;
+            if (pre == p)//就是头结点
+            {
+                pre = t;
+                head = t;
+            }
+            else
+                pre->next = p->next;
+            if (maxend != p)
+                maxend = maxend->next;
+            maxend->next = NULL;
+            p = t;
+        }
+    }
+    if (pre)
+        pre->next = max;
+    else
+        head = max;
+    return head;
+}
+ListNode* partition2(ListNode* head, int x) {//构件头结点
+    if (head == NULL || head->next == NULL)
+        return head;
+    //大于1个节点
+    ListNode *min = new ListNode(0);
+    min->next = NULL;
+    ListNode *max = new ListNode(0);
+    max->next = NULL;
+    ListNode *minend = min;
+    ListNode *maxend = max;
+    while (head)
+    {
+        ListNode *t = head->next;
+        if (head->val < x)
+        {
+            minend->next = head;
+            minend = head;
+        }
+        else
+        {
+            maxend->next = head;
+            maxend = head;
+        }
+        head->next = NULL;
+        head = t;
+    }
+    minend->next = max->next;
+    return min->next;
+}
