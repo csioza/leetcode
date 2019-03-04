@@ -3474,3 +3474,27 @@ ListNode* partition2(ListNode* head, int x) {//构件头结点
     minend->next = max->next;
     return min->next;
 }
+//92. 反转链表 II
+ListNode* reverseBetween(ListNode* head, int m, int n) {
+    if (head == NULL || head->next == NULL || m >= n)
+        return head;
+    ListNode* h = new ListNode(0);
+    h->next = head;
+    ListNode*pre = h;
+    int i = 1;
+    for ( ; i < m && pre; i++)
+        pre = pre->next;
+    if (pre == NULL || i < m)
+        return h->next;
+    head = pre->next;
+    for ( ; i <= n && head; i++)
+    {
+        ListNode*t = head->next;
+        ListNode*t2 = pre->next;
+        pre->next = head;
+        head->next = t2;
+        head = t;
+    }
+    if (i < n || head == NULL)
+        return h->next;
+}
