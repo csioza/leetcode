@@ -3476,7 +3476,7 @@ ListNode* partition2(ListNode* head, int x) {//构件头结点
 }
 //92. 反转链表 II
 ListNode* reverseBetween(ListNode* head, int m, int n) {
-    if (head == NULL || head->next == NULL || m >= n)
+    if (head == NULL || head->next == NULL || m <= 0 || m >= n)
         return head;
     ListNode* h = new ListNode(0);
     h->next = head;
@@ -3487,7 +3487,8 @@ ListNode* reverseBetween(ListNode* head, int m, int n) {
     if (pre == NULL || i < m)
         return h->next;
     head = pre->next;
-    for ( ; i <= n && head; i++)
+    ListNode *rend = pre->next;
+    for ( ; i < n && head; i++)
     {
         ListNode*t = head->next;
         ListNode*t2 = pre->next;
@@ -3495,6 +3496,6 @@ ListNode* reverseBetween(ListNode* head, int m, int n) {
         head->next = t2;
         head = t;
     }
-    if (i < n || head == NULL)
-        return h->next;
+    rend->next = head;
+    return h->next;
 }
