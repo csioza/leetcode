@@ -3676,3 +3676,42 @@ ListNode *detectCycle2(ListNode *head) {
     }
     return p;
 }
+//143. ÖØÅÅÁ´±í
+void reorderList(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return;
+    ListNode*pre = head;
+    ListNode*p = head;
+    ListNode*q = head;
+    while (q)
+    {
+        pre = p;
+        p = p->next;
+        q = q->next;
+        if (!q)
+            break;
+        q = q->next;
+    }
+    pre->next = NULL;
+    ListNode*head2 = p;
+    p = head2->next;
+    head2->next = NULL;
+    while (p)
+    {
+        ListNode *t = p->next;
+        p->next = head2;
+        head2 = p;
+        p = t;
+    }
+    p = head;
+    q = head2;
+    while (q)
+    {
+        ListNode*t = p->next;
+        ListNode*t2 = q->next;
+        p->next = q;
+        q->next = t;
+        q = t2;
+        p = t;
+    }
+}
