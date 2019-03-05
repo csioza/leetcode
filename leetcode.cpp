@@ -3637,3 +3637,42 @@ int main138()
     Node*n = copyRandomList(n1);
     return 0;
 }
+//142. »·ĞÎÁ´±í II
+ListNode *detectCycle(ListNode *head) {
+    if (head == NULL)
+        return NULL;
+    ListNode*p = head;
+    ListNode*q = head;
+    do 
+    {
+        p = p->next;
+        q = q->next;
+        if (!q)
+            return NULL;
+        q = q->next;
+    } while (p == q);
+    return p;
+}
+ListNode *detectCycle2(ListNode *head) {
+    if (head == NULL)
+        return NULL;
+    ListNode*p = head;
+    ListNode*q = head;
+    while (q)
+    {
+        p = p->next;
+        q = q->next;
+        if (!q)
+            return NULL;
+        q = q->next;
+        if (p == q)
+            break;
+    }
+    q = head;
+    while (p && p != q)
+    {
+        p = p->next;
+        q = q->next;
+    }
+    return p;
+}
