@@ -3560,3 +3560,81 @@ ListNode* middleNode(ListNode* head) {
     }
     return p;
 }
+//138. 复制带随机指针的链表
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+
+    Node() {}
+
+    Node(int _val, Node* _next, Node* _random) {
+        val = _val;
+        next = _next;
+        random = _random;
+    }
+};
+
+Node* copyRandomList(Node* head) {
+    if (head == NULL)
+        return head;
+    Node *newHead = new Node(head->val,NULL,NULL);
+    //至少一个节点
+    Node *p = head->next;
+    Node *newPre = newHead;
+    Node *pre = head;
+    while (p)
+    {
+        Node *n = new Node(p->val,NULL,NULL);
+        newPre->next = n;
+        newPre = n;
+        pre = p;
+        p = p->next;
+    }
+    newPre->next = newHead;
+    pre->next = head;
+    p = head;
+    Node *newP = newHead;
+    do 
+    {
+        Node *n1 = p;
+        Node *n2 = newP;
+        while (true)
+        {
+            if (p->random == NULL)
+            {
+                newP->random = NULL;
+                break;
+            }
+            if (n1 == p->random)
+            {
+                newP->random = n2;
+                break;
+            }
+            n1 = n1->next;
+            n2 = n2->next;
+        }
+        p = p->next;
+        newP = newP->next;
+    } while (p != head);
+    newPre->next = NULL;
+    pre->next = NULL;
+    return newHead;
+}
+int main()
+{
+    Node *n1 = new Node;
+    n1->val = 1;
+    n1->next = NULL;
+    n1->random = n1;
+    //Node *n2 = new Node;
+    //n2->val = 2;
+    //n1->next = n2;
+    //n1->random = n2;
+    //n2->next = NULL;
+    //n2->random = n2;
+    Node*n = copyRandomList(n1);
+    return 0;
+}
