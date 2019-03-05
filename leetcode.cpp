@@ -3715,7 +3715,7 @@ void reorderList(ListNode* head) {
         p = t;
     }
 }
-//147. 对链表进行插入排序
+//147. 对链表进行 插入排序
 ListNode* insertionSortList(ListNode* head) {
     if (head == NULL)
         return head;
@@ -3735,6 +3735,7 @@ ListNode* insertionSortList(ListNode* head) {
                     p->next = pp;
                     pp = p;
                     ppre = p;
+                    head = pp;//忘记写了
                     break;
                 }
                 else
@@ -3755,4 +3756,70 @@ ListNode* insertionSortList(ListNode* head) {
         p = t;
     }
     return head;
+}
+//148. 归并排序 链表
+//ListNode* sortList(ListNode* head) {
+//
+//}
+//快速排序 链表
+ListNode* sortList2(ListNode* &head) {
+    if (head == NULL)
+        return head;
+    if (head->next == NULL)
+        return head;
+    ListNode*lend = NULL;
+    ListNode*pre  = head;
+    ListNode*p    = head->next;
+    pre->next     = NULL;
+    while (p)
+    {
+        ListNode *pt = p->next;
+        if (p->val > pre->val)
+        {
+            p->next = pre->next;
+            pre->next = p;
+        }
+        else
+        {
+            p->next = head;
+            head = p;
+            if (!lend)
+                lend = head;
+        }
+        p = pt;
+    }
+    if (lend)
+        lend->next = NULL;
+    ListNode * leftend = NULL;
+    ListNode * rightend = NULL;
+    if (head == pre)
+    {
+        rightend = sortList2(pre->next);
+        return rightend;
+    }
+    if (pre->next == NULL)
+    {
+        leftend = sortList2(head);
+        if (leftend)
+            leftend->next = pre;
+        return pre;
+    }
+    leftend = sortList2(head);
+    if (leftend)
+        leftend->next = pre;
+    rightend = sortList2(pre->next);
+    return rightend;
+}
+int main()
+{
+    ListNode*n1 = new ListNode(4);
+    ListNode*n2 = new ListNode(2);
+    ListNode*n3 = new ListNode(1);
+    ListNode*n4 = new ListNode(3);
+    n1->next = n2;
+    n2->next = NULL;
+    n3->next = n4;
+    n4->next = NULL;
+    ListNode*t = sortList2(n1);
+    return 0;
 }
