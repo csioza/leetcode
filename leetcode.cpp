@@ -3767,17 +3767,17 @@ ListNode* sortList2(ListNode* &head) {
         return head;
     if (head->next == NULL)
         return head;
-    ListNode*lend = NULL;
-    ListNode*pre  = head;
-    ListNode*p    = head->next;
-    pre->next     = NULL;
+    ListNode *lend = NULL;
+    ListNode *mid  = head;
+    ListNode *p    = head->next;
+    mid->next      = NULL;
     while (p)
     {
-        ListNode *pt = p->next;
-        if (p->val > pre->val)
+        ListNode *t = p->next;
+        if (p->val > mid->val)
         {
-            p->next = pre->next;
-            pre->next = p;
+            p->next = mid->next;
+            mid->next = p;
         }
         else
         {
@@ -3786,29 +3786,18 @@ ListNode* sortList2(ListNode* &head) {
             if (!lend)
                 lend = head;
         }
-        p = pt;
+        p = t;
     }
     if (lend)
         lend->next = NULL;
-    ListNode * leftend = NULL;
-    ListNode * rightend = NULL;
-    if (head == pre)
-    {
-        rightend = sortList2(pre->next);
-        return rightend;
-    }
-    if (pre->next == NULL)
-    {
-        leftend = sortList2(head);
-        if (leftend)
-            leftend->next = pre;
-        return pre;
-    }
+    ListNode *leftend = NULL;
+    if (head == mid)
+        return sortList2(mid->next);
     leftend = sortList2(head);
     if (leftend)
-        leftend->next = pre;
-    rightend = sortList2(pre->next);
-    return rightend;
+        leftend->next = mid;
+    ListNode *rightend = sortList2(mid->next);
+    return rightend ? rightend : mid;
 }
 int main()
 {
