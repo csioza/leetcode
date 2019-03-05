@@ -3715,3 +3715,44 @@ void reorderList(ListNode* head) {
         p = t;
     }
 }
+//147. 对链表进行插入排序
+ListNode* insertionSortList(ListNode* head) {
+    if (head == NULL)
+        return head;
+    ListNode*p = head->next;
+    head->next = NULL;
+    while (p)
+    {
+        ListNode *pp = head;
+        ListNode *ppre = head;
+        ListNode *t = p->next;
+        while (pp)
+        {
+            if (pp->val > p->val)
+            {
+                if (pp == ppre)
+                {
+                    p->next = pp;
+                    pp = p;
+                    ppre = p;
+                    break;
+                }
+                else
+                {
+                    ppre->next = p;
+                    p->next = pp;
+                    break;
+                }
+            }
+            ppre = pp;
+            pp = pp->next;
+            if (!pp)
+            {
+                ppre->next = p;
+                p->next = NULL;
+            }
+        }
+        p = t;
+    }
+    return head;
+}
