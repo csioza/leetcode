@@ -3576,7 +3576,6 @@ public:
         random = _random;
     }
 };
-
 Node* copyRandomList(Node* head) {
     if (head == NULL)
         return head;
@@ -3623,7 +3622,7 @@ Node* copyRandomList(Node* head) {
     pre->next = NULL;
     return newHead;
 }
-int main()
+int main138()
 {
     Node *n1 = new Node;
     n1->val = 1;
