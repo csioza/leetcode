@@ -3758,9 +3758,9 @@ ListNode* insertionSortList(ListNode* head) {
     return head;
 }
 //148. ¹é²¢ÅÅĞò Á´±í
-//ListNode* sortList(ListNode* head) {
-//
-//}
+ListNode* sortList(ListNode* head) {
+    return NULL;
+}
 //¿ìËÙÅÅĞò Á´±í
 ListNode* sortList2(ListNode* &head) {
     if (head == NULL)
@@ -3799,7 +3799,7 @@ ListNode* sortList2(ListNode* &head) {
     ListNode *rightend = sortList2(mid->next);
     return rightend ? rightend : mid;
 }
-int main()
+int main148()
 {
     ListNode*n1 = new ListNode(4);
     ListNode*n2 = new ListNode(2);
@@ -3811,4 +3811,27 @@ int main()
     n4->next = NULL;
     ListNode*t = sortList2(n1);
     return 0;
+}
+//328. ÆæÅ¼Á´±í
+ListNode* oddEvenList(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return head;
+    ListNode *p = head;
+    ListNode *q = head->next;
+    ListNode *head2 = q;
+    ListNode *pre = head;
+    while (p && q)
+    {
+        p->next = q->next;
+        pre = p;
+        p = q->next;
+        if (!p)
+            break;
+        else
+            pre = p;
+        q->next = p->next;
+        q = p->next;
+    }
+    pre->next = head2;
+    return head;
 }
