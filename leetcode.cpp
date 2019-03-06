@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <map>
 #include <vector>
+#include <stack>
 using namespace std;
 #include <time.h>
 #include <sstream>
@@ -4006,4 +4007,52 @@ int main725()
     n4->next = NULL;
     splitListToParts(l1,5);
     return 0;
+}
+//94. 二叉树的中序遍历
+vector<int> inorderTraversal(TreeNode* root) {
+    vector<int> rlt;
+    stack<TreeNode*> s;
+    if (root == NULL)
+        return rlt;
+    s.push(root);
+    while (!s.empty())
+    {
+        TreeNode*t = s.top();
+        if (t->left)
+        {
+            s.push(t->left);
+            t->left = NULL;
+        }
+        else
+        {
+            rlt.push_back(t->val);
+            s.pop();
+            if (t->right)
+            {
+                s.push(t->right);
+                t->right = NULL;
+            }
+        }
+    }
+    return rlt;
+}
+vector<int> inorderTraversal2(TreeNode* root) {//巧妙，网上找的
+    vector<int> rlt;
+    stack<TreeNode*> s;
+    while (root || !s.empty())
+    {
+        while (root)
+        {
+            s.push(root);
+            root = root->left;
+        }
+        if (!s.empty())
+        {
+            root = s.top();
+            s.pop();
+            rlt.push_back(root->val);
+            root = root->right;
+        }
+    }
+    return rlt;
 }
