@@ -3835,3 +3835,33 @@ ListNode* oddEvenList(ListNode* head) {
     pre->next = head2;
     return head;
 }
+//445. 两数相加 II
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    if (l1 == NULL)
+        return l2;
+    if (l2 == NULL)
+        return l1;
+    ListNode*p1 = l1;
+    ListNode*p2 = l2;
+    while (p1->next && p2->next)
+    {
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+    ListNode*head = NULL;
+    ListNode*maxend = NULL;
+    if (p1->next)
+    {
+        head = l1;
+        maxend = p1;
+        p1 = maxend->next;
+        maxend->next = NULL;
+    }
+    else if (p2->next)
+    {
+        head = l2;
+        maxend = p1;
+        p1 = maxend->next;
+        maxend->next = NULL;
+    }
+}
