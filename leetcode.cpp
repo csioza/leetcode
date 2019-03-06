@@ -3836,32 +3836,114 @@ ListNode* oddEvenList(ListNode* head) {
     return head;
 }
 //445. 两数相加 II
-ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+ListNode* addTwoNumbers3(ListNode* l1, ListNode* l2) {
     if (l1 == NULL)
         return l2;
     if (l2 == NULL)
         return l1;
     ListNode*p1 = l1;
     ListNode*p2 = l2;
-    while (p1->next && p2->next)
+    while (p1 && p2)
     {
         p1 = p1->next;
         p2 = p2->next;
     }
-    ListNode*head = NULL;
-    ListNode*maxend = NULL;
-    if (p1->next)
+    ListNode *longHead = NULL;
+    ListNode *longEnd = NULL;
+    ListNode *shortHead = NULL;
+    if (p1)
     {
-        head = l1;
-        maxend = p1;
-        p1 = maxend->next;
-        maxend->next = NULL;
+        longHead = l1;
+        longEnd = l1;
+        while (p1->next)
+        {
+            p1 = p1->next;
+            longEnd = longEnd->next;
+        }
+        p1 = longEnd->next;
+        shortHead = l2;
+        p2 = l2;
     }
-    else if (p2->next)
+    else if (p2)
     {
-        head = l2;
-        maxend = p1;
-        p1 = maxend->next;
-        maxend->next = NULL;
+        longHead = l2;
+        longEnd = l2;
+        while (p2->next)
+        {
+            p2 = p2->next;
+            longEnd = longEnd->next;
+        }
+        p2 = longEnd->next;
+        shortHead = l1;
+        p1 = l1;
     }
+    else
+    {
+        p1 = l1;
+        p2 = l2;
+    }
+    ListNode *newHead = new ListNode(0);
+    newHead->next = NULL;
+    ListNode *newEnd = NULL;
+    while (p1 && p2)
+    {
+        ListNode *node = new ListNode(p1->val + p2->val);
+        if (!newEnd)
+            newEnd = node;
+        node->next = newHead->next;
+        newHead->next = node;
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+    if (longHead && newEnd)
+    {
+        p1 = longHead;
+        while (p1 != longEnd->next)
+        {
+            ListNode *node = new ListNode(p1->val);
+            node->next = newEnd->next;
+            newEnd->next = node;
+            p1 = p1->next;
+        }
+    }
+    p1 = newHead->next;
+    newHead->next = NULL;
+    int carry = 0;
+    while (p1)
+    {
+        p1->val += carry;
+        carry = 0;
+        if (p1->val >= 10)
+        {
+            carry = 1;
+            p1->val %= 10;
+        }
+        ListNode*t = p1->next;
+        p1->next = newHead->next;
+        newHead->next = p1;
+        p1 = t;
+    }
+    if (carry > 0)
+    {
+        newHead->val = carry;
+        return newHead;
+    }
+    return newHead->next;
+}
+int main()
+{
+    ListNode*l1 = new ListNode(9);
+    ListNode*n2 = new ListNode(9);
+    ListNode*n3 = new ListNode(9);
+    ListNode*n4 = new ListNode(9);
+    ListNode*n5 = new ListNode(9);
+    l1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    n5->next = NULL;
+    ListNode*l2 = new ListNode(1);
+    l2->next = NULL;
+    ListNode * rlt = addTwoNumbers3(l1,l2);
+    return 0;
 }
