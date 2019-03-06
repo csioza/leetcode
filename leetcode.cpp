@@ -3930,7 +3930,7 @@ ListNode* addTwoNumbers3(ListNode* l1, ListNode* l2) {
     }
     return newHead->next;
 }
-int main()
+int main445()
 {
     ListNode*l1 = new ListNode(9);
     ListNode*n2 = new ListNode(9);
@@ -3945,5 +3945,65 @@ int main()
     ListNode*l2 = new ListNode(1);
     l2->next = NULL;
     ListNode * rlt = addTwoNumbers3(l1,l2);
+    return 0;
+}
+//725. ∑÷∏Ù¡¥±Ì
+vector<ListNode*> splitListToParts(ListNode* root, int k) {
+    vector<ListNode*> head;
+    vector<ListNode*> end;
+    head.resize(k);
+    end.resize(k);
+    for (int i = 0; i < k; i++)
+    {
+        head[i] = NULL;
+        end[i] = NULL;
+    }
+    if (root == NULL || k <= 0)
+        return head;
+    ListNode *p = root;
+    int len = 0;
+    while (p)
+    {
+        len++;
+        p = p->next;
+    }
+    int duan = len / k;
+    int yu   = len % k;
+    p = root;
+    for (int i = 0; i < k; i++)
+    {
+        for (int j = 0; j < duan; j++)
+        {
+            end[i] = p;
+            p = p->next;
+        }
+        if (i < yu)
+        {
+            end[i] = p;
+            p = p->next;
+        }
+    }
+    head[0] = root;
+    for (int i = 1; i < k; i++)
+    {
+        if (end[i - 1])
+        {
+            head[i] = end[i - 1]->next;
+            end[i - 1]->next = NULL;
+        }
+    }
+    return head;
+}
+int main725()
+{
+    ListNode*l1 = new ListNode(1);
+    ListNode*n2 = new ListNode(2);
+    ListNode*n3 = new ListNode(3);
+    ListNode*n4 = new ListNode(4);
+    l1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = NULL;
+    splitListToParts(l1,5);
     return 0;
 }
