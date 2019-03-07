@@ -4336,7 +4336,7 @@ int uniquePaths(int m, int n) {
     delete[] dp;
     return res;
 }
-int main()
+int main62()
 {
     int r = uniquePaths(3,2);
     return 0;
@@ -4400,4 +4400,51 @@ int minPathSum(vector<vector<int>>& grid) {
         }
     }
     return grid[n-1][m-1];
+}
+//91. 解码方法
+int numDecodings(string s) {//错误答案
+    int len = s.size();
+    if (len == 0 || s[0] == '0') 
+        return 0;
+    if (len == 1)
+        return 1;
+    int *res = new int[len];
+    res[0] = 1;
+    for (int i = 1; i < len; i++)
+    {
+        if (s[i] == '0')
+            return 0;
+        if (s[i - 1] == '1' || (s[i - 1] == '2' && s[i] <= '6'))
+        {
+            if (i == 1)
+                res[i] = 2;
+            else
+                res[i] = res[i - 2] * 2 + 1;
+        }
+        else
+        {
+            res[i] = res[i - 1];
+        }
+    }
+    return res[len - 1];
+}
+
+int numDecodings2(string s) {//网上
+    int cnt = 0;
+    if (s.size() == 0 || (s.size() == 1 && s[0] == '0')) return 0;
+    if (s.size() == 1) return 1;
+    vector<int> dp(s.size() + 1, 0);
+    dp[0] = 1;
+    for (int i = 0; i < s.size(); ++i) {
+        dp[i + 1] = s[i] == '0' ? 0 : dp[i];
+        if (i > 0 && (s[i - 1] == '1' || (s[i - 1] == '2' && s[i] <= '6'))) {
+            dp[i + 1] += dp[i - 1];
+        }
+    }
+    return dp.back();
+}
+int main()
+{
+    int s = numDecodings2("012");
+    return 0;
 }
