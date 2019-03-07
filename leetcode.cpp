@@ -4423,7 +4423,15 @@ int numDecodings(string s) {//´íÎó´ğ°¸
         }
         else
         {
-            res[i] = res[i - 1];
+            if (s[i] == '0')
+            {
+                res[i] = res[i - 2];
+            }
+            else
+            {
+
+                res[i] = res[i - 1];
+            }
         }
     }
     return res[len - 1];
