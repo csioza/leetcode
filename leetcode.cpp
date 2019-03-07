@@ -4008,8 +4008,113 @@ int main725()
     splitListToParts(l1,5);
     return 0;
 }
+//707. 设计链表
+class MyLinkedList {//错误答案
+    ListNode*head;
+    ListNode*end;
+    int cnt;
+public:
+    /** Initialize your data structure here. */
+    MyLinkedList() : head(NULL),end(NULL),cnt(0){
+
+    }
+    /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+    int get(int index) {
+        if (cnt <= index)
+            return -1;
+        ListNode*p = head;
+        while (p && index > 0)
+        {
+            index--;
+            p = p->next;
+        }
+        if (p)
+            return p->val;
+        return -1;
+    }
+    /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+    void addAtHead(int val) {
+        ListNode*t = new ListNode(val);
+        if (head == NULL)
+            end = t;
+        t->next = head;
+        head = t;
+        cnt++;
+    }
+    /** Append a node of value val to the last element of the linked list. */
+    void addAtTail(int val) {
+        ListNode*t = new ListNode(val);
+        t->next = NULL;
+        if (end == NULL)
+            head = t;
+        else
+            end->next = t;
+        end = t;
+        cnt++;
+    }
+    /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+    void addAtIndex(int index, int val) {
+        if (index < 0 || index > cnt)
+            return;
+        ListNode*p = head;
+        ListNode*t = new ListNode(val);
+        if (index == 0)
+        {
+            addAtHead(val);
+            return;
+        }
+        if (index == cnt)
+        {
+            addAtTail(val);
+            return;
+        }
+        while (p && index > 1)
+        {
+            index--;
+            p = p->next;
+        }
+        if (p)
+        {
+            t->next = p->next;
+            p->next = t;
+            cnt++;
+        }
+    }
+    /** Delete the index-th node in the linked list, if the index is valid. */
+    void deleteAtIndex(int index) {
+        if (index < 0 || index >= cnt)
+            return;
+        if (index == 0)
+        {
+            head = head->next;
+            cnt--;
+            return;
+        }
+        ListNode*p = head;
+        while (p && index > 1)
+        {
+            index--;
+            p = p->next;
+        }
+        if (p && p->next)
+        {
+            p->next = p->next->next;
+            cnt--;
+        }
+    }
+};
+int main707()
+{
+    MyLinkedList* linkedList = new MyLinkedList;
+    linkedList->addAtHead(1);
+    linkedList->addAtTail(3);
+    linkedList->addAtIndex(1, 2);   //链表变为1-> 2-> 3
+    linkedList->get(1);            //返回2
+    linkedList->deleteAtIndex(1);  //现在链表是1-> 3
+    linkedList->get(1);            //返回3
+}
 //94. 二叉树的中序遍历
-vector<int> inorderTraversal(TreeNode* root) {
+vector<int> inorderTraversal(TreeNode* root) {//经过参考inorderTraversal2，修改我原来的答案得出我的正确答案
     vector<int> rlt;
     stack<TreeNode*> s;
     if (root == NULL)
@@ -4019,18 +4124,26 @@ vector<int> inorderTraversal(TreeNode* root) {
     {
         TreeNode*t = s.top();
         if (t->left)
-        {
             s.push(t->left);
-            t->left = NULL;
-        }
         else
         {
             rlt.push_back(t->val);
             s.pop();
             if (t->right)
-            {
                 s.push(t->right);
-                t->right = NULL;
+            else
+            {
+                while (!s.empty())
+                {
+                    t = s.top();
+                    s.pop();
+                    rlt.push_back(t->val);
+                    if (t->right != NULL)
+                    {
+                        s.push(t->right);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -4055,4 +4168,69 @@ vector<int> inorderTraversal2(TreeNode* root) {//巧妙，网上找的
         }
     }
     return rlt;
+}
+vector<int> inorderTraversal3(TreeNode* root) {//参考inorderTraversal2写的
+    vector<int> rlt;
+    stack<TreeNode*> s;
+    s.push(root);
+    while (!s.empty())
+    {
+        root = s.top();
+        if (root)
+        {
+            while (root = root->left)
+                s.push(root);
+        }
+        else
+            s.pop();
+        if (!s.empty())
+        {
+            root = s.top();
+            s.pop();
+            rlt.push_back(root->val);
+            s.push(root->right);
+        }
+    }
+    return rlt;
+}
+int main94()
+{
+    TreeNode*root = new TreeNode(3);
+    TreeNode*n2 = new TreeNode(1);
+    TreeNode*n3 = new TreeNode(2);
+    root->left = n2;
+    root->right = n3;
+    vector<int> rlt = inorderTraversal(root);
+    return 0;
+}
+//144. 二叉树的前序遍历
+vector<int> preorderTraversal(TreeNode* root) {
+    vector<int> rlt;
+    stack<TreeNode*> s;
+    if (root == NULL)
+        return rlt;
+    s.push(root);
+    while (!s.empty())
+    {
+        TreeNode*t = s.top();
+        s.pop();
+        rlt.push_back(t->val);
+        if (t->right)
+            s.push(t->right);
+        if (t->left)
+            s.push(t->left);
+    }
+    return rlt;
+}
+int main144()
+{
+    TreeNode*root = new TreeNode(1);
+    TreeNode*n2 = new TreeNode(2);
+    TreeNode*n3 = new TreeNode(3);
+    root->left = NULL;
+    root->right = n2;
+    n2->left = n3;
+    n2->right = NULL;
+    vector<int> rlt = preorderTraversal(root);
+    return 0;
 }
