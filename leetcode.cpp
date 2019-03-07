@@ -4234,3 +4234,42 @@ int main144()
     vector<int> rlt = preorderTraversal(root);
     return 0;
 }
+//145. 二叉树的后序遍历
+vector<int> postorderTraversal(TreeNode* root) {
+    vector<int> rlt;
+    stack<TreeNode*> s;
+    if (root == NULL)
+        return rlt;
+    s.push(root);
+    TreeNode*lastPop = NULL;
+    while (!s.empty())
+    {
+        TreeNode*t = s.top();
+        if (lastPop && t->right == lastPop)
+        {
+            rlt.push_back(t->val);
+            lastPop = t;
+            s.pop();
+        }
+        else
+        {
+            if (!(lastPop && t->left == lastPop))
+            {
+                while (t->left)
+                {
+                    s.push(t->left);
+                    t = t->left;
+                }
+            }
+            if (t->right)
+                s.push(t->right);
+            else
+            {
+                rlt.push_back(t->val);
+                lastPop = t;
+                s.pop();
+            }
+        }
+    }
+    return rlt;
+}
