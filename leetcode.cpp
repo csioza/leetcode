@@ -4412,14 +4412,14 @@ int numDecodings(string s) {//错误答案
     res[0] = 1;
     for (int i = 1; i < len; i++)
     {
-        if (s[i] == '0')
+        if (s[i] == '0' && (s[i - 1] != '1' && s[i - 1] != '2'))
             return 0;
-        if (s[i - 1] == '1' || (s[i - 1] == '2' && s[i] <= '6'))
+        if (s[i] != '0' && (s[i - 1] == '1' || (s[i - 1] == '2' && s[i] <= '6')))
         {
             if (i == 1)
                 res[i] = 2;
             else
-                res[i] = res[i - 2] * 2 + 1;
+                res[i] = res[i - 2] + res[i - 1];
         }
         else
         {
@@ -4428,7 +4428,6 @@ int numDecodings(string s) {//错误答案
     }
     return res[len - 1];
 }
-
 int numDecodings2(string s) {//网上
     int cnt = 0;
     if (s.size() == 0 || (s.size() == 1 && s[0] == '0')) return 0;
@@ -4445,6 +4444,6 @@ int numDecodings2(string s) {//网上
 }
 int main()
 {
-    int s = numDecodings2("012");
+    int s = numDecodings("10");
     return 0;
 }
