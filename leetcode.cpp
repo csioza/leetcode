@@ -4112,6 +4112,7 @@ int main707()
     linkedList->get(1);            //返回2
     linkedList->deleteAtIndex(1);  //现在链表是1-> 3
     linkedList->get(1);            //返回3
+    return 0;
 }
 //94. 二叉树的中序遍历
 vector<int> inorderTraversal(TreeNode* root) {//经过参考inorderTraversal2，修改我原来的答案得出我的正确答案
@@ -4309,4 +4310,34 @@ string longestPalindrome2(string s)//网上找的
         }
     }
     return s.substr(start, longest);
+}
+//62. 不同路径
+int uniquePaths(int m, int n) {
+    if (m <= 0 || n <= 0)
+        return 0;
+    //vector<vector<int> > dp(n, vector<int>(m));
+    int* *dp = new int*[n];
+    for (int i = 0; i < n; i++)
+        dp[i] = new int[m];
+    dp[0][0] = 1;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (i > 0 && j > 0)
+                dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
+            else if (i > 0)
+                dp[i][j] = dp[i - 1][j];
+            else if (j > 0)
+                dp[i][j] = dp[i][j - 1];
+        }
+    }
+    int res = dp[n-1][m-1];
+    delete[] dp;
+    return res;
+}
+int main()
+{
+    int r = uniquePaths(3,2);
+    return 0;
 }
