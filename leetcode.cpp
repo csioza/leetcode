@@ -4639,7 +4639,7 @@ bool wordBreak3(string s, vector<string>& wordDict) {//ÍøÉÏÕÒµÄ
     }
     return dp[s.size()];
 }
-int main()
+int main139()
 {
     vector<string> wordDict;
     wordDict.push_back("aaaa");
