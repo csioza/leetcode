@@ -4555,3 +4555,24 @@ vector<TreeNode*> numTrees2(vector<int> n, int left, int right) {
     }
     return rlt;
 }
+//746. 使用最小花费爬楼梯
+int minCostClimbingStairs(vector<int>& cost) {
+    int len = cost.size();
+    if (len == 0)
+        return 0;
+    if (len == 1)
+        return cost[0];
+    int min = cost[0] > cost[1] ? cost[1] : cost[0];
+    if (len == 2)
+        return min;
+    vector<int> dp(len+1,0);
+    dp[0] = 0;
+    dp[1] = 0;
+    for (int i = 2; i <= len; i++)
+    {
+        int i2 = dp[i - 2] + cost[i - 2];
+        int i1 = dp[i - 1] + cost[i - 1];
+        dp[i] = i2 > i1 ? i1 : i2;
+    }
+    return dp[len];
+}
