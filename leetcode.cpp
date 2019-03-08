@@ -4402,7 +4402,7 @@ int minPathSum(vector<vector<int>>& grid) {
     return grid[n-1][m-1];
 }
 //91. 解码方法
-int numDecodings(string s) {//错误答案
+int numDecodings(string s) {//我的正确答案
     int len = s.size();
     if (len == 0 || s[0] == '0') 
         return 0;
@@ -4412,31 +4412,34 @@ int numDecodings(string s) {//错误答案
     res[0] = 1;
     for (int i = 1; i < len; i++)
     {
-        if (s[i] == '0' && (s[i - 1] != '1' && s[i - 1] != '2'))
-            return 0;
-        if (s[i] != '0' && (s[i - 1] == '1' || (s[i - 1] == '2' && s[i] <= '6')))
+        if (s[i] == '0')
         {
-            if (i == 1)
-                res[i] = 2;
+            if (s[i - 1] != '1' && s[i - 1] != '2')
+                return 0;
             else
-                res[i] = res[i - 2] + res[i - 1];
+            {
+                if (i > 1)
+                    res[i] = res[i-2];
+                else
+                    res[i] = 1;
+            }
         }
         else
         {
-            if (s[i] == '0')
+            if (s[i - 1] == '1' || (s[i - 1] == '2' && s[i] <= '6'))
             {
-                res[i] = res[i - 2];
+                if (i > 1)
+                    res[i] = res[i - 2] + res[i - 1];
+                else
+                    res[i] = 2;
             }
             else
-            {
-
                 res[i] = res[i - 1];
-            }
         }
     }
     return res[len - 1];
 }
-int numDecodings2(string s) {//网上
+int numDecodings2(string s) {//网上找的
     int cnt = 0;
     if (s.size() == 0 || (s.size() == 1 && s[0] == '0')) return 0;
     if (s.size() == 1) return 1;
@@ -4450,8 +4453,83 @@ int numDecodings2(string s) {//网上
     }
     return dp.back();
 }
-int main()
+int main91()
 {
     int s = numDecodings("10");
     return 0;
+}
+//120. 三角形最小路径和
+int minimumTotal(vector<vector<int>>& triangle) {
+    int h = triangle.size();
+    if (h <= 0)
+        return 0;
+    int w = triangle[h-1].size();
+    if (w <= 0)
+        return 0;
+    vector<int> dp(w, 0);
+    //int *dp = new int[w];
+    //memset(dp, 0, sizeof(dp));
+    int min = -1;
+    for (int i = 0; i < h; i++)
+    {
+        int len = triangle[i].size();
+        for (int j = len - 1; j >= 0; j--)
+        {
+            if (j > 0 && j < len - 1)
+            {
+                if (dp[j] > dp[j - 1])
+                    dp[j] = dp[j - 1] + triangle[i][j];
+                else
+                    dp[j] = dp[j] + triangle[i][j];
+            }
+            else if (j == 0)
+                dp[j] = dp[j] + triangle[i][j];
+            else
+                dp[j] = dp[j - 1] + triangle[i][j];
+            //
+            if (j == len - 1)
+                min = dp[j];
+            else if (min > dp[j])
+                min = dp[j];
+        }
+    }
+    return min;
+}
+int main120()
+{
+    vector<vector<int>> triangle;
+    vector<int> h1;
+    h1.push_back(2);
+    vector<int> h2;
+    h2.push_back(3);
+    h2.push_back(4);
+    vector<int> h3;
+    h3.push_back(6);
+    h3.push_back(5);
+    h3.push_back(7);
+    vector<int> h4;
+    h4.push_back(4);
+    h4.push_back(1);
+    h4.push_back(8);
+    h4.push_back(3);
+    triangle.push_back(h1);
+    triangle.push_back(h2);
+    triangle.push_back(h3);
+    triangle.push_back(h4);
+    int s = minimumTotal(triangle);
+    return 0;
+}
+//96. 不同的二叉搜索树
+int numTrees(int n) {
+
+}
+TreeNode* numTrees(int n[], int left, int right) {
+    if (left >= right)
+        return NULL;
+    for (int i = left; i <= right; i++)
+    {
+
+        numTrees(n, left, i - 1);
+        numTrees(n, i + 1, right);
+    }
 }
