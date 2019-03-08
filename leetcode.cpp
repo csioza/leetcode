@@ -4519,17 +4519,39 @@ int main120()
     int s = minimumTotal(triangle);
     return 0;
 }
-//96. 不同的二叉搜索树
-int numTrees(int n) {
-
+//95. 不同的二叉搜索树 II
+vector<TreeNode*> generateTrees(int n) {
+    if (n <= 0)
+    {
+        vector<TreeNode*> r;
+        return r;
+    }
+    vector<int> nums;
+    for (int i = 1; i <= n; i++)
+        nums.push_back(i);
+    return numTrees2(nums, 0, n - 1);
 }
-TreeNode* numTrees(int n[], int left, int right) {
-    if (left >= right)
-        return NULL;
+vector<TreeNode*> numTrees2(vector<int> n, int left, int right) {
+    vector<TreeNode*> rlt;
+    if (left > right)
+    {
+        rlt.push_back(NULL);
+        return rlt;
+    }
     for (int i = left; i <= right; i++)
     {
-
-        numTrees(n, left, i - 1);
-        numTrees(n, i + 1, right);
+        vector<TreeNode*> vleft = numTrees2(n, left, i - 1);
+        vector<TreeNode*> vright = numTrees2(n, i + 1, right);
+        for (int m = 0; m < vleft.size(); m++)
+        {
+            for (int k = 0; k < vright.size(); k++)
+            {
+                TreeNode*node = new TreeNode(n[i]);
+                node->left = vleft[m];
+                node->right = vright[k];
+                rlt.push_back(node);
+            }
+        }
     }
+    return rlt;
 }
