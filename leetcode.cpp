@@ -4647,3 +4647,33 @@ int main139()
     bool t = wordBreak2("aaaaaaa", wordDict);
     return 0;
 }
+//152. 乘积最大子序列
+int maxProduct(vector<int>& nums) {//网上找的
+    int len = nums.size();
+    if (len == 0)
+        return 0;
+    if (len == 1)
+        return nums[0];
+    int max  = nums[0];
+    int imax = nums[0];
+    int imin = nums[0];
+    for (int i = 1; i < len; i++)
+    {
+        if (nums[i] < 0)
+        {
+            int t = imin;
+            imin = imax;
+            imax = t;
+        }
+        int x = imax * nums[i];
+        int y = imin * nums[i];
+        imax = x > nums[i] ? x : nums[i];
+        imin = y < nums[i] ? y : nums[i];
+
+        if (imax > max)
+        {
+            max = imax;
+        }
+    }
+    return max;
+} 
