@@ -4520,17 +4520,6 @@ int main120()
     return 0;
 }
 //95. 不同的二叉搜索树 II
-vector<TreeNode*> generateTrees(int n) {
-    if (n <= 0)
-    {
-        vector<TreeNode*> r;
-        return r;
-    }
-    vector<int> nums;
-    for (int i = 1; i <= n; i++)
-        nums.push_back(i);
-    return numTrees2(nums, 0, n - 1);
-}
 vector<TreeNode*> numTrees2(vector<int> n, int left, int right) {
     vector<TreeNode*> rlt;
     if (left > right)
@@ -4555,6 +4544,17 @@ vector<TreeNode*> numTrees2(vector<int> n, int left, int right) {
     }
     return rlt;
 }
+vector<TreeNode*> generateTrees(int n) {
+    if (n <= 0)
+    {
+        vector<TreeNode*> r;
+        return r;
+    }
+    vector<int> nums;
+    for (int i = 1; i <= n; i++)
+        nums.push_back(i);
+    return numTrees2(nums, 0, n - 1);
+}
 //746. 使用最小花费爬楼梯
 int minCostClimbingStairs(vector<int>& cost) {
     int len = cost.size();
@@ -4575,4 +4575,75 @@ int minCostClimbingStairs(vector<int>& cost) {
         dp[i] = i2 > i1 ? i1 : i2;
     }
     return dp[len];
+}
+//139. 单词拆分
+#include <unordered_set>
+bool wordBreak(string s, vector<string>& wordDict) {//错误答案"aaaaaaa" ["aaaa", "aaa"]
+    unordered_set<string> m(wordDict.begin(), wordDict.end());
+    //获取最长字符串长度
+    int maxWordLength = 0;
+    for (int i = 0; i < wordDict.size(); ++i) {
+        int len = wordDict[i].size();
+        if (maxWordLength == 0 || maxWordLength < len)
+            maxWordLength = len;
+    }
+    for (int i = 0; i < s.size(); ) {
+        int j = 1;
+        for (; j <= maxWordLength; ++j) {
+            if (m.find(s.substr(i, j)) != m.end()) {
+                i += j;
+                break;
+            }
+        }
+        if (j > maxWordLength)
+            return false;
+    }
+    return true;
+}
+bool wordBreak2(string s, vector<string>& wordDict) {//我的正确答案
+    vector<bool> dp(s.size(), false);
+    unordered_set<string> m(wordDict.begin(), wordDict.end());
+    //获取最长字符串长度
+    int maxWordLength = 0;
+    for (int i = 0; i < wordDict.size(); ++i) {
+        int len = wordDict[i].size();
+        if (maxWordLength == 0 || maxWordLength < len)
+            maxWordLength = len;
+    }
+    for (int i = 0; i < s.size(); ++i) {
+        for (int j = 1; j <= maxWordLength && i+j-1 < s.size(); ++j) {
+            if ((i == 0 || dp[i-1]) && m.find(s.substr(i, j)) != m.end()) {
+                dp[i+j-1] = true;
+            }
+        }
+    }
+    return dp[s.size()-1];
+}
+bool wordBreak3(string s, vector<string>& wordDict) {//网上找的
+    vector<bool> dp(s.size() + 1, false);
+    unordered_set<string> m(wordDict.begin(), wordDict.end());
+    dp[0] = true;
+    //获取最长字符串长度
+    int maxWordLength = 0;
+    for (int i = 0; i < wordDict.size(); ++i) {
+        if (maxWordLength < wordDict[i].size())
+            maxWordLength = wordDict[i].size();
+    }
+    for (int i = 1; i <= s.size(); ++i) {
+        for (int j = std::max(i - maxWordLength, 0); j < i; ++j) {
+            if (dp[j] && m.find(s.substr(j, i - j)) != m.end()) {
+                dp[i] = true;
+                break;
+            }
+        }
+    }
+    return dp[s.size()];
+}
+int main()
+{
+    vector<string> wordDict;
+    wordDict.push_back("aaaa");
+    wordDict.push_back("aaa");
+    bool t = wordBreak2("aaaaaaa", wordDict);
+    return 0;
 }
