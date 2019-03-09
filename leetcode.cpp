@@ -6,6 +6,7 @@
 using namespace std;
 #include <time.h>
 #include <sstream>
+#include <algorithm>
 
 //1. 两数之和
 vector<int> twoSum1(vector<int>& nums, int target) {
@@ -4737,4 +4738,39 @@ int rob4(TreeNode* root,int &fmax) {//fmax不打劫root的最大值，返回打劫root的最大
     int max = root->val + fmaxL + fmaxR;
     max = max > fmax ? max : fmax;
     return max;
+}
+//221. 最大正方形
+int maximalSquare(vector<vector<char>>& matrix) {//网上找的
+    if (matrix.empty() || matrix[0].empty()) return 0;
+    int m = matrix.size(), n = matrix[0].size(), res = 0;
+    vector<vector<int>> dp(m, vector<int>(n, 0));
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (i == 0 || j == 0) dp[i][j] = matrix[i][j] - '0';
+            else if (matrix[i][j] == '1') {
+                dp[i][j] = min(dp[i - 1][j - 1], min(dp[i][j - 1], dp[i - 1][j])) + 1;
+            }
+            res = max(res, dp[i][j]);
+        }
+    }
+    return res * res;
+}
+int maximalSquare(vector<vector<char>>& matrix) {//网上找的
+    if (matrix.empty() || matrix[0].empty()) return 0;
+    int m = matrix.size(), n = matrix[0].size(), res = 0, pre = 0;
+    vector<int> dp(m + 1, 0);
+    for (int j = 0; j < n; ++j) {
+        for (int i = 1; i <= m; ++i) {
+            int t = dp[i];
+            if (matrix[i - 1][j] == '1') {
+                dp[i] = min(dp[i], min(dp[i - 1], pre)) + 1;
+                res = max(res, dp[i]);
+            }
+            else {
+                dp[i] = 0;
+            }
+            pre = t;
+        }
+    }
+    return res * res;
 }
