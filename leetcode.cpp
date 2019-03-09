@@ -4857,3 +4857,24 @@ int lengthOfLIS(vector<int>& nums) {//网上找的
     }
     return res.size();
 }
+//303. 区域和检索 - 数组不可变
+class NumArray {
+public:
+    vector<int> dp;
+    NumArray(vector<int> nums) {
+        int sum = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            sum += nums[i];
+            dp.push_back(sum);
+        }
+    }
+    int sumRange(int i, int j) {
+        if (i > j || i < 0 || j > dp.size() - 1)
+            return 0;
+        if (i > 0)
+            return dp[j] - dp[i - 1];
+        else
+            return dp[j];
+    }
+};
