@@ -4774,3 +4774,62 @@ int maximalSquare(vector<vector<char>>& matrix) {//网上找的
     }
     return res * res;
 }
+//264. 丑数 II
+int nthUglyNumber(int n) {//我的正确答案
+    if (n <= 0 || n > 1690)
+        return 0;
+    vector<int> dp(n,0);
+    int i2 = 0;
+    int i3 = 0;
+    int i5 = 0;
+    dp[0] = 1;
+    for (int i = 1; i < n; i++)
+    {
+        for (; i2 < i; i2++)
+        {
+            int max = 2 * dp[i2];
+            if (max > dp[i - 1])
+            {
+                dp[i] = max;
+                break;
+            }
+        }
+        for (; i3 < i; i3++)
+        {
+            int max = 3 * dp[i3];
+            if (max > dp[i - 1])
+            {
+                dp[i] = min(max, dp[i]);
+                break;
+            }
+        }
+        for (; i5 < i; i5++)
+        {
+            int max = 5 * dp[i5];
+            if (max > dp[i - 1])
+            {
+                dp[i] = min(max, dp[i]);
+                break;
+            }
+        }
+    }
+    return dp[n-1];
+}
+int nthUglyNumber2(int n) {//网上找的
+    vector<int> ugly(n, 1), idx(3, 0);
+    for (int i = 1; i < n; ++i) {
+        int a = ugly[idx[0]] * 2, b = ugly[idx[1]] * 3, c = ugly[idx[2]] * 5;
+        int next = std::min(a, std::min(b, c));
+        if (next == a) {
+            ++idx[0];
+        }
+        if (next == b) {
+            ++idx[1];
+        }
+        if (next == c) {
+            ++idx[2];
+        }
+        ugly[i] = next;
+    }
+    return ugly.back();
+}
