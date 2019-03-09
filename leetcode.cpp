@@ -4721,11 +4721,6 @@ int rob2(vector<int>& nums) {
     return max1 > max2 ? max1 : max2;
 }
 //337. 打家劫舍 III
-int rob3(TreeNode* root) {//自己做出来的
-    int fmax = 0;
-    int max = rob4(root,fmax);
-    return max;
-}
 int rob4(TreeNode* root,int &fmax) {//fmax不打劫root的最大值，返回打劫root的最大值
     if (root == NULL)
     {
@@ -4737,6 +4732,11 @@ int rob4(TreeNode* root,int &fmax) {//fmax不打劫root的最大值，返回打劫root的最大
     fmax = rob4(root->left, fmaxL) + rob4(root->right,fmaxR);
     int max = root->val + fmaxL + fmaxR;
     max = max > fmax ? max : fmax;
+    return max;
+}
+int rob3(TreeNode* root) {//自己做出来的
+    int fmax = 0;
+    int max = rob4(root, fmax);
     return max;
 }
 //221. 最大正方形
@@ -4755,7 +4755,7 @@ int maximalSquare(vector<vector<char>>& matrix) {//网上找的
     }
     return res * res;
 }
-int maximalSquare(vector<vector<char>>& matrix) {//网上找的
+int maximalSquare2(vector<vector<char>>& matrix) {//网上找的
     if (matrix.empty() || matrix[0].empty()) return 0;
     int m = matrix.size(), n = matrix[0].size(), res = 0, pre = 0;
     vector<int> dp(m + 1, 0);
@@ -4844,6 +4844,16 @@ int numSquares(int n) {//网上找的
     return dp[n];
 }
 //300. 最长上升子序列
-int lengthOfLIS(vector<int>& nums) {
-
+int lengthOfLIS(vector<int>& nums) {//网上找的
+    vector<int> res;
+    for (int i = 0; i < nums.size(); ++i) {
+        auto iter = std::lower_bound(res.begin(), res.end(), nums[i]);
+        if (iter == res.end()) {
+            res.push_back(nums[i]);
+        }
+        else {
+            *iter = nums[i]; // update
+        }
+    }
+    return res.size();
 }
