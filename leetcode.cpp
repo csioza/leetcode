@@ -4677,6 +4677,9 @@ int maxProduct(vector<int>& nums) {//网上找的
     }
     return max;
 } 
+
+//2019.03.09
+
 //198. 打家劫舍
 int rob(vector<int>& nums) {
     int len = nums.size();
@@ -4693,4 +4696,45 @@ int rob(vector<int>& nums) {
         dp[i] = max > dp[i - 1] ? max : dp[i - 1];
     }
     return dp[len-1];
+}
+//213. 打家劫舍 II
+int rob2(vector<int>& nums) {
+    int len = nums.size();
+    if (len == 0)
+        return 0;
+    if (len == 1)
+        return nums[0];
+    if (len == 2)
+        return nums[0] > nums[1] ? nums[0] : nums[1];
+    vector<int> num1;
+    vector<int> num2;
+    for (int i = 0; i < len; i++)
+    {
+        if (i < len - 1)
+            num1.push_back(nums[i]);
+        if (i > 0)
+            num2.push_back(nums[i]);
+    }
+    int max1 = rob(num1);
+    int max2 = rob(num2);
+    return max1 > max2 ? max1 : max2;
+}
+//337. 打家劫舍 III
+int rob3(TreeNode* root) {//自己做出来的
+    int fmax = 0;
+    int max = rob4(root,fmax);
+    return max;
+}
+int rob4(TreeNode* root,int &fmax) {//fmax不打劫root的最大值，返回打劫root的最大值
+    if (root == NULL)
+    {
+        fmax = 0;
+        return 0;
+    }
+    int fmaxL = 0;
+    int fmaxR = 0;
+    fmax = rob4(root->left, fmaxL) + rob4(root->right,fmaxR);
+    int max = root->val + fmaxL + fmaxR;
+    max = max > fmax ? max : fmax;
+    return max;
 }
