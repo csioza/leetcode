@@ -4619,26 +4619,26 @@ bool wordBreak2(string s, vector<string>& wordDict) {//我的正确答案
     }
     return dp[s.size()-1];
 }
-bool wordBreak3(string s, vector<string>& wordDict) {//网上找的
-    vector<bool> dp(s.size() + 1, false);
-    unordered_set<string> m(wordDict.begin(), wordDict.end());
-    dp[0] = true;
-    //获取最长字符串长度
-    int maxWordLength = 0;
-    for (int i = 0; i < wordDict.size(); ++i) {
-        if (maxWordLength < wordDict[i].size())
-            maxWordLength = wordDict[i].size();
-    }
-    for (int i = 1; i <= s.size(); ++i) {
-        for (int j = std::max(i - maxWordLength, 0); j < i; ++j) {
-            if (dp[j] && m.find(s.substr(j, i - j)) != m.end()) {
-                dp[i] = true;
-                break;
-            }
-        }
-    }
-    return dp[s.size()];
-}
+//bool wordBreak3(string s, vector<string>& wordDict) {//网上找的
+//    vector<bool> dp(s.size() + 1, false);
+//    unordered_set<string> m(wordDict.begin(), wordDict.end());
+//    dp[0] = true;
+//    //获取最长字符串长度
+//    int maxWordLength = 0;
+//    for (int i = 0; i < wordDict.size(); ++i) {
+//        if (maxWordLength < wordDict[i].size())
+//            maxWordLength = wordDict[i].size();
+//    }
+//    for (int i = 1; i <= s.size(); ++i) {
+//        for (int j = std::max(i - maxWordLength, 0); j < i; ++j) {
+//            if (dp[j] && m.find(s.substr(j, i - j)) != m.end()) {
+//                dp[i] = true;
+//                break;
+//            }
+//        }
+//    }
+//    return dp[s.size()];
+//}
 int main139()
 {
     vector<string> wordDict;
@@ -4677,3 +4677,20 @@ int maxProduct(vector<int>& nums) {//网上找的
     }
     return max;
 } 
+//198. 打家劫舍
+int rob(vector<int>& nums) {
+    int len = nums.size();
+    if (len == 0)
+        return 0;
+    if (len == 1)
+        return nums[0];
+    vector<int> dp(len,0);
+    dp[0] = nums[0];
+    dp[1] = nums[0] > nums[1] ? nums[0] : nums[1];
+    for (int i = 2; i < len; i++)
+    {
+        int max = dp[i - 2] + nums[i];
+        dp[i] = max > dp[i - 1] ? max : dp[i - 1];
+    }
+    return dp[len-1];
+}
