@@ -5031,3 +5031,38 @@ vector<vector<int>> levelOrder(TreeNode* root) {
     }
     return rlt;
 }
+//105. 从前序与中序遍历序列构造二叉树
+TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    if (preorder.size() != inorder.size() || preorder.size() == 0)
+        return NULL;
+    TreeNode*root = new TreeNode(preorder[0]);
+    if (preorder.size() == 1)
+        return root;
+    vector<int> preorder1, preorder2;
+    vector<int> inorder1, inorder2;
+    bool isFind = false;
+    for (int i = 0,j = 1; i < inorder.size();++i,++j)
+    {
+        if (root->val == inorder[i])
+        {
+            isFind = true;
+            ++i;
+        }
+        if (!isFind)
+        {
+            preorder1.push_back(preorder[j]);
+            inorder1.push_back(inorder[i]);
+        }
+        else
+        {
+            if (i < inorder.size())
+            {
+                preorder2.push_back(preorder[j]);
+                inorder2.push_back(inorder[i]);
+            }
+        }
+    }
+    root->left = buildTree(preorder1, inorder1);
+    root->right = buildTree(preorder2, inorder2);
+    return root;
+}
