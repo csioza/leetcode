@@ -5066,3 +5066,39 @@ TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
     root->right = buildTree(preorder2, inorder2);
     return root;
 }
+//106. 从中序与后序遍历序列构造二叉树
+TreeNode* buildTree2(vector<int>& inorder, vector<int>& postorder) {
+    if (postorder.size() != inorder.size() || inorder.size() == 0)
+        return NULL;
+    int len = postorder.size();
+    TreeNode*root = new TreeNode(postorder[len-1]);
+    if (len == 1)
+        return root;
+    vector<int> postorder1, postorder2;
+    vector<int> inorder1, inorder2;
+    bool isFind = false;
+    for (int i = 0, j = 0; i < inorder.size(); ++i, ++j)
+    {
+        if (root->val == inorder[i])
+        {
+            isFind = true;
+            ++i;
+        }
+        if (!isFind)
+        {
+            postorder1.push_back(postorder[j]);
+            inorder1.push_back(inorder[i]);
+        }
+        else
+        {
+            if (i < inorder.size())
+            {
+                postorder2.push_back(postorder[j]);
+                inorder2.push_back(inorder[i]);
+            }
+        }
+    }
+    root->left = buildTree2(inorder1, postorder1);
+    root->right = buildTree2(inorder2, postorder2);
+    return root;
+}
