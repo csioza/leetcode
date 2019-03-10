@@ -4935,3 +4935,65 @@ int maxProfit(vector<int>& prices) {//网上找的
     }
     return sell;
 }
+//98. 验证二叉搜索树
+bool isValidBST2(TreeNode* root, int &min, int &max) {
+    if (root == NULL)
+        return true;
+    int lmin, lmax;
+    if (root->left && root->right)
+    {
+        if (root->val > root->right->val || root->val < root->left->val)
+            return false;
+        bool l = isValidBST2(root->left, lmin, lmax);
+        if (!l || root->val <= lmax)
+            return false;
+        min = lmin;
+        bool r = isValidBST2(root->right, lmin, lmax);
+        if (!r || root->val >= lmin)
+            return false;
+        max = lmax;
+    }
+    else if (root->left)
+    {
+        if (root->val < root->left->val)
+            return false;
+        bool l = isValidBST2(root->left, lmin, lmax);
+        if (!l || root->val <= lmax)
+            return false;
+        min = lmin;
+        max = root->val;
+    }
+    else if (root->right)
+    {
+        if (root->val > root->right->val)
+            return false;
+        bool r = isValidBST2(root->right, lmin, lmax);
+        if (!r || root->val >= lmin)
+            return false;
+        max = lmax;
+        min = root->val;
+    }
+    else
+    {
+        min = root->val;
+        max = root->val;
+    }
+    return true;
+}
+bool isValidBST3(TreeNode* root) {
+    int lmin, lmax;
+    return isValidBST2(root, lmin, lmax);
+}
+int last = INT_MIN;
+bool isValidBST(TreeNode* root) {//网上找的，通不过测试，但是提供了一种思想
+    if (root == NULL) {
+        return true;
+    }
+    if (isValidBST(root->left)) {
+        if (last < root->val) {
+            last = root->val;
+            return isValidBST(root->right);
+        }
+    }
+    return false;
+}
