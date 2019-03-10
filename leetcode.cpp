@@ -4878,3 +4878,49 @@ public:
             return dp[j];
     }
 };
+
+//2019.03.10
+
+//304. 二维区域和检索 - 矩阵不可变
+class NumMatrix {
+public:
+    vector<vector<int>> dp;
+    int mm;
+    int nn;
+    NumMatrix(vector<vector<int>> matrix) {
+        nn = matrix.size();
+        if (nn > 0)
+        {
+            mm = matrix[0].size();
+            for (int i = 0; i < nn; i++)
+            {
+                vector<int> t(mm,0);
+                int sum = 0;
+                for (int j = 0; j < mm; j++)
+                {
+                    sum += matrix[i][j];
+                    t[j] = sum;
+                    if (i > 0)
+                        t[j] += dp[i - 1][j];
+                }
+                dp.push_back(t);
+            }
+        }
+    }
+    int sumRegion(int row1, int col1, int row2, int col2) {
+        if (row1 <= row2 && col1 <= col2 
+            && row1 >= 0 && col1 >= 0
+            && row2 < nn && col2 < mm)
+        {
+            if (row1 == 0 && col1 == 0)
+                return dp[row2][col2];
+            else if (row1 == 0)
+                return dp[row2][col2] - dp[row2][col1-1];
+            else if (col1 == 0)
+                return dp[row2][col2] - dp[row1-1][col2];
+            else
+                return dp[row2][col2] + dp[row1-1][col1-1] - dp[row1-1][col2] - dp[row2][col1-1];
+        }
+        return 0;
+    }
+};
