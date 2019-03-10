@@ -4997,3 +4997,37 @@ bool isValidBST(TreeNode* root) {//网上找的，通不过测试，但是提供了一种思想
     }
     return false;
 }
+//102. 二叉树的层次遍历
+vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> rlt;
+    vector<TreeNode*> rr;
+    if (root == NULL)
+        return rlt;
+    vector<int> t;
+    t.push_back(root->val);
+    rlt.push_back(t);
+    rr.push_back(root);
+    for (int i = 0; i < rr.size(); /*++i*/)
+    {
+        vector<int> row;
+        int len = rr.size();
+        for (; i < len; ++i)
+        {
+            if (rr[i]->left)
+            {
+                rr.push_back(rr[i]->left);
+                row.push_back(rr[i]->left->val);
+            }
+            if (rr[i]->right)
+            {
+                rr.push_back(rr[i]->right);
+                row.push_back(rr[i]->right->val);
+            }
+        }
+        if (row.size() > 0)
+        {
+            rlt.push_back(row);
+        }
+    }
+    return rlt;
+}
