@@ -5400,3 +5400,49 @@ Node* connect(Node* root) {
     }
     return root;
 }
+//117. 填充每个节点的下一个右侧节点指针 II
+Node* connect2(Node* root) {
+    if (root == NULL)
+        return NULL;
+    Node* head = root;
+    head->next = NULL;
+    while (head)
+    {
+        Node* p = head;
+        head = NULL;
+        Node* newP = NULL;
+        while (p)
+        {
+            if (p->left)
+            {
+                if (!newP)
+                {
+                    head = p->left;
+                    newP = p->left;
+                }
+                else
+                {
+                    newP->next = p->left;
+                    newP = newP->next;
+                }
+            }
+            if (p->right)
+            {
+                if (!newP)
+                {
+                    head = p->right;
+                    newP = p->right;
+                }
+                else
+                {
+                    newP->next = p->right;
+                    newP = newP->next;
+                }
+            }
+            p = p->next;
+        }
+        if (newP && newP->next)
+            newP->next = NULL;
+    }
+    return root;
+}
