@@ -5349,3 +5349,54 @@ vector<int> findMode(TreeNode* root) {
     }
     return res;
 }
+//116. 填充每个节点的下一个右侧节点指针
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+    Node() {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+Node* connect(Node* root) {
+    if (root == NULL)
+        return NULL;
+    Node* head = root;
+    head->next = NULL;
+    while (head)
+    {
+        Node* p = head;
+        head = NULL;
+        Node* newP = NULL;
+        while (p)
+        {
+            if (p->left && p->right)
+            {
+                if (!newP)
+                {
+                    head = p->left;
+                    newP = p->left;
+                }
+                else
+                {
+                    newP->next = p->left;
+                    newP = newP->next;
+                }
+                newP->next = p->right;
+                newP = newP->next;
+            }
+            else
+                return root;
+            p = p->next;
+        }
+        newP->next = NULL;
+    }
+    return root;
+}
