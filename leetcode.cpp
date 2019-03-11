@@ -5257,3 +5257,7 @@ TreeNode* flatten3(TreeNode* root) {//我的正确答案
 void flatten4(TreeNode* root) {
     flatten3(root);
 }
+//501. 二叉搜索树中的众数
+vector<int> findMode(TreeNode* root) {
+
+}
