@@ -5135,3 +5135,87 @@ vector<vector<int>> pathSum5(TreeNode* root, int sum) {
     }
     return rlt;
 }
+//114. 二叉树展开为链表
+ListNode* flatten2(ListNode* &head, TreeNode* root) {//题意理解错了
+    if (root == NULL)
+        return NULL;
+    ListNode* node = new ListNode(root->val);
+    head->next = node;
+    ListNode* left = flatten2(node, root->left);
+    if (left)
+    {
+        ListNode* right = flatten2(left, root->right);
+        if (right)
+            return right;
+        else
+            return left;
+    }
+    else
+    {
+        ListNode* right = flatten2(node, root->right);
+        if (right)
+            return right;
+        else
+            return node;
+    }
+}
+ListNode* flatten(TreeNode* root) {//题意理解错了
+    if (root == NULL)
+        return;
+    ListNode* node = new ListNode(root->val);
+    flatten2(node,root);
+    return node;
+}
+TreeNode* flatten5(TreeNode* root) {//我的错误答案
+    if (root == NULL)
+        return NULL;
+    TreeNode* leftEnd = flatten3(root->left);
+    if (leftEnd)
+    {
+        if (root->right)
+        {
+            TreeNode* right = root->right;
+            root->right = root->left;
+            root->left = NULL;
+            leftEnd->right = right;
+            TreeNode* rightEnd = flatten3(right);
+            return rightEnd ? rightEnd : right;
+        }
+        return leftEnd;
+    }
+    if (root->right)
+    {
+        TreeNode* rightEnd = flatten3(root->right);
+        if (rightEnd)
+            return rightEnd;
+    }
+    return root;
+}
+TreeNode* flatten3(TreeNode* root) {//我的正确答案
+    if (root == NULL)
+        return NULL;
+    if (root->left && root->right)
+    {
+        TreeNode* right = root->right;
+        root->right = root->left;
+        root->left = NULL;
+        TreeNode* leftEnd = flatten3(root->right);
+        if (leftEnd)
+        {
+            leftEnd->right = right;
+            TreeNode* rightEnd = flatten3(right);
+            return rightEnd ? rightEnd : right;
+        }
+        return root->right;
+    }
+    else if (root->left)
+    {
+        root->right = root->left;
+        root->left = NULL;
+        return flatten3(root->right);
+    }
+    return root->right ? flatten3(root->right) : root;
+}
+void flatten4(TreeNode* root) {
+    flatten3(root);
+}
