@@ -5303,16 +5303,20 @@ void findMode3(TreeNode* root, vector<int> &res) {//这个思路有点笨,过了
                 {
                     res[len - 3] = res[len - 2];
                     res[len - 2] = res[len - 1];
-                    res.pop_back();
+                    res[len - 1] = root->val;
+                    res.push_back(1);
                 }
                 else
                 {
-                    res.pop_back();
-                    res.pop_back();
+                    res[len - 2] = root->val;
+                    res[len - 1] = 1;
                 }
             }
-            res.push_back(root->val);
-            res.push_back(1);
+            else
+            {
+                res.push_back(root->val);
+                res.push_back(1);
+            }
         }
     }
     findMode3(root->right, res);
