@@ -5102,3 +5102,36 @@ TreeNode* buildTree2(vector<int>& inorder, vector<int>& postorder) {
     root->right = buildTree2(inorder2, postorder2);
     return root;
 }
+
+//2019.03.11
+
+//113. Â·¾¶×ÜºÍ II
+vector<vector<int>> pathSum5(TreeNode* root, int sum) {
+    vector<vector<int>> rlt;
+    if (root == NULL)
+        return rlt;
+    if (root->left == NULL && root->right == NULL)
+    {
+        if (root->val == sum)
+        {
+            vector<int> a(1, root->val);
+            rlt.push_back(a);
+        }
+        return rlt;
+    }
+    vector<vector<int>> rltLeft = pathSum5(root->left, sum - root->val);
+    vector<vector<int>> rltRight = pathSum5(root->right, sum - root->val);
+    for (int i = 0; i < rltLeft.size(); ++i)
+    {
+        vector<int>::iterator iter = rltLeft[i].begin();
+        rltLeft[i].insert(iter,root->val);
+        rlt.push_back(rltLeft[i]);
+    }
+    for (int i = 0; i < rltRight.size(); ++i)
+    {
+        vector<int>::iterator iter = rltRight[i].begin();
+        rltRight[i].insert(iter, root->val);
+        rlt.push_back(rltRight[i]);
+    }
+    return rlt;
+}
