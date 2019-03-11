@@ -5258,6 +5258,90 @@ void flatten4(TreeNode* root) {
     flatten3(root);
 }
 //501. 二叉搜索树中的众数
+vector<int> findMode2(TreeNode* root) {//这个思路有点笨
+    vector<int> res;
+    if (root == NULL)
+        return res;
+    if (root->left == NULL && root->right == NULL)
+    {
+        res.push_back(root->val);
+        res.push_back(1);
+        return res;
+    }
+    if (root->left && root->right)
+    {
+        vector<int> res1 = findMode2(root->left);
+        vector<int> res2 = findMode2(root->right);
+        int leftLen      = res1.size();
+        int rightLen     = res2.size();
+        if (root->val == root->left->val && root->val == root->right->val)
+        {
+
+        }
+        else if (root->val == root->left->val)
+        {
+
+        }
+        else if (root->val == root->right->val)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+    if (root->left)
+    {
+        vector<int> res1 = findMode2(root->left);
+    }
+    if (root->right)
+    {
+        vector<int> res2 = findMode2(root->right);
+    }
+    return res;
+}
+
+void findMode3(TreeNode* root, vector<int> &res) {
+    if (root == NULL)
+        return;
+    findMode3(root->left, res);
+    int len = res.size();
+    if (len == 0)
+    {
+        res.push_back(root->val);
+        res.push_back(1);
+    }
+    else
+    {
+        if (root->val == res[len-2])
+        {
+            res[len - 1]++;
+            if (len > 2)
+            {
+                if (res[len-3] == res[len-1])
+                {
+                    res[len - 3] = res[len - 2];
+                    res[len - 2] = res[len - 1];
+                    res.pop_back();
+                }
+                else if (res[len - 3] < res[len - 1])
+                {
+                    int max = res[len-1];
+                    res.clear();
+                    res.push_back(root->val);
+                    res.push_back(1);
+                }
+            }
+        }
+        else
+        {
+            res.push_back(root->val);
+            res.push_back(1);
+        }
+    }
+    findMode3(root->right, res);
+}
 vector<int> findMode(TreeNode* root) {
 
 }
