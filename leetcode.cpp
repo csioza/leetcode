@@ -5258,74 +5258,33 @@ void flatten4(TreeNode* root) {
     flatten3(root);
 }
 //501. 二叉搜索树中的众数
-vector<int> findMode2(TreeNode* root) {//这个思路有点笨
-    vector<int> res;
+void findMode3(TreeNode* root, vector<int> &res) {//这个思路有点笨,过了
     if (root == NULL)
-        return res;
-    if (root->left == NULL && root->right == NULL)
-    {
-        res.push_back(root->val);
-        res.push_back(1);
-        return res;
-    }
-    if (root->left && root->right)
-    {
-        vector<int> res1 = findMode2(root->left);
-        vector<int> res2 = findMode2(root->right);
-        int leftLen      = res1.size();
-        int rightLen     = res2.size();
-        if (root->val == root->left->val && root->val == root->right->val)
-        {
-
-        }
-        else if (root->val == root->left->val)
-        {
-
-        }
-        else if (root->val == root->right->val)
-        {
-
-        }
-        else
-        {
-
-        }
-    }
-    if (root->left)
-    {
-        vector<int> res1 = findMode2(root->left);
-    }
-    if (root->right)
-    {
-        vector<int> res2 = findMode2(root->right);
-    }
-    return res;
-}
-
-int findMode3(TreeNode* root, vector<int> &res) {
-    int ret = 0;
-    if (root == NULL)
-        return ret;
-    ret = findMode3(root->left, res);
+        return;
+    findMode3(root->left, res);
     int len = res.size();
     if (len == 0)
     {
         res.push_back(root->val);
         res.push_back(1);
-        ret = 1;
     }
     else
     {
         if (root->val == res[len-2])
         {
             res[len - 1]++;
-            if (len > 2)
+            if (len > 3)
             {
                 if (res[len-3] == res[len-1])
                 {
-                    res[len - 3] = res[len - 2];
-                    res[len - 2] = res[len - 1];
-                    res.pop_back();
+                    if (len > 5)
+                    {
+                        res[len - 5] = res[len - 4];
+                        res[len - 4] = res[len - 3];
+                        res[len - 3] = res[len - 2];
+                        res[len - 2] = res[len - 1];
+                        res.pop_back();
+                    }
                 }
                 else if (res[len - 3] < res[len - 1])
                 {
@@ -5333,28 +5292,56 @@ int findMode3(TreeNode* root, vector<int> &res) {
                     res.clear();
                     res.push_back(root->val);
                     res.push_back(max);
-                    ret = 1;
                 }
-                else
-                {
-                    ret = 2;
-                }
-            }
-            else
-            {
-                ret = 1;
             }
         }
         else
         {
+            if (len > 3)
+            {
+                if (res[len-1] == res[len-3])
+                {
+                    res[len - 3] = res[len - 2];
+                    res[len - 2] = res[len - 1];
+                    res.pop_back();
+                }
+                else
+                {
+                    res.pop_back();
+                    res.pop_back();
+                }
+            }
             res.push_back(root->val);
             res.push_back(1);
-            ret = 1;
         }
     }
-    ret = findMode3(root->right, res);
-    return ret;
+    findMode3(root->right, res);
 }
 vector<int> findMode(TreeNode* root) {
-
+    vector<int> res;
+    findMode3(root,res);
+    int len = res.size();
+    if (len == 0)
+    {
+    }
+    else if (len == 2)
+    {
+        res.pop_back();
+    }
+    else 
+    {
+        if (res[len - 1] == res[len - 3])
+        {
+            res[len - 3] = res[len - 2];
+            res.pop_back();
+            res.pop_back();
+        }
+        else
+        {
+            res.pop_back();
+            res.pop_back();
+            res.pop_back();
+        }
+    }
+    return res;
 }
