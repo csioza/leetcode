@@ -5302,15 +5302,17 @@ vector<int> findMode2(TreeNode* root) {//这个思路有点笨
     return res;
 }
 
-void findMode3(TreeNode* root, vector<int> &res) {
+int findMode3(TreeNode* root, vector<int> &res) {
+    int ret = 0;
     if (root == NULL)
-        return;
-    findMode3(root->left, res);
+        return ret;
+    ret = findMode3(root->left, res);
     int len = res.size();
     if (len == 0)
     {
         res.push_back(root->val);
         res.push_back(1);
+        ret = 1;
     }
     else
     {
@@ -5330,17 +5332,28 @@ void findMode3(TreeNode* root, vector<int> &res) {
                     int max = res[len-1];
                     res.clear();
                     res.push_back(root->val);
-                    res.push_back(1);
+                    res.push_back(max);
+                    ret = 1;
                 }
+                else
+                {
+                    ret = 2;
+                }
+            }
+            else
+            {
+                ret = 1;
             }
         }
         else
         {
             res.push_back(root->val);
             res.push_back(1);
+            ret = 1;
         }
     }
-    findMode3(root->right, res);
+    ret = findMode3(root->right, res);
+    return ret;
 }
 vector<int> findMode(TreeNode* root) {
 
