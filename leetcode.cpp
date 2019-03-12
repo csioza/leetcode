@@ -5507,7 +5507,7 @@ int totalNQueensHelp2(int n, int id)
     }
     return num;
 }
-int totalNQueens(int n) {
+int totalNQueens2(int n) {
     if (n <= 0)
         return 0;
     queen = new int[n];
@@ -5518,6 +5518,38 @@ int totalNQueens(int n) {
     return totalNQueensHelp2(n, -1);
 }
 
+int totalNQueensHelp3(int n, vector<int> queen)
+{
+    int num = 0;
+    int len = queen.size();
+    vector<int> queen2(len, 0);
+    if (n <= 0)
+        return 1;
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen[i] & 0x2)
+            queen2[i] |= 0x2;
+        if (i > 0 && (queen[i] & 0x4))
+            queen2[i - 1] |= 0x4;
+        if (i < len - 1 && (queen[i] & 0x1))
+            queen2[i + 1] |= 0x1;
+    }
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen2[i] > 0)
+            continue;
+        queen[i] = 0x7;
+        num += totalNQueensHelp3(n - 1, queen);
+        queen[i] = 0;
+    }
+    return num;
+}
+int totalNQueens(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n,0);
+    return totalNQueensHelp3(n, queen);
+}
 int main()
 {
     int old = clock();
