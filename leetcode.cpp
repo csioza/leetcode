@@ -5450,62 +5450,22 @@ vector<int> findMode(TreeNode* root) {
 //52. N»Êºó II
 int totalNQueensHelp(int n, vector<int> queen, int putId)
 {
-    if (n <= 0)
-        return 1;
     int num = 0;
     int len = queen.size();
-    queen[putId] = 1;
-    vector<int> queen2(len,0);
-    for (int i = 0; i < len; ++i)
+    vector<int> queen2(len, 0);
+    if (putId >= 0)
     {
-        if (queen[i] == 1)
+        if (n <= 0)
+            return 1;
+        queen[putId] |= 0x7;//111
+        for (int i = 0; i < len; ++i)
         {
-            queen2[i] += 2;
-            if (i > 0)
-                queen2[i - 1] += 4;
-            if (i < len - 1)
-                queen2[i + 1] += 3;
-        }
-        else if (queen[i] == 2)
-        {
-            queen2[i] += 2;
-        }
-        else if (queen[i] == 3)
-        {
-            if (i < len - 1)
-                queen2[i + 1] += 3;
-        }
-        else if (queen[i] == 4)
-        {
-            if (i > 0)
-                queen2[i - 1] += 4;
-        }
-        else if (queen[i] == 5)
-        {
-            queen2[i] += 2;
-            if (i < len - 1)
-                queen2[i + 1] += 3;
-        }
-        else if (queen[i] == 6)
-        {
-            queen2[i] += 2;
-            if (i > 0)
-                queen2[i - 1] += 4;
-        }
-        else if (queen[i] == 7)
-        {
-            if (i > 0)
-                queen2[i - 1] += 4;
-            if (i < len - 1)
-                queen2[i + 1] += 3;
-        }
-        else if (queen[i] == 9)
-        {
-            queen2[i] += 2;
-            if (i > 0)
-                queen2[i - 1] += 4;
-            if (i < len - 1)
-                queen2[i + 1] += 3;
+            if (queen[i] & 0x2)
+                queen2[i] |= 0x2;
+            if (i > 0 && (queen[i] & 0x4))
+                queen2[i - 1] |= 0x4;
+            if (i < len - 1 && (queen[i] & 0x1))
+                queen2[i + 1] |= 0x1;
         }
     }
     for (int i = 0; i < len; ++i)
@@ -5516,29 +5476,19 @@ int totalNQueensHelp(int n, vector<int> queen, int putId)
     }
     return num;
 }
-int totalNQueens(int n,vector<int> queen) {
-    int num = 0;
-    if (n <= 0)
-        return num;
-    int len = queen.size();
-    for (int i = 0; i < len; ++i)
-    {
-        if (queen[i] > 0)
-            continue;
-        num += totalNQueensHelp(n - 1, queen,i);
-    }
-    return num;
-}
 int totalNQueens(int n) {
     if (n <= 0)
         return 0;
     vector<int> queen(n,0);
-    return totalNQueens(n, queen);
+    return totalNQueensHelp(n, queen, -1);
 }
+
 int main()
 {
-    int num = totalNQueens(15);
-    printf("%d", num);
+    int old = clock();
+    int num = totalNQueens(11);
+    int n = clock();
+    printf("%d, %d", num, n - old);
     getchar();
     return 0;
 }
