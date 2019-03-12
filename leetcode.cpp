@@ -4925,7 +4925,7 @@ public:
     }
 };
 //309. 最佳买卖股票时机含冷冻期
-int maxProfit(vector<int>& prices) {//网上找的
+int maxProfit100(vector<int>& prices) {//网上找的
     int buy = INT_MIN, pre_buy = 0, sell = 0, pre_sell = 0;
     for (int price : prices) {
         pre_buy = buy;
@@ -5199,10 +5199,36 @@ ListNode* flatten2(ListNode* &head, TreeNode* root) {//题意理解错了
 }
 ListNode* flatten(TreeNode* root) {//题意理解错了
     if (root == NULL)
-        return;
+        return NULL;
     ListNode* node = new ListNode(root->val);
     flatten2(node,root);
     return node;
+}
+
+TreeNode* flatten3(TreeNode* root) {//我的正确答案
+    if (root == NULL)
+        return NULL;
+    if (root->left && root->right)
+    {
+        TreeNode* right = root->right;
+        root->right = root->left;
+        root->left = NULL;
+        TreeNode* leftEnd = flatten3(root->right);
+        if (leftEnd)
+        {
+            leftEnd->right = right;
+            TreeNode* rightEnd = flatten3(right);
+            return rightEnd ? rightEnd : right;
+        }
+        return root->right;
+    }
+    else if (root->left)
+    {
+        root->right = root->left;
+        root->left = NULL;
+        return flatten3(root->right);
+    }
+    return root->right ? flatten3(root->right) : root;
 }
 TreeNode* flatten5(TreeNode* root) {//我的错误答案
     if (root == NULL)
@@ -5228,31 +5254,6 @@ TreeNode* flatten5(TreeNode* root) {//我的错误答案
             return rightEnd;
     }
     return root;
-}
-TreeNode* flatten3(TreeNode* root) {//我的正确答案
-    if (root == NULL)
-        return NULL;
-    if (root->left && root->right)
-    {
-        TreeNode* right = root->right;
-        root->right = root->left;
-        root->left = NULL;
-        TreeNode* leftEnd = flatten3(root->right);
-        if (leftEnd)
-        {
-            leftEnd->right = right;
-            TreeNode* rightEnd = flatten3(right);
-            return rightEnd ? rightEnd : right;
-        }
-        return root->right;
-    }
-    else if (root->left)
-    {
-        root->right = root->left;
-        root->left = NULL;
-        return flatten3(root->right);
-    }
-    return root->right ? flatten3(root->right) : root;
 }
 void flatten4(TreeNode* root) {
     flatten3(root);
@@ -5350,99 +5351,194 @@ vector<int> findMode(TreeNode* root) {
     return res;
 }
 //116. 填充每个节点的下一个右侧节点指针
-class Node {
-public:
-    int val;
-    Node* left;
-    Node* right;
-    Node* next;
-    Node() {}
-
-    Node(int _val, Node* _left, Node* _right, Node* _next) {
-        val = _val;
-        left = _left;
-        right = _right;
-        next = _next;
-    }
-};
-Node* connect(Node* root) {
-    if (root == NULL)
-        return NULL;
-    Node* head = root;
-    head->next = NULL;
-    while (head)
-    {
-        Node* p = head;
-        head = NULL;
-        Node* newP = NULL;
-        while (p)
-        {
-            if (p->left && p->right)
-            {
-                if (!newP)
-                {
-                    head = p->left;
-                    newP = p->left;
-                }
-                else
-                {
-                    newP->next = p->left;
-                    newP = newP->next;
-                }
-                newP->next = p->right;
-                newP = newP->next;
-            }
-            else
-                return root;
-            p = p->next;
-        }
-        newP->next = NULL;
-    }
-    return root;
-}
+//class Node {
+//public:
+//    int val;
+//    Node* left;
+//    Node* right;
+//    Node* next;
+//    Node() {}
+//
+//    Node(int _val, Node* _left, Node* _right, Node* _next) {
+//        val = _val;
+//        left = _left;
+//        right = _right;
+//        next = _next;
+//    }
+//};
+//Node* connect(Node* root) {
+//    if (root == NULL)
+//        return NULL;
+//    Node* head = root;
+//    head->next = NULL;
+//    while (head)
+//    {
+//        Node* p = head;
+//        head = NULL;
+//        Node* newP = NULL;
+//        while (p)
+//        {
+//            if (p->left && p->right)
+//            {
+//                if (!newP)
+//                {
+//                    head = p->left;
+//                    newP = p->left;
+//                }
+//                else
+//                {
+//                    newP->next = p->left;
+//                    newP = newP->next;
+//                }
+//                newP->next = p->right;
+//                newP = newP->next;
+//            }
+//            else
+//                return root;
+//            p = p->next;
+//        }
+//        newP->next = NULL;
+//    }
+//    return root;
+//}
 //117. 填充每个节点的下一个右侧节点指针 II
-Node* connect2(Node* root) {
-    if (root == NULL)
-        return NULL;
-    Node* head = root;
-    head->next = NULL;
-    while (head)
+//Node* connect2(Node* root) {
+//    if (root == NULL)
+//        return NULL;
+//    Node* head = root;
+//    head->next = NULL;
+//    while (head)
+//    {
+//        Node* p = head;
+//        head = NULL;
+//        Node* newP = NULL;
+//        while (p)
+//        {
+//            if (p->left)
+//            {
+//                if (!newP)
+//                {
+//                    head = p->left;
+//                    newP = p->left;
+//                }
+//                else
+//                {
+//                    newP->next = p->left;
+//                    newP = newP->next;
+//                }
+//            }
+//            if (p->right)
+//            {
+//                if (!newP)
+//                {
+//                    head = p->right;
+//                    newP = p->right;
+//                }
+//                else
+//                {
+//                    newP->next = p->right;
+//                    newP = newP->next;
+//                }
+//            }
+//            p = p->next;
+//        }
+//        if (newP && newP->next)
+//            newP->next = NULL;
+//    }
+//    return root;
+//}
+//52. N皇后 II
+int totalNQueensHelp(int n, vector<int> queen, int putId)
+{
+    if (n <= 0)
+        return 1;
+    int num = 0;
+    int len = queen.size();
+    queen[putId] = 1;
+    vector<int> queen2(len,0);
+    for (int i = 0; i < len; ++i)
     {
-        Node* p = head;
-        head = NULL;
-        Node* newP = NULL;
-        while (p)
+        if (queen[i] == 1)
         {
-            if (p->left)
-            {
-                if (!newP)
-                {
-                    head = p->left;
-                    newP = p->left;
-                }
-                else
-                {
-                    newP->next = p->left;
-                    newP = newP->next;
-                }
-            }
-            if (p->right)
-            {
-                if (!newP)
-                {
-                    head = p->right;
-                    newP = p->right;
-                }
-                else
-                {
-                    newP->next = p->right;
-                    newP = newP->next;
-                }
-            }
-            p = p->next;
+            queen2[i] += 2;
+            if (i > 0)
+                queen2[i - 1] += 4;
+            if (i < len - 1)
+                queen2[i + 1] += 3;
         }
-        if (newP && newP->next)
-            newP->next = NULL;
+        else if (queen[i] == 2)
+        {
+            queen2[i] += 2;
+        }
+        else if (queen[i] == 3)
+        {
+            if (i < len - 1)
+                queen2[i + 1] += 3;
+        }
+        else if (queen[i] == 4)
+        {
+            if (i > 0)
+                queen2[i - 1] += 4;
+        }
+        else if (queen[i] == 5)
+        {
+            queen2[i] += 2;
+            if (i < len - 1)
+                queen2[i + 1] += 3;
+        }
+        else if (queen[i] == 6)
+        {
+            queen2[i] += 2;
+            if (i > 0)
+                queen2[i - 1] += 4;
+        }
+        else if (queen[i] == 7)
+        {
+            if (i > 0)
+                queen2[i - 1] += 4;
+            if (i < len - 1)
+                queen2[i + 1] += 3;
+        }
+        else if (queen[i] == 9)
+        {
+            queen2[i] += 2;
+            if (i > 0)
+                queen2[i - 1] += 4;
+            if (i < len - 1)
+                queen2[i + 1] += 3;
+        }
     }
-    return root;
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen2[i] > 0)
+            continue;
+        num += totalNQueensHelp(n - 1, queen2, i);
+    }
+    return num;
+}
+int totalNQueens(int n,vector<int> queen) {
+    int num = 0;
+    if (n <= 0)
+        return num;
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen[i] > 0)
+            continue;
+        num += totalNQueensHelp(n - 1, queen,i);
+    }
+    return num;
+}
+int totalNQueens(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n,0);
+    return totalNQueens(n, queen);
+}
+int main()
+{
+    int num = totalNQueens(15);
+    printf("%d", num);
+    getchar();
+    return 0;
 }
