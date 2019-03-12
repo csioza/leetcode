@@ -5448,8 +5448,89 @@ vector<int> findMode(TreeNode* root) {
 //    return root;
 //}
 //52. N»Êºó II
-//int *queen;
 //int len = 0;
+//int **queen;
+//int totalNQueensHelp(int n/*, vector<vector<int>> &queen*/)
+//{
+//    int num = 0;
+//    if (n <= 0)
+//        return 1;
+//    int index = len - n;
+//    if (index > 0)
+//    {
+//        //memset(queen[index], 0, sizeof(queen[index]));
+//        for (int i = 0; i < len; ++i)
+//        {
+//            if (queen[index - 1][i] & 0x2)
+//                queen[index][i] |= 0x2;
+//            if (i > 0 && (queen[index - 1][i] & 0x4))
+//                queen[index][i - 1] |= 0x4;
+//            if (i < len - 1 && (queen[index - 1][i] & 0x1))
+//                queen[index][i + 1] |= 0x1;
+//        }
+//    }
+//    for (int i = 0; i < len; ++i)
+//    {
+//        if (queen[index][i] > 0)
+//            continue;
+//        queen[index][i] = 7;
+//        num += totalNQueensHelp(n - 1);
+//        queen[index][i] = 0;
+//    }
+//    return num;
+//}
+//int totalNQueens2(int n) {
+//    if (n <= 0)
+//        return 0;
+//    len = n;
+//    queen = new int*[n];
+//    for (int i = 0; i < n; ++i)
+//    {
+//        queen[i] = new int[n];
+//        memset(queen[i], 0, sizeof(queen[i]));
+//    }
+//    //vector<vector<int>> queen(n, vector<int>(n,0));
+//    return totalNQueensHelp(n);
+//}
+
+//int totalNQueensHelp(int n, vector<vector<int>> &queen)
+//{
+//    int num = 0;
+//    if (n <= 0)
+//        return 1;
+//    int len = queen.size();
+//    int index = len - n;
+//    if (index > 0)
+//    {
+//        for (int i = 0; i < len; ++i)
+//            queen[index][i] = 0;
+//        for (int i = 0; i < len; ++i)
+//        {
+//            if (queen[index - 1][i] & 0x2)
+//                queen[index][i] |= 0x2;
+//            if (i > 0 && (queen[index - 1][i] & 0x4))
+//                queen[index][i - 1] |= 0x4;
+//            if (i < len - 1 && (queen[index - 1][i] & 0x1))
+//                queen[index][i + 1] |= 0x1;
+//        }
+//    }
+//    for (int i = 0; i < len; ++i)
+//    {
+//        if (queen[index][i] > 0)
+//            continue;
+//        queen[index][i] = 7;
+//        num += totalNQueensHelp(n - 1, queen);
+//        queen[index][i] = 0;
+//    }
+//    return num;
+//}
+//int totalNQueens2(int n) {
+//    if (n <= 0)
+//        return 0;
+//    vector<vector<int>> queen(n, vector<int>(n,0));
+//    return totalNQueensHelp(n, queen);
+//}
+
 int totalNQueensHelp(int n, vector<vector<int>> &queen)
 {
     int num = 0;
@@ -5457,37 +5538,63 @@ int totalNQueensHelp(int n, vector<vector<int>> &queen)
         return 1;
     int len = queen.size();
     int index = len - n;
-    if (index > 0)
+    if (index < len - 1)//Ô¤´¦Àíindex+1²ã
     {
         for (int i = 0; i < len; ++i)
-            queen[index][i] = 0;
+            queen[index + 1][i] = 0;
+        bool isT = true;
         for (int i = 0; i < len; ++i)
         {
-            if (queen[index - 1][i] & 0x2)
-                queen[index][i] |= 0x2;
-            if (i > 0 && (queen[index - 1][i] & 0x4))
-                queen[index][i - 1] |= 0x4;
-            if (i < len - 1 && (queen[index - 1][i] & 0x1))
-                queen[index][i + 1] |= 0x1;
+            if (queen[index][i] <= 0)
+                isT = false;
+            if (queen[index][i] & 0x2)
+                queen[index + 1][i] |= 0x2;
+            if (i > 0 && (queen[index][i] & 0x4))
+                queen[index + 1][i - 1] |= 0x4;
+            if (i < len - 1 && (queen[index][i] & 0x1))
+                queen[index + 1][i + 1] |= 0x1;
         }
+        if (isT)
+            return 0;
     }
     for (int i = 0; i < len; ++i)
     {
         if (queen[index][i] > 0)
             continue;
-        queen[index][i] = 7;
+        int left = -1;
+        int zhong = -1;
+        int right = -1;
+        if (index < len - 1)
+        {
+            zhong = queen[index + 1][i];
+            queen[index + 1][i] |= 0x2;
+            if (i > 0)
+            {
+                left = queen[index + 1][i - 1];
+                queen[index + 1][i - 1] |= 0x4;
+            }
+            if (i < len - 1)
+            {
+                right = queen[index + 1][i + 1];
+                queen[index + 1][i + 1] |= 0x1;
+            }
+        }
         num += totalNQueensHelp(n - 1, queen);
-        queen[index][i] = 0;
+        if (left >= 0)
+            queen[index + 1][i - 1] = left;
+        if (zhong >= 0)
+            queen[index + 1][i] = zhong;
+        if (right >= 0)
+            queen[index + 1][i + 1] = right;
     }
     return num;
 }
 int totalNQueens2(int n) {
     if (n <= 0)
         return 0;
-    vector<vector<int>> queen(n, vector<int>(n,0));
+    vector<vector<int>> queen(n, vector<int>(n, 0));
     return totalNQueensHelp(n, queen);
 }
-
 int totalNQueensHelp3(int n, vector<int> queen)
 {
     int num = 0;
@@ -5523,7 +5630,7 @@ int totalNQueens(int n) {
 int main()
 {
     int old = clock();
-    int num = totalNQueens2(12);
+    int num = totalNQueens2(10);//11 6234
     int n = clock();
     printf("%d, %d", num, n - old);
     getchar();
