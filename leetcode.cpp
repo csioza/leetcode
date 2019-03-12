@@ -5448,45 +5448,45 @@ vector<int> findMode(TreeNode* root) {
 //    return root;
 //}
 //52. N»Êºó II
-int *queen;
-int *queen2;
-int len = 0;
-int totalNQueensHelp(int n)
+//int *queen;
+//int len = 0;
+int totalNQueensHelp(int n, vector<vector<int>> &queen)
 {
     int num = 0;
-    memset(queen2, 0, sizeof(queen2));
     if (n <= 0)
         return 1;
-    for (int i = 0; i < len; ++i)
+    int len = queen.size();
+    int index = len - n;
+    if (index > 0)
     {
-        if (queen[i] & 0x2)
-            queen2[i] |= 0x2;
-        if (i > 0 && (queen[i] & 0x4))
-            queen2[i - 1] |= 0x4;
-        if (i < len - 1 && (queen[i] & 0x1))
-            queen2[i + 1] |= 0x1;
+        for (int i = 0; i < len; ++i)
+            queen[index][i] = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            if (queen[index - 1][i] & 0x2)
+                queen[index][i] |= 0x2;
+            if (i > 0 && (queen[index - 1][i] & 0x4))
+                queen[index][i - 1] |= 0x4;
+            if (i < len - 1 && (queen[index - 1][i] & 0x1))
+                queen[index][i + 1] |= 0x1;
+        }
     }
     for (int i = 0; i < len; ++i)
     {
-        if (queen2[i] > 0)
+        if (queen[index][i] > 0)
             continue;
-        queen2[i] = 0x7;
-        queen = queen2;
-        num += totalNQueensHelp(n - 1);
-        queen2[i] = 0;
+        queen[index][i] = 7;
+        num += totalNQueensHelp(n - 1, queen);
+        queen[index][i] = 0;
     }
     return num;
 }
 int totalNQueens2(int n) {
     if (n <= 0)
         return 0;
-    queen = new int[n];
-    queen2 = new int[n];
-    len = n;
-    memset(queen, 0, sizeof(queen));
-    return totalNQueensHelp(n);
+    vector<vector<int>> queen(n, vector<int>(n,0));
+    return totalNQueensHelp(n, queen);
 }
-
 
 int totalNQueensHelp3(int n, vector<int> queen)
 {
@@ -5523,7 +5523,7 @@ int totalNQueens(int n) {
 int main()
 {
     int old = clock();
-    int num = totalNQueens2(4);
+    int num = totalNQueens2(12);
     int n = clock();
     printf("%d, %d", num, n - old);
     getchar();
