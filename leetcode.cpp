@@ -5476,17 +5476,52 @@ int totalNQueensHelp(int n, vector<int> queen, int putId)
     }
     return num;
 }
+int *queen;
+int *queen2;
+int len = 0;
+int totalNQueensHelp2(int n, int id)
+{
+    int num = 0;
+    if (n <= 0)
+        return 1;
+    memset(queen2, 0, sizeof(queen2));
+    if (id >= 0)
+    {
+        for (int i = 0; i < len; ++i)
+        {
+            if (queen[i] & 0x2)
+                queen2[i] |= 0x2;
+            if (i > 0 && (queen[i] & 0x4))
+                queen2[i - 1] |= 0x4;
+            if (i < len - 1 && (queen[i] & 0x1))
+                queen2[i + 1] |= 0x1;
+        }
+    }
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen2[i] > 0)
+            continue;
+        queen[i] = 0x7;
+        num += totalNQueensHelp2(n - 1,i);
+        queen[i] = 0;
+    }
+    return num;
+}
 int totalNQueens(int n) {
     if (n <= 0)
         return 0;
-    vector<int> queen(n,0);
-    return totalNQueensHelp(n, queen, -1);
+    queen = new int[n];
+    queen2 = new int[n];
+    memset(queen, 0, sizeof(queen));
+    memset(queen2, 0, sizeof(queen2));
+    len = n;
+    return totalNQueensHelp2(n, -1);
 }
 
 int main()
 {
     int old = clock();
-    int num = totalNQueens(11);
+    int num = totalNQueens(4);
     int n = clock();
     printf("%d, %d", num, n - old);
     getchar();
