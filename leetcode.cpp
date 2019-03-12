@@ -5493,43 +5493,43 @@ vector<int> findMode(TreeNode* root) {
 //    return totalNQueensHelp(n);
 //}
 
-//int totalNQueensHelp(int n, vector<vector<int>> &queen)
-//{
-//    int num = 0;
-//    if (n <= 0)
-//        return 1;
-//    int len = queen.size();
-//    int index = len - n;
-//    if (index > 0)
-//    {
-//        for (int i = 0; i < len; ++i)
-//            queen[index][i] = 0;
-//        for (int i = 0; i < len; ++i)
-//        {
-//            if (queen[index - 1][i] & 0x2)
-//                queen[index][i] |= 0x2;
-//            if (i > 0 && (queen[index - 1][i] & 0x4))
-//                queen[index][i - 1] |= 0x4;
-//            if (i < len - 1 && (queen[index - 1][i] & 0x1))
-//                queen[index][i + 1] |= 0x1;
-//        }
-//    }
-//    for (int i = 0; i < len; ++i)
-//    {
-//        if (queen[index][i] > 0)
-//            continue;
-//        queen[index][i] = 7;
-//        num += totalNQueensHelp(n - 1, queen);
-//        queen[index][i] = 0;
-//    }
-//    return num;
-//}
-//int totalNQueens2(int n) {
-//    if (n <= 0)
-//        return 0;
-//    vector<vector<int>> queen(n, vector<int>(n,0));
-//    return totalNQueensHelp(n, queen);
-//}
+int totalNQueensHelp2(int n, vector<vector<int>> &queen)
+{
+    int num = 0;
+    if (n <= 0)
+        return 1;
+    int len = queen.size();
+    int index = len - n;
+    if (index > 0)
+    {
+        for (int i = 0; i < len; ++i)
+            queen[index][i] = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            if (queen[index - 1][i] & 0x2)
+                queen[index][i] |= 0x2;
+            if (i > 0 && (queen[index - 1][i] & 0x4))
+                queen[index][i - 1] |= 0x4;
+            if (i < len - 1 && (queen[index - 1][i] & 0x1))
+                queen[index][i + 1] |= 0x1;
+        }
+    }
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen[index][i] > 0)
+            continue;
+        queen[index][i] = 7;
+        num += totalNQueensHelp2(n - 1, queen);
+        queen[index][i] = 0;
+    }
+    return num;
+}
+int totalNQueens3(int n) {
+    if (n <= 0)
+        return 0;
+    vector<vector<int>> queen(n, vector<int>(n, 0));
+    return totalNQueensHelp2(n, queen);
+}
 
 int totalNQueensHelp(int n, vector<vector<int>> &queen)
 {
@@ -5630,7 +5630,7 @@ int totalNQueens(int n) {
 int main()
 {
     int old = clock();
-    int num = totalNQueens2(10);//11 6234
+    int num = totalNQueens(11);//11 6234
     int n = clock();
     printf("%d, %d", num, n - old);
     getchar();
