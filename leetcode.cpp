@@ -6059,7 +6059,6 @@ void FindNQueen(int k, int l, int r)
         FindNQueen(k | index, (l | index) << 1, (r | index) >> 1);   //查找下一个。
     }
 }
-
 int main52()
 {
     int nn = 12;
