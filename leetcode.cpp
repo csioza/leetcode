@@ -6072,6 +6072,11 @@ int main()
         int numnum = totalNQueens16(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
         printf("%d, %d\n", numnum, clock() - old);
     }
+    {
+        int old = clock();
+        int numnum = totalNQueens8(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
+    }
     getchar();
     return 0;
 }
