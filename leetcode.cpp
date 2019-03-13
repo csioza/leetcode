@@ -5493,6 +5493,53 @@ vector<int> findMode(TreeNode* root) {
 //    return totalNQueensHelp(n);
 //}
 
+//////////////////////////////////////////////////////////////////////////
+int **queen16;
+int len16;
+int lenmem16;
+int totalNQueensHelp16(int n)
+{
+    int num = 0;
+    if (n <= 0)
+        return 1;
+    int index = len16 - n;
+    if (index > 0)
+    {
+        memset(queen16[index], 0, lenmem16);
+        for (int i = 0; i < len16; ++i)
+        {
+            if (queen16[index - 1][i] & 0x2)
+                queen16[index][i] |= 0x2;
+            if (i > 0 && (queen16[index - 1][i] & 0x4))
+                queen16[index][i - 1] |= 0x4;
+            if (i < len16 - 1 && (queen16[index - 1][i] & 0x1))
+                queen16[index][i + 1] |= 0x1;
+        }
+    }
+    for (int i = 0; i < len16; ++i)
+    {
+        if (queen16[index][i] > 0)
+            continue;
+        queen16[index][i] = 7;
+        num += totalNQueensHelp16(n - 1);
+        queen16[index][i] = 0;
+    }
+    return num;
+}
+int totalNQueens16(int n) {
+    if (n <= 0)
+        return 0;
+    len16 = n;
+    queen16 = new int *[n];
+    lenmem16 = sizeof(int)*len16;
+    for (int i = 0; i < n; i++)
+    {
+        queen16[i] = new int[n];
+        memset(queen16[i], 0, lenmem16);
+    }
+    return totalNQueensHelp16(n);
+}
+//////////////////////////////////////////////////////////////////////////
 int totalNQueensHelp2(int n, vector<vector<int>> &queen)
 {
     int num = 0;
@@ -5720,7 +5767,7 @@ void Check(int k, int n)
         //        || indexs[j] + (k - j) == i)
         //        result = true;
         //if (!result)
-        if (CheckCan2(k, i))
+        if (CheckCan(k, i))
         {
             indexs[k] = i;
             if (k == n - 1)
@@ -6014,26 +6061,17 @@ int totalNQueens8(int n)
 
 int main()
 {
-    int nn = 11;
-    int old = clock();
-    int numnum = totalNQueens11(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-    int n = clock();
-    printf("%d, %d\n", numnum, n - old);
-    num = 0;
-    old = clock();
-    numnum = totalNQueens15(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-    n = clock();
-    printf("%d, %d\n", numnum, n - old);
-    num = 0;
-    old = clock();
-    numnum = totalNQueens10(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-    n = clock();
-    printf("%d, %d\n", numnum, n - old);
-    num = 0;
-    old = clock();
-    numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-    n = clock();
-    printf("%d, %d", numnum, n - old);
+    int nn = 14;
+    {
+        int old = clock();
+        int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
+    }
+    {
+        int old = clock();
+        int numnum = totalNQueens16(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
+    }
     getchar();
     return 0;
 }
