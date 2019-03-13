@@ -6115,3 +6115,35 @@ public:
         return res;
     }
 };
+//222. 完全二叉树的节点个数
+
+class Solution {
+public:
+    int leaf;
+    bool isFind;
+    int maxDeep;
+    void countNodes(TreeNode* root, int curDeep) {
+        if (root == NULL)
+            return;
+        if (curDeep > maxDeep)
+            maxDeep = curDeep;
+        if (!root->left && !root->right)
+        {
+            if (curDeep < maxDeep)
+            {
+                isFind = true;
+                return;
+            }
+            leaf++;
+        }
+        countNodes(root->left, curDeep + 1);
+        countNodes(root->left, curDeep + 1);
+    }
+    int countNodes(TreeNode* root) {
+        leaf = 0;
+        isFind = false;
+        if (root == NULL)
+            return 0;
+
+    }
+};
