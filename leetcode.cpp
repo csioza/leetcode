@@ -5448,6 +5448,8 @@ vector<int> findMode(TreeNode* root) {
 //    return root;
 //}
 
+//2019.03.12-13
+
 //52. N皇后 II
 
 //int len = 0;
@@ -6079,3 +6081,37 @@ int main52()
     getchar();
     return 0;
 }
+
+//129. 求根到叶子节点数字之和
+int sumNumbers(TreeNode* root, int pre) {
+    if (root == NULL)
+        return 0;
+    pre += root->val;
+    if (!root->left && !root->right)
+        return pre;
+    pre *= 10;
+    int num = sumNumbers(root->left, pre) + sumNumbers(root->right, pre);
+    return num;
+}
+int sumNumbers(TreeNode* root) {
+    return sumNumbers(root, 0);
+}
+//199. 二叉树的右视图
+class Solution199 {
+public:
+    void rightSideView2(TreeNode* root, vector<int> &res, int curDeep) {
+        if (root == NULL)
+            return;
+        if (curDeep > res.size())
+            res.push_back(root->val);
+        if (root->right)
+            rightSideView2(root->right, res, curDeep + 1);
+        if (root->left)
+            rightSideView2(root->left, res, curDeep + 1);
+    }
+    vector<int> rightSideView2(TreeNode* root) {
+        vector<int> res;
+        rightSideView2(root, res, 1);
+        return res;
+    }
+};
