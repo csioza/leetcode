@@ -6076,11 +6076,11 @@ void FindNQueen(int k, int l, int r)
 
 int main()
 {
-    int nn = 15;
+    int nn = 12;
     {
-        //int old = clock();
-        //int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        //printf("%d, %d\n", numnum, clock() - old);
+        int old = clock();
+        int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
     }
     {
         int old = clock();
