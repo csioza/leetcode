@@ -5447,7 +5447,9 @@ vector<int> findMode(TreeNode* root) {
 //    }
 //    return root;
 //}
+
 //52. N»Êºó II
+
 //int len = 0;
 //int **queen;
 //int totalNQueensHelp(int n/*, vector<vector<int>> &queen*/)
@@ -6056,7 +6058,7 @@ void FindNQueen(int k, int l, int r)
     }
 }
 
-int main()
+int main52()
 {
     int nn = 12;
     {
