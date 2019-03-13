@@ -5619,6 +5619,7 @@ int totalNQueensHelp3(int n, vector<int> queen)
     vector<int> queen2(len, 0);
     if (n <= 0)
         return 1;
+    int index = len - n;
     //yingxiang(queen, queen2);
     for (int i = 0; i < len; ++i)
     {
@@ -5648,18 +5649,67 @@ int totalNQueens(int n) {
     vector<int> queen(n,0);
     return totalNQueensHelp3(n, queen);
 }
+int *queen15;
+int *queen215;
+int queenLen = 0;
+int totalNQueensHelp15(int n)
+{
+    memcpy(queen15,queen215,sizeof(queen15));
+    int num = 0;
+    int len = queenLen;
+    memset(queen215, 0, sizeof(queen215));
+    if (n <= 0)
+        return 1;
+    int index = len - n;
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen15[i] > 0)
+        {
+            if (queen15[i] & 0x2)
+                queen215[i] |= 0x2;
+            if (i > 0 && (queen15[i] & 0x4))
+                queen215[i - 1] |= 0x4;
+            if (i < len - 1 && (queen15[i] & 0x1))
+                queen215[i + 1] |= 0x1;
+        }
+    }
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen215[i] > 0)
+            continue;
+        queen215[i] = 0x7;
+        num += totalNQueensHelp15(n - 1);
+        queen215[i] = 0;
+    }
+    return num;
+}
+int totalNQueens15(int n) {
+    if (n <= 0)
+        return 0;
+    queen15 = new int[n];
+    queen215 = new int[n];
+    return totalNQueensHelp15(n);
+}
 
 int *indexs;
 int num = 0;
 bool CheckCan(int k, int target)
 {
-    bool result = false;
     for (int i = k - 1; i >= 0; i--)
         if (indexs[i] == target
             || indexs[i] - (k - i) == target
             || indexs[i] + (k - i) == target)
-            return true;
-    return result;
+            return false;
+    return true;
+}
+bool CheckCan2(int k, int target)
+{
+    for (int i = 0; i < k; ++i)
+        if (indexs[i] == target
+            || indexs[i] - (k - i) == target
+            || indexs[i] + (k - i) == target)
+            return false;
+    return true;
 }
 void Check(int k, int n)
 {
@@ -5672,7 +5722,7 @@ void Check(int k, int n)
         //        || indexs[j] + (k - j) == i)
         //        result = true;
         //if (!result)
-        if (!CheckCan(k, i))
+        if (CheckCan2(k, i))
         {
             indexs[k] = i;
             if (k == n - 1)
@@ -5689,12 +5739,303 @@ int totalNQueens4(int n)//别人的代码
     return num;
 }
 
+int *indexs11;
+bool isCanPut11(int k, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (indexs11[j] == putId
+            || indexs11[j] - k + j == putId
+            || indexs11[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp11(int k, int n) {
+    for (int i = 0; i < n; ++i)
+    {
+        if (isCanPut11(k, i))
+        {
+            indexs11[k] = i;
+            if (k == n - 1)
+                num++;
+            else
+                totalNQueensHelp11(k + 1,n);
+        }
+    }
+    return 0;
+}
+int totalNQueens11(int n) {
+    if (n <= 0)
+        return 0;
+    indexs11 = new int[n];
+    totalNQueensHelp11(0, n);
+    return num;
+}
+
+vector<int> queen;
+bool isCanPut13(int k, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp13(int k) {
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut13(k, i))
+        {
+            queen[k] = i;
+            if (k == len - 1)
+                num++;
+            else
+                totalNQueensHelp13(k + 1);
+        }
+    }
+    return 0;
+}
+int totalNQueens13(int n) {
+    if (n <= 0)
+        return 0;
+    for (int i = 0; i < n; i++)
+    {
+        queen.push_back(0);
+    }
+    totalNQueensHelp13(0);
+    return num;
+}
+
+bool isCanPut12(int k, vector<int> queen, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp12(int k, vector<int> queen) {
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut12(k, queen, i))
+        {
+            queen[k] = i;
+            if (k == len - 1)
+                num++;
+            else
+                totalNQueensHelp12(k + 1, queen);
+        }
+    }
+    return 0;
+}
+int totalNQueens12(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n, 0);
+    totalNQueensHelp12(0, queen);
+    return num;
+}
+
+bool isCanPut10(int k, vector<int> &queen, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp10(int k, vector<int> &queen) {
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut10(k, queen, i))
+        {
+            queen[k] = i;
+            if (k == len - 1)
+                num++;
+            else
+                totalNQueensHelp10(k + 1, queen);
+        }
+    }
+    return 0;
+}
+int totalNQueens10(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n, 0);
+    totalNQueensHelp10(0, queen);
+    return num;
+}
+
+bool isCanPut9(int k, vector<int> &queen, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp9(int k, vector<int> &queen) {
+    int num = 0;
+    int len = queen.size();
+    if (k == len)
+        return 1;
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut9(k, queen, i))
+        {
+            queen[k] = i;
+            num += totalNQueensHelp9(k + 1, queen);
+        }
+    }
+    return num;
+}
+int totalNQueens9(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n, 0);
+    return totalNQueensHelp9(0, queen);
+}
+
+int count1;
+int max1;
+int*  lines;
+int dx, dy, ii, jj;
+bool av;
+bool avalid(int x, int y, int x2, int y2)
+{
+    if (y == y2)
+        return false;
+
+    dx = x - x2;
+    dy = y - y2;
+    if (dx == dy || dx == -dy)
+        return false;
+    return true;
+}
+int findnext(int x, int starty)
+{
+    if (x == max1)
+    {
+        count1++;
+        return -1;
+    }
+    for (ii = starty; ii < max1; ii++)
+    {
+        av = true;
+        for (jj = 0; jj < x; jj++)
+        {
+            if (!avalid(jj, lines[jj], x, ii))
+            {
+                av = false;
+                break;
+            }
+        }
+        if (av)
+            return ii;
+    }
+    return -1;
+}
+void gonext(int currentx, int nextstarty)
+{
+    int next = -1;
+    while (true)
+    {
+    gotonextline: currentx++;
+        next = findnext(currentx, 0);
+    panduan:  if (next >= 0)
+        {
+            //向下继续;
+            lines[currentx] = next;
+            goto gotonextline;
+        }
+        else
+        {
+            //向上返回;
+            if (currentx == 1)
+                break;
+            currentx--;
+            next = findnext(currentx, lines[currentx] + 1);
+            goto panduan;
+        }
+    }
+}
+int totalNQueens8(int n)
+{
+    if (n == 1)
+    {
+        return 1;
+    }
+    count1 = 0;
+    max1 = n;
+    lines = new int[n];
+    int cishu = n / 2;
+    if (n % 2 == 0)
+    {
+        for (int i = 0; i < cishu; i++)
+        {
+            lines[0] = i;
+            gonext(0, 0);
+        }
+        count1 = count1 * 2;
+    }
+    else
+    {
+
+        lines[0] = cishu;
+        gonext(0, 0);
+        int temp = count1;
+        count1 = 0;
+        for (int i = 0; i < cishu; i++)
+        {
+            lines[0] = i;
+            gonext(0, 0);
+        }
+        count1 = count1 * 2;
+        count1 = count1 + temp;
+    }
+
+    return count1;
+}
+
+
 int main()
 {
+    int nn = 11;
     int old = clock();
-    int num = totalNQueens4(11);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+    int numnum = totalNQueens11(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
     int n = clock();
-    printf("%d, %d", num, n - old);
+    printf("%d, %d\n", numnum, n - old);
+    num = 0;
+    old = clock();
+    numnum = totalNQueens13(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+    n = clock();
+    printf("%d, %d\n", numnum, n - old);
+    num = 0;
+    old = clock();
+    numnum = totalNQueens10(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+    n = clock();
+    printf("%d, %d\n", numnum, n - old);
+    num = 0;
+    old = clock();
+    numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+    n = clock();
+    printf("%d, %d", numnum, n - old);
     getchar();
     return 0;
 }
