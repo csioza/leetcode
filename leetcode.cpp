@@ -6057,13 +6057,30 @@ int totalNQueens8(int n)
     return count1;
 }
 
+int nn;
+void FindNQueen(int k, int l, int r)
+{
+    if (k == nn)
+    {
+        num++;
+        return;
+    }
+    int z = nn & (~(k | l | r));  //能走的位置， 和nn取并可以去掉前面多余的1
+    while (z != 0)
+    {
+        int index = z & (~z + 1);   //最右边的一个1， 即要放皇后的位置。
+        z -= index;   //去掉这个位置。
+        FindNQueen(k | index, (l | index) << 1, (r | index) >> 1);   //查找下一个。
+    }
+}
+
 int main()
 {
-    int nn = 11;
+    int nn = 15;
     {
-        int old = clock();
-        int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        printf("%d, %d\n", numnum, clock() - old);
+        //int old = clock();
+        //int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        //printf("%d, %d\n", numnum, clock() - old);
     }
     {
         int old = clock();
