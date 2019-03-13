@@ -5645,22 +5645,6 @@ int totalNQueens2(int n) {
     return totalNQueensHelp(n, queen);
 }
 
-void yingxiang(vector<int> &queen, vector<int> &queen2)
-{
-    int len = queen.size();
-    for (int i = 0; i < len; ++i)
-    {
-        if (queen[i] > 0)
-        {
-            if (queen[i] & 0x2)
-                queen2[i] |= 0x2;
-            if (i > 0 && (queen[i] & 0x4))
-                queen2[i - 1] |= 0x4;
-            if (i < len - 1 && (queen[i] & 0x1))
-                queen2[i + 1] |= 0x1;
-        }
-    }
-}
 int totalNQueensHelp3(int n, vector<int> queen)
 {
     int num = 0;
@@ -5669,7 +5653,6 @@ int totalNQueensHelp3(int n, vector<int> queen)
     if (n <= 0)
         return 1;
     int index = len - n;
-    //yingxiang(queen, queen2);
     for (int i = 0; i < len; ++i)
     {
         if (queen[i] > 0 )
@@ -5699,8 +5682,7 @@ int totalNQueens(int n) {
     return totalNQueensHelp3(n, queen);
 }
 //////////////////////////////////////////////////////////////////////////
-//int *queen15;
-//int *queen215;
+
 int queenLen = 0;
 int totalNQueensHelp15(int n, int *queen)
 {
