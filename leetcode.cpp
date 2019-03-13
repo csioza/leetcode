@@ -5649,48 +5649,46 @@ int totalNQueens(int n) {
     vector<int> queen(n,0);
     return totalNQueensHelp3(n, queen);
 }
-int *queen15;
-int *queen215;
+//////////////////////////////////////////////////////////////////////////
+//int *queen15;
+//int *queen215;
 int queenLen = 0;
-int totalNQueensHelp15(int n)
+int totalNQueensHelp15(int n, int *queen)
 {
-    memcpy(queen15,queen215,sizeof(queen15));
     int num = 0;
-    int len = queenLen;
-    memset(queen215, 0, sizeof(queen215));
+    int *queen2 = new int[queenLen];
+    memset(queen2, 0, sizeof(queen2));
     if (n <= 0)
         return 1;
-    int index = len - n;
-    for (int i = 0; i < len; ++i)
+    int index = queenLen - n;
+    for (int i = 0; i < queenLen; ++i)
     {
-        if (queen15[i] > 0)
-        {
-            if (queen15[i] & 0x2)
-                queen215[i] |= 0x2;
-            if (i > 0 && (queen15[i] & 0x4))
-                queen215[i - 1] |= 0x4;
-            if (i < len - 1 && (queen15[i] & 0x1))
-                queen215[i + 1] |= 0x1;
-        }
+        if (queen[i] & 0x2)
+            queen2[i] |= 0x2;
+        if (i > 0 && (queen[i] & 0x4))
+            queen2[i - 1] |= 0x4;
+        if (i < queenLen - 1 && (queen[i] & 0x1))
+            queen2[i + 1] |= 0x1;
     }
-    for (int i = 0; i < len; ++i)
+    for (int i = 0; i < queenLen; ++i)
     {
-        if (queen215[i] > 0)
+        if (queen2[i] > 0)
             continue;
-        queen215[i] = 0x7;
-        num += totalNQueensHelp15(n - 1);
-        queen215[i] = 0;
+        queen2[i] = 0x7;
+        num += totalNQueensHelp15(n - 1, queen2);
+        queen2[i] = 0;
     }
     return num;
 }
 int totalNQueens15(int n) {
     if (n <= 0)
         return 0;
-    queen15 = new int[n];
-    queen215 = new int[n];
-    return totalNQueensHelp15(n);
+    queenLen = n;
+    int *queen = new int[queenLen];
+    memset(queen,0,sizeof(queen));
+    return totalNQueensHelp15(n, queen);
 }
-
+//////////////////////////////////////////////////////////////////////////
 int *indexs;
 int num = 0;
 bool CheckCan(int k, int target)
@@ -6023,7 +6021,7 @@ int main()
     printf("%d, %d\n", numnum, n - old);
     num = 0;
     old = clock();
-    numnum = totalNQueens13(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+    numnum = totalNQueens15(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
     n = clock();
     printf("%d, %d\n", numnum, n - old);
     num = 0;
