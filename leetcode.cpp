@@ -5595,6 +5595,23 @@ int totalNQueens2(int n) {
     vector<vector<int>> queen(n, vector<int>(n, 0));
     return totalNQueensHelp(n, queen);
 }
+
+void yingxiang(vector<int> &queen, vector<int> &queen2)
+{
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen[i] > 0)
+        {
+            if (queen[i] & 0x2)
+                queen2[i] |= 0x2;
+            if (i > 0 && (queen[i] & 0x4))
+                queen2[i - 1] |= 0x4;
+            if (i < len - 1 && (queen[i] & 0x1))
+                queen2[i + 1] |= 0x1;
+        }
+    }
+}
 int totalNQueensHelp3(int n, vector<int> queen)
 {
     int num = 0;
@@ -5602,14 +5619,18 @@ int totalNQueensHelp3(int n, vector<int> queen)
     vector<int> queen2(len, 0);
     if (n <= 0)
         return 1;
+    //yingxiang(queen, queen2);
     for (int i = 0; i < len; ++i)
     {
-        if (queen[i] & 0x2)
-            queen2[i] |= 0x2;
-        if (i > 0 && (queen[i] & 0x4))
-            queen2[i - 1] |= 0x4;
-        if (i < len - 1 && (queen[i] & 0x1))
-            queen2[i + 1] |= 0x1;
+        if (queen[i] > 0 )
+        {
+            if (queen[i] & 0x2)
+                queen2[i] |= 0x2;
+            if (i > 0 && (queen[i] & 0x4))
+                queen2[i - 1] |= 0x4;
+            if (i < len - 1 && (queen[i] & 0x1))
+                queen2[i + 1] |= 0x1;
+        }
     }
     for (int i = 0; i < len; ++i)
     {
@@ -5627,10 +5648,51 @@ int totalNQueens(int n) {
     vector<int> queen(n,0);
     return totalNQueensHelp3(n, queen);
 }
+
+int *indexs;
+int num = 0;
+bool CheckCan(int k, int target)
+{
+    bool result = false;
+    for (int i = k - 1; i >= 0; i--)
+        if (indexs[i] == target
+            || indexs[i] - (k - i) == target
+            || indexs[i] + (k - i) == target)
+            return true;
+    return result;
+}
+void Check(int k, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        //bool result = false;               //这样反而会变慢
+        //for (int j = k - 1; j >= 0; j--)
+        //    if (indexs[j] == i
+        //        || indexs[j] - (k - j) == i
+        //        || indexs[j] + (k - j) == i)
+        //        result = true;
+        //if (!result)
+        if (!CheckCan(k, i))
+        {
+            indexs[k] = i;
+            if (k == n - 1)
+                num++;
+            else
+                Check(k + 1, n);
+        }
+    }
+}
+int totalNQueens4(int n)//别人的代码
+{
+    indexs = new int[n];
+    Check(0, n);
+    return num;
+}
+
 int main()
 {
     int old = clock();
-    int num = totalNQueens(11);//11 6234
+    int num = totalNQueens4(11);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
     int n = clock();
     printf("%d, %d", num, n - old);
     getchar();
