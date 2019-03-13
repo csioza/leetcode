@@ -5968,7 +5968,6 @@ bool avalid(int x, int y, int x2, int y2)
 {
     if (y == y2)
         return false;
-
     dx = x - x2;
     dy = y - y2;
     if (dx == dy || dx == -dy)
@@ -6043,7 +6042,6 @@ int totalNQueens8(int n)
     }
     else
     {
-
         lines[0] = cishu;
         gonext(0, 0);
         int temp = count1;
@@ -6056,18 +6054,16 @@ int totalNQueens8(int n)
         count1 = count1 * 2;
         count1 = count1 + temp;
     }
-
     return count1;
 }
 
-
 int main()
 {
-    int nn = 15;
+    int nn = 11;
     {
-        //int old = clock();
-        //int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        //printf("%d, %d\n", numnum, clock() - old);
+        int old = clock();
+        int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
     }
     {
         int old = clock();
@@ -6075,9 +6071,9 @@ int main()
         printf("%d, %d\n", numnum, clock() - old);
     }
     {
-        //int old = clock();
-        //int numnum = totalNQueens8(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        //printf("%d, %d\n", numnum, clock() - old);
+        int old = clock();
+        int numnum = totalNQueens8(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
     }
     getchar();
     return 0;
