@@ -5508,6 +5508,8 @@ int totalNQueensHelp16(int n)
         memset(queen16[index], 0, lenmem16);
         for (int i = 0; i < len16; ++i)
         {
+            //if (queen16[index - 1][i] <= 0)
+            //    continue;
             if (queen16[index - 1][i] & 0x2)
                 queen16[index][i] |= 0x2;
             if (i > 0 && (queen16[index - 1][i] & 0x4))
@@ -6061,11 +6063,11 @@ int totalNQueens8(int n)
 
 int main()
 {
-    int nn = 14;
+    int nn = 15;
     {
-        int old = clock();
-        int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        printf("%d, %d\n", numnum, clock() - old);
+        //int old = clock();
+        //int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        //printf("%d, %d\n", numnum, clock() - old);
     }
     {
         int old = clock();
@@ -6073,9 +6075,9 @@ int main()
         printf("%d, %d\n", numnum, clock() - old);
     }
     {
-        int old = clock();
-        int numnum = totalNQueens8(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        printf("%d, %d\n", numnum, clock() - old);
+        //int old = clock();
+        //int numnum = totalNQueens8(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        //printf("%d, %d\n", numnum, clock() - old);
     }
     getchar();
     return 0;
