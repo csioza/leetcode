@@ -6116,8 +6116,7 @@ public:
     }
 };
 //222. 完全二叉树的节点个数
-
-class Solution {
+class Solution222 {
 public:
     int leaf;
     bool isFind;
@@ -6137,13 +6136,17 @@ public:
             leaf++;
         }
         countNodes(root->left, curDeep + 1);
-        countNodes(root->left, curDeep + 1);
+        countNodes(root->right, curDeep + 1);
     }
     int countNodes(TreeNode* root) {
         leaf = 0;
         isFind = false;
         if (root == NULL)
             return 0;
-
+        countNodes(root, 1);
+        int sum = 0;
+        for (int i = 0; i < maxDeep - 1; ++i)
+            sum |= (1<<i);
+        return sum+leaf;
     }
 };
