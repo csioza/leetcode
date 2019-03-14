@@ -6224,3 +6224,17 @@ public:
         return false;
     }
 };
+//449. 序列化和反序列化二叉搜索树
+class Codec449 {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+
+    }
+};
