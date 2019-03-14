@@ -6148,3 +6148,44 @@ public:
         return sum+leaf;
     }
 };
+//230. 二叉搜索树中第K小的元素
+class Solution230 {
+public:
+    int cnt = 0;
+    int val = 0;
+    void kthSmallest2(TreeNode* root, int k) {
+        if (root == NULL)
+            return;
+        kthSmallest2(root->left, k);
+        cnt++;
+        if (cnt == k)
+        {
+            val = root->val;
+            return;
+        }
+        kthSmallest2(root->right, k);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        if (root == NULL)
+            return 0;
+        kthSmallest2(root, k);
+        return val;
+    }
+};
+//236. 二叉树的最近公共祖先
+class Solution236 {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (root == NULL)
+            return NULL;
+        if (root == p || root == q)
+            return root;
+        TreeNode *left = lowestCommonAncestor(root->left, p, q);
+        TreeNode *right = lowestCommonAncestor(root->right, p, q);
+        if (!left)
+            return right;
+        if (!right)
+            return left;
+        return root;
+    }
+};
