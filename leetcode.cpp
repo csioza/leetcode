@@ -6192,17 +6192,35 @@ public:
 //173. ¶ş²æËÑË÷Ê÷µü´úÆ÷
 class BSTIterator {
 public:
+    vector<TreeNode*> st;
     BSTIterator(TreeNode* root) {
-
+        while (root)
+        {
+            st.push_back(root);
+            root = root->left;
+        }
     }
-
     /** @return the next smallest number */
     int next() {
-
+        int len = st.size();
+        if (len > 0)
+        {
+            int res = st[len - 1]->val;
+            TreeNode* root = st[len - 1]->right;
+            st.pop_back();
+            while (root)
+            {
+                st.push_back(root);
+                root = root->left;
+            }
+            return res;
+        }
+        return 0;
     }
-
     /** @return whether we have a next smallest number */
     bool hasNext() {
-
+        int len = st.size();
+        if (len > 0) return true;
+        return false;
     }
 };
