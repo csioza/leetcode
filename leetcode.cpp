@@ -6238,3 +6238,22 @@ public:
 
     }
 };
+//1008. 先序遍历构造二叉树
+class Solution1008 {
+public:
+    TreeNode* bstFromPreorder(vector<int>& preorder, int left, int right) {
+        int len = preorder.size();
+        if (len == 0 || left > right || len <= right || left < 0)
+            return NULL;
+        TreeNode* node = new TreeNode(preorder[left]);
+        int i = left + 1;
+        for (; i <= right && preorder[i] < node->val; ++i);
+        node->left = bstFromPreorder(preorder, left + 1, i - 1);
+        node->right = bstFromPreorder(preorder, i, right);
+        return node;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int len = preorder.size();
+        return bstFromPreorder(preorder, 0, len - 1);
+    }
+};
