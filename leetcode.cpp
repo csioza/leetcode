@@ -6189,3 +6189,20 @@ public:
         return root;
     }
 };
+//173. ¶þ²æËÑË÷Ê÷µü´úÆ÷
+class BSTIterator {
+public:
+    BSTIterator(TreeNode* root) {
+
+    }
+
+    /** @return the next smallest number */
+    int next() {
+
+    }
+
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+
+    }
+};
