@@ -6227,17 +6227,85 @@ public:
 //449. 序列化和反序列化二叉搜索树
 class Codec449 {
 public:
-
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-
+        string s;
+        if (root == NULL)
+            return s;
+        int val = root->val;
+        if (val == 0)
+            s.push_back('0');
+        else
+        {
+            if (val < 0)
+            {
+                s.push_back('-');
+                val = -val;
+            }
+            while (val > 0)
+            {
+                int y = val % 10;
+                char tmp = '0' + y;
+                s.push_back(tmp);
+                //s.push_back('0' + val);
+                val /= 10;
+            }
+        }
+        s.push_back(',');
+        if (root->left)
+            s.append(serialize(root->left));
+        if (root->right)
+            s.append(serialize(root->right));
+        //s.pop_back();
+        return s;
     }
-
+    TreeNode* bstFromPreorder(int* preorder, int left, int right) {
+        if (left > right)
+            return NULL;
+        TreeNode* node = new TreeNode(preorder[left]);
+        int i = left + 1;
+        for (; i <= right && preorder[i] < node->val; ++i);
+        node->left = bstFromPreorder(preorder, left + 1, i - 1);
+        node->right = bstFromPreorder(preorder, i, right);
+        return node;
+    }
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-
+        if (data.size() == 0)
+            return NULL;
+        int *p = new int[data.size() / 2 + 1];
+        int cnt = 0;
+        for (int i = 0; i < data.size(); ++i)
+        {
+            int num = 0;
+            int x = 1;
+            int f = 1;
+            if (data[i] == '-')
+                f = -1;
+            while (data[i] != ',')
+            {
+                num += (data[i] - '0') * x;
+                x *= 10;
+                ++i;
+            }
+            p[cnt++] = num*f;
+        }
+        return bstFromPreorder(p,0,cnt-1);
     }
 };
+int main449()
+{
+    Codec449 code;
+    TreeNode*n1 = new TreeNode(2);
+    TreeNode*n2 = new TreeNode(1);
+    TreeNode*n3 = new TreeNode(3);
+    n1->left = n2;
+    n1->right = n3;
+    string s = code.serialize(n1);
+    TreeNode*p = code.deserialize(s);
+    getchar();
+    return 0;
+}
 //1008. 先序遍历构造二叉树
 class Solution1008 {
 public:
