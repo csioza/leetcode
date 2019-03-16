@@ -6571,3 +6571,10 @@ public:
         return p;
     }
 };
+//572. 另一个树的子树
+class Solution572 {
+public:
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+
+    }
+};
