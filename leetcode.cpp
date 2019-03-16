@@ -6451,7 +6451,24 @@ public:
 //513. ÕÒÊ÷×óÏÂ½ÇµÄÖµ
 class Solution513 {
 public:
+    int maxDeep = 0;
+    int val = 0;
+    void findBottomLeftValue2(TreeNode* root,int deep) {
+        if (root)
+        {
+            if (deep > maxDeep)
+            {
+                maxDeep++;
+                val = root->val;
+            }
+            findBottomLeftValue2(root->left, deep + 1);
+            findBottomLeftValue2(root->right, deep + 1);
+        }
+    }
     int findBottomLeftValue(TreeNode* root) {
-
+        if (root == NULL)
+            return 0;
+        findBottomLeftValue2(root, 1);
+        return val;
     }
 };
