@@ -6326,48 +6326,72 @@ public:
     }
 };
 //450. 删除二叉搜索树中的节点
-class Solution {
+class Solution450 {
 public:
+    TreeNode** next = NULL;
     TreeNode* deleteNode(TreeNode* root, int key) {
         if (root == NULL)
             return NULL;
         if (root->val == key)
         {
-            if (root->left && root->right)
+            TreeNode* pre = root;
+            TreeNode* p = root->right;
+            if (p)
             {
-                TreeNode* p = root->right;
-                if (root->right->left == NULL)
+                while (p->left)
                 {
-                    root->val = p->val;
-                    root->right = p->right;
+                    pre = p;
+                    p = p->left;
                 }
-                else
+                p->left = root->left;
+                if (pre->left == p && p->right)
                 {
-                    TreeNode* pre = root;
-                    while (p->left)
-                    {
-                        pre = p;
-                        p = p->left;
-                    }
-                    root->val = p->val;
                     pre->left = p->right;
+                    p->right = root->right;
                 }
+                if (next)
+                    *next = p;
+                else
+                    return p;
             }
-            else if ()
+            else
             {
-            }
-            {
-
+                if (next)
+                    *next = root->left;
+                else
+                    return root->left;
             }
         }
         else if (root->val > key)
         {
-
+            next = &root->left;
+            deleteNode(root->left, key);
         }
         else
         {
-
+            next = &root->right;
+            deleteNode(root->right, key);
         }
         return root;
     }
 };
+
+int main()
+{
+    Solution450 de;
+    TreeNode* n5 = new TreeNode(5);
+    TreeNode* n3 = new TreeNode(3);
+    TreeNode* n6 = new TreeNode(6);
+    TreeNode* n2 = new TreeNode(2);
+    TreeNode* n4 = new TreeNode(4);
+    TreeNode* n7 = new TreeNode(7);
+    n5->left = n3;
+    n5->right = n6;
+    n3->left = n2;
+    n3->right = n4;
+    n6->right = n7;
+
+    de.deleteNode(n5,3);
+    getchar();
+    return 0;
+}
