@@ -6526,3 +6526,29 @@ public:
         return root;
     }
 };
+//543. ¶þ²æÊ÷µÄÖ±¾¶
+class Solution543 {
+public:
+    int maxDeep = 0;
+    int diameterOfBinaryTree2(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        int left = diameterOfBinaryTree2(root->left);
+        int right = diameterOfBinaryTree2(root->right);
+        int maxcnt = left + right;
+        if (maxcnt > maxDeep)
+            maxDeep = maxcnt;
+        return max(left,right) + 1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        diameterOfBinaryTree2(root);
+        //int left = diameterOfBinaryTree2(root->left);
+        //int right = diameterOfBinaryTree2(root->right);
+        //int maxcnt = left + right;
+        //if (maxcnt > maxDeep)
+        //    maxDeep = maxcnt;
+        return maxDeep;
+    }
+};
