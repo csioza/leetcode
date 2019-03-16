@@ -6410,3 +6410,48 @@ int main450()
     getchar();
     return 0;
 }
+//508. 出现次数最多的子树元素和
+class Solution508 {
+public:
+    map<int,int> res;
+    int maxCnt = 0;
+    int findSum(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        int sum = root->val + findSum(root->left) + findSum(root->right);
+        map<int, int>::iterator iter = res.find(sum);
+        if (iter == res.end())
+        {
+            res[sum] = 1;
+            if (maxCnt == 0)
+                maxCnt = 1;
+        }
+        else
+        {
+            iter->second++;
+            if (iter->second > maxCnt)
+                maxCnt = iter->second;
+        }
+        return sum;
+    }
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        findSum(root);
+        vector<int> ret;
+        map<int, int>::iterator iter = res.begin();
+        for (; iter != res.end();iter++)
+        {
+            if (maxCnt == iter->second)
+            {
+                ret.push_back(iter->first);
+            }
+        }
+        return ret;
+    }
+};
+//513. 找树左下角的值
+class Solution513 {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+
+    }
+};
