@@ -6574,7 +6574,21 @@ public:
 //572. 另一个树的子树
 class Solution572 {
 public:
+    bool isMatch(TreeNode* s, TreeNode* t) {
+        if (s == NULL && t == NULL)
+            return true;
+        if (s && t && s->val == t->val)
+            return isMatch(s->left, t->left) && isMatch(s->right, t->right);
+        return false;
+    }
     bool isSubtree(TreeNode* s, TreeNode* t) {
-
+        if (!s)
+            return false;
+        bool res = false;
+        if (t && s->val == t->val)
+            res = isMatch(s, t);
+        if (res || isSubtree(s->left,t) || isSubtree(s->right,t))
+            return true;
+        return false;
     }
 };
