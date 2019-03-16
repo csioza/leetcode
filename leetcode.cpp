@@ -6512,3 +6512,17 @@ public:
         return res;
     }
 };
+//538. 把二叉搜索树转换为累加树
+class Solution538 {
+public:
+    int sum = 0;
+    TreeNode* convertBST(TreeNode* root) {
+        if (root == NULL)
+            return root;
+        convertBST(root->right);
+        sum += root->val;
+        root->val = sum;
+        convertBST(root->left);
+        return root;
+    }
+};
