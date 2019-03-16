@@ -6325,6 +6325,9 @@ public:
         return bstFromPreorder(preorder, 0, len - 1);
     }
 };
+
+//2019.03.16
+
 //450. 删除二叉搜索树中的节点
 class Solution450 {
 public:
@@ -6470,5 +6473,42 @@ public:
             return 0;
         findBottomLeftValue2(root, 1);
         return val;
+    }
+};
+//515. 在每个树行中找最大值
+class Solution515 {
+public:
+    vector<int> largestValues(TreeNode* root) {
+        vector<int> res;
+        if (root == NULL)
+            return res;
+        vector<TreeNode*> s;
+        s.push_back(root);
+        res.push_back(root->val);
+        for (int i = 0; i < s.size();)
+        {
+            int len = s.size();
+            int max = INT_MIN;
+            for ( ; i < len; ++i)
+            {
+                if (s[i]->left)
+                {
+                    s.push_back(s[i]->left);
+                    if (s[i]->left->val > max)
+                        max = s[i]->left->val;
+                }
+                if (s[i]->right)
+                {
+                    s.push_back(s[i]->right);
+                    if (s[i]->right->val > max)
+                        max = s[i]->right->val;
+                }
+            }
+            if (i < s.size())
+            {
+                res.push_back(max);
+            }
+        }
+        return res;
     }
 };
