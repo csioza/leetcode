@@ -6344,9 +6344,10 @@ public:
                     p = p->left;
                 }
                 p->left = root->left;
-                if (pre->left == p && p->right)
+                if (pre->left == p)
                 {
-                    pre->left = p->right;
+                    //if (p->right)
+                        pre->left = p->right;
                     p->right = root->right;
                 }
                 if (next)
@@ -6372,6 +6373,21 @@ public:
             next = &root->right;
             deleteNode(root->right, key);
         }
+        return root;
+    }    
+    TreeNode* deleteNode2(TreeNode* root, int key) //ÍøÉÏÕÒµÄ
+    {
+        if (!root) return NULL;
+        if (root->val == key) {
+            if (!root->right) return root->left;
+            else {
+                TreeNode *cur = root->right;
+                while (cur->left) cur = cur->left;
+                swap(root->val, cur->val);
+            }
+        }
+        root->left = deleteNode(root->left, key);
+        root->right = deleteNode(root->right, key);
         return root;
     }
 };
