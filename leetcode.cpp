@@ -6552,3 +6552,22 @@ public:
         return maxDeep;
     }
 };
+//563. ¶þ²æÊ÷µÄÆÂ¶È
+class Solution563 {
+public:
+    int p = 0;
+    int findTilt2(TreeNode* root) {
+        if (root == NULL)
+        {
+            return 0;
+        }
+        int left = findTilt2(root->left);
+        int right = findTilt2(root->right);
+        p += left > right ? left - right : right - left;
+        return left + right + root->val;
+    }
+    int findTilt(TreeNode* root) {
+        findTilt2(root);
+        return p;
+    }
+};
