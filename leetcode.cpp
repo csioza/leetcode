@@ -6325,3 +6325,49 @@ public:
         return bstFromPreorder(preorder, 0, len - 1);
     }
 };
+//450. 删除二叉搜索树中的节点
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (root == NULL)
+            return NULL;
+        if (root->val == key)
+        {
+            if (root->left && root->right)
+            {
+                TreeNode* p = root->right;
+                if (root->right->left == NULL)
+                {
+                    root->val = p->val;
+                    root->right = p->right;
+                }
+                else
+                {
+                    TreeNode* pre = root;
+                    while (p->left)
+                    {
+                        pre = p;
+                        p = p->left;
+                    }
+                    root->val = p->val;
+                    pre->left = p->right;
+                }
+            }
+            else if ()
+            {
+            }
+            {
+
+            }
+        }
+        else if (root->val > key)
+        {
+
+        }
+        else
+        {
+
+        }
+        return root;
+    }
+};
