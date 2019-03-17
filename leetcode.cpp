@@ -6766,7 +6766,6 @@ public:
 //653. 两数之和 IV - 输入 BST
 class Solution653 {
 public:
-    TreeNode*r = NULL;
     bool isTarget(TreeNode* root, TreeNode* n, int k) {
         if (root == NULL)
             return false;
@@ -6786,6 +6785,7 @@ public:
     bool findTarget3(TreeNode* root, int k) {
         return findTarget2(root, root, k);
     }
+    TreeNode*r = NULL;
     bool findTarget(TreeNode* root, int k) {
         if (!root)
             return false;
