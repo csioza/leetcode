@@ -6720,7 +6720,46 @@ public:
 //652. Ñ°ÕÒÖØ¸´µÄ×ÓÊ÷
 class Solution652 {
 public:
+    map<int, vector<TreeNode*>> s;
+    void find(TreeNode* root) {
+        if (!root)
+            return;
+        map<int, vector<TreeNode*>>::iterator iter = s.find(root->val);
+        if (iter != s.end())
+            iter->second.push_back(root);
+        else
+            s[root->val] = vector<TreeNode*>(1, root);
+        find(root->left);
+        find(root->right);
+    }
+    bool isMatch(TreeNode* t1, TreeNode* t2) {
+        if (t1 && t2)
+        {
+            return t1->val == t2->val 
+                && isMatch(t1->left, t2->left) 
+                && isMatch(t1->right,t2->right);
+        }
+        else if (!t1 && !t2)
+            return true;
+        return false;
+    }
     vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
-
+        find(root);
+        vector<TreeNode*> res;
+        map<int, vector<TreeNode*>>::iterator iter = s.begin();
+        for (; iter != s.end(); ++iter)
+        {
+            for (int i = 0; i < iter->second.size(); ++i)
+            {
+                for (int j = i + 1; j < iter->second.size(); ++j)
+                {
+                    if (isMatch(iter->second[i], iter->second[j]))
+                    {
+                        res.push_back(iter->second[i]);
+                    }
+                }
+            }
+        }
+        return res;
     }
 };
