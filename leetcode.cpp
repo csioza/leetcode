@@ -6592,3 +6592,31 @@ public:
         return false;
     }
 };
+
+//2019.03.17
+
+//606. 根据二叉树创建字符串
+class Solution606 {
+public:
+    string tree2str(TreeNode* t) {
+        string s;
+        if (t == NULL)
+            return s;
+        s.append(to_string(t->val));
+        if (t->left)
+        {
+            s.push_back('(');
+            s.append(tree2str(t->left));
+            s.push_back(')');
+        }
+        if (t->right)
+        {
+            if (!t->left)
+                s.append("()");
+            s.push_back('(');
+            s.append(tree2str(t->right));
+            s.push_back(')');
+        }
+        return s;
+    }
+};
