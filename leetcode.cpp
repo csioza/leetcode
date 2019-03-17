@@ -6824,3 +6824,130 @@ public:
         return constructMaximumBinaryTree(nums, 0, len - 1);
     }
 };
+//662. 二叉树最大宽度
+class Solution662 {
+public:
+    int widthOfBinaryTree2(TreeNode* root) {//107/108 超出内存限制
+        int maxW = 0;
+        if (root == NULL)
+            return maxW;
+        vector<TreeNode*> s;
+        s.push_back(root);
+        maxW = 1;
+        for (int i = 0; i < s.size();)
+        {
+            int len = s.size();
+            int st = -1;
+            int ed = 0;
+            for (int j = 0; i < len; ++i,j+=2)
+            {
+                if (s[i])
+                {
+                    if (s[i]->left)
+                    {
+                        if (st == -1)
+                            st = j;
+                        ed = j;
+                    }
+                    if (s[i]->right)
+                    {
+                        if (st == -1)
+                            st = j+1;
+                        ed = j+1;
+                    }
+                    s.push_back(s[i]->left);
+                    s.push_back(s[i]->right);
+                }
+                else
+                {
+                    s.push_back(NULL);
+                    s.push_back(NULL);
+                }
+            }
+            if (st >= 0)
+            {
+                int cur = ed - st + 1;
+                if (cur > maxW)
+                    maxW = cur;
+            }
+            else
+                break;
+        }
+        return maxW;
+    }
+    int widthOfBinaryTree4(TreeNode* root) {//107/108 超出内存限制
+        int maxW = 0;
+        if (root == NULL)
+            return maxW;
+        TreeNode* s[1024];
+        int slen = 0;
+        memset(s, 0, sizeof(s));
+        TreeNode* s2[1024];
+        s[0] = root;
+        slen = 1;
+        maxW = 1;
+        while (slen > 0)
+        {
+            int st = -1;
+            int ed = 0;
+            memset(s2, 0, sizeof(s2));
+            int slen2 = 0;
+            for (int i = 0,j = 0; i < slen; ++i, j += 2)
+            {
+                if (s[i])
+                {
+                    if (s[i]->left)
+                    {
+                        if (st == -1)
+                            st = j;
+                        ed = j;
+                    }
+                    if (s[i]->right)
+                    {
+                        if (st == -1)
+                            st = j + 1;
+                        ed = j + 1;
+                    }
+                    s2[slen2++] = s[i]->left;
+                    s2[slen2++] = s[i]->right;
+                }
+                else
+                {
+                    s2[slen2++] = NULL;
+                    s2[slen2++] = NULL;
+                }
+            }
+            if (st >= 0)
+            {
+                int cur = ed - st + 1;
+                if (cur > maxW)
+                    maxW = cur;
+            }
+            else
+                break;
+            memcpy(s, s2, sizeof(s));
+            slen = slen2;
+        }
+        return maxW;
+    }
+    int maxNum = 0;
+    vector<int> d;
+    void widthOfBinaryTree3(TreeNode* root,int deep) {
+        if (root == NULL)
+            return;
+        if (d.size() > deep)
+            d[deep]++;
+        else
+            d.push_back(1);
+        if (maxNum < d[deep])
+            maxNum = d[deep];
+        widthOfBinaryTree3(root->left, deep + 1);
+        widthOfBinaryTree3(root->right, deep + 1);
+    }
+    int widthOfBinaryTree(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        widthOfBinaryTree3(root, 1);
+        return maxNum;
+    }
+};
