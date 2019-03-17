@@ -6639,3 +6639,45 @@ public:
         return NULL;
     }
 };
+//623. 在二叉树中增加一行
+class Solution623 {
+public:
+    TreeNode* addOneRow(TreeNode* root, int v, int d) {
+        if (root == NULL || d <= 0)
+            return root;
+        if (d == 1)
+        {
+            TreeNode *n = new TreeNode(v);
+            n->left = root;
+            return n;
+        }
+        vector<TreeNode*> s;
+        s.push_back(root);
+        for (int i = 0, j = 1; i < s.size() && j < d; ++j)
+        {
+            int len = s.size();
+            for (; i < len; ++i)
+            {
+                if (j == d - 1)
+                {
+                    TreeNode* node = new TreeNode(v);
+                    TreeNode* tmp = s[i]->left;
+                    s[i]->left = node;
+                    node->left = tmp;
+                    TreeNode* node2 = new TreeNode(v);
+                    TreeNode* tmp2 = s[i]->right;
+                    s[i]->right = node2;
+                    node2->right = tmp2;
+                }
+                else 
+                {
+                    if (s[i]->left)
+                        s.push_back(s[i]->left);
+                    if (s[i]->right)
+                        s.push_back(s[i]->right);
+                }
+            }
+        }
+        return root;
+    }
+};
