@@ -6718,7 +6718,7 @@ public:
     }
 };
 //652. 寻找重复的子树
-class Solution652 {
+class Solution652 {//错误答案
 public:
     map<int, vector<TreeNode*>> s;
     void find(TreeNode* root) {
@@ -6761,5 +6761,28 @@ public:
             }
         }
         return res;
+    }
+};
+//653. 两数之和 IV - 输入 BST
+class Solution653 {
+public:
+    TreeNode*r = NULL;
+    bool isTarget(TreeNode* root, TreeNode* n, int k) {
+        if (root == NULL)
+            return false;
+        if (root != n && root->val == k)
+            return true;
+        if (root->val > k)
+            return isTarget(root->left, n, k);
+        return isTarget(root->right, n, k);
+    }
+    bool findTarget(TreeNode* root, int k) {
+        if (!root)
+            return false;
+        if (!r)
+            r = root;
+        return isTarget(r, root, k - root->val) 
+            || findTarget(root->left, k) 
+            || findTarget(root->right, k);
     }
 };
