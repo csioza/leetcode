@@ -6717,3 +6717,10 @@ public:
         return r;
     }
 };
+//652. Ñ°ÕÒÖØ¸´µÄ×ÓÊ÷
+class Solution652 {
+public:
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+
+    }
+};
