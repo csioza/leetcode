@@ -6681,3 +6681,39 @@ public:
         return root;
     }
 };
+//637. 二叉树的层平均值
+class Solution637 {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> r;
+        if (!root)
+            return r;
+        vector<TreeNode*> s;
+        s.push_back(root);
+        r.push_back(root->val);
+        for (int i = 0; i < s.size(); )
+        {
+            long long sum = 0;
+            int cnt = 0;
+            int len = s.size();
+            for (; i < len; ++i)
+            {
+                if (s[i]->left)
+                {
+                    sum += s[i]->left->val;
+                    cnt++;
+                    s.push_back(s[i]->left);
+                }
+                if (s[i]->right)
+                {
+                    sum += s[i]->right->val;
+                    cnt++;
+                    s.push_back(s[i]->right);
+                }
+            }
+            if (cnt > 0)
+                r.push_back(double(sum) / cnt);
+        }
+        return r;
+    }
+};
