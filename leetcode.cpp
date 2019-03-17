@@ -6776,13 +6776,23 @@ public:
             return isTarget(root->left, n, k);
         return isTarget(root->right, n, k);
     }
+    bool findTarget2(TreeNode* root, TreeNode* curNode, int k) {
+        if (!curNode)
+            return false;
+        return isTarget(root, curNode, k - curNode->val)
+            || findTarget2(root, curNode->left, k)
+            || findTarget2(root, curNode->right, k);
+    }
+    bool findTarget3(TreeNode* root, int k) {
+        return findTarget2(root, root, k);
+    }
     bool findTarget(TreeNode* root, int k) {
         if (!root)
             return false;
         if (!r)
             r = root;
-        return isTarget(r, root, k - root->val) 
-            || findTarget(root->left, k) 
+        return isTarget(r, root, k - root->val)
+            || findTarget(root->left, k)
             || findTarget(root->right, k);
     }
 };
