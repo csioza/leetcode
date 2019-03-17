@@ -6796,3 +6796,31 @@ public:
             || findTarget(root->right, k);
     }
 };
+//654. ×î´ó¶þ²æÊ÷
+class Solution {
+public:
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums, int left, int right) {
+        if (left > right)
+            return NULL;
+        int maxNum = nums[left];
+        int pos = left;
+        for (int i = left + 1; i <= right; ++i)
+        {
+            if (maxNum < nums[i])
+            {
+                maxNum = nums[i];
+                pos = i;
+            }
+        }
+        TreeNode* n = new TreeNode(maxNum);
+        n->left = constructMaximumBinaryTree(nums, left, pos - 1);
+        n->right = constructMaximumBinaryTree(nums, pos + 1, right);
+        return n;
+    }
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        int len = nums.size();
+        if (len == 0)
+            return NULL;
+        return constructMaximumBinaryTree(nums, 0, len - 1);
+    }
+};
