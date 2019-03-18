@@ -7053,12 +7053,12 @@ int main687()
 }
 //429. N²æÊ÷µÄ²ãÐò±éÀú
 // Definition for a Node.
-class Node {
+class NNode {
 public:
     int val;
-    vector<Node*> children;
-    Node() {}
-    Node(int _val, vector<Node*> _children) {
+    vector<NNode*> children;
+    NNode() {}
+    NNode(int _val, vector<NNode*> _children) {
         val = _val;
         children = _children;
     }
@@ -7066,7 +7066,40 @@ public:
 
 class Solution492 {
 public:
-    vector<vector<int>> levelOrder(Node* root) {
-
+    vector<vector<int>> levelOrder(NNode* root) {
+        vector<vector<int>> res;
+        if (root == NULL)
+            return res;
+        vector<int> t;
+        t.push_back(root->val);
+        res.push_back(t);
+        vector<NNode*> s;
+        s.push_back(root);
+        while (s.size() > 0)
+        {
+            vector<int> tmp;
+            vector<NNode*> st;
+            for (int i = 0; i < s.size(); ++i)
+            {
+                for (int j = 0; j < s[i]->children.size(); ++j)
+                {
+                    if (s[i]->children[j])
+                    {
+                        st.push_back(s[i]->children[j]);
+                        tmp.push_back(s[i]->children[j]->val);
+                    }
+                }
+            }
+            if (tmp.size() > 0)
+            {
+                res.push_back(tmp);
+                s = st;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return res;
     }
 };
