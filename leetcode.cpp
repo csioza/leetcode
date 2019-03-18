@@ -7063,7 +7063,6 @@ public:
         children = _children;
     }
 };
-
 class Solution492 {
 public:
     vector<vector<int>> levelOrder(NNode* root) {
@@ -7113,5 +7112,12 @@ public:
         for (int i = 0; i < root->children.size(); ++i)
             maxNum = std::max(maxDepth(root->children[i]),maxNum);
         return maxNum + 1;
+    }
+};
+//589. N²æÊ÷µÄÇ°Ðò±éÀú
+class Solution589 {
+public:
+    vector<int> preorder(Node* root) {
+
     }
 };
