@@ -7004,3 +7004,69 @@ public:
         return sec;
     }
 };
+//687. 最长同值路径
+class Solution687 {
+public:
+    int maxNum = 0;
+    int longestUnivaluePath2(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        int left = longestUnivaluePath2(root->left);
+        if (root->left && root->left->val == root->val)
+            left++;
+        else
+            left = 0;
+        int right = longestUnivaluePath2(root->right);
+        if (root->right && root->right->val == root->val)
+            right++;
+        else
+            right = 0;
+        int lr = left + right;
+        if (lr > maxNum)
+            maxNum = lr;
+        return std::max(left,right);
+    }
+    int longestUnivaluePath(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        longestUnivaluePath2(root);
+        return maxNum;
+    }
+};
+int main687()
+{
+    Solution687 s;
+    TreeNode* n1 = new TreeNode(1);
+    TreeNode* n2 = new TreeNode(4);
+    TreeNode* n3 = new TreeNode(5);
+    TreeNode* n4 = new TreeNode(4);
+    TreeNode* n5 = new TreeNode(4);
+    TreeNode* n6 = new TreeNode(5);
+    n1->left = n2;
+    n1->right = n3;
+    n2->left = n4;
+    n2->right = n5;
+    n3->left = n6;
+    int i = s.longestUnivaluePath(n1);
+    getchar();
+    return 0;
+}
+//429. N叉树的层序遍历
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+    Node() {}
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+
+class Solution492 {
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+
+    }
+};
