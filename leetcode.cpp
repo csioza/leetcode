@@ -7117,7 +7117,16 @@ public:
 //589. N²æÊ÷µÄÇ°Ðò±éÀú
 class Solution589 {
 public:
-    vector<int> preorder(Node* root) {
-
+    vector<int> preorder(NNode* root) {
+        vector<int> res;
+        if (root == NULL)
+            return res;
+        res.push_back(root->val);
+        for (int i = 0; i < root->children.size(); ++i)
+        {
+            vector<int> r = preorder(root->children[i]);
+            res.insert(res.end(), r.begin(), r.end());
+        }
+        return res;
     }
 };
