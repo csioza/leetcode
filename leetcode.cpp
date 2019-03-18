@@ -7103,3 +7103,15 @@ public:
         return res;
     }
 };
+//559. N叉树的最大深度
+class Solution559 {
+public:
+    int maxDepth(NNode* root) {
+        if (root == NULL)
+            return 0;
+        int maxNum = 0;
+        for (int i = 0; i < root->children.size(); ++i)
+            maxNum = std::max(maxDepth(root->children[i]),maxNum);
+        return maxNum + 1;
+    }
+};
