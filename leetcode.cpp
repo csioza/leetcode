@@ -6966,3 +6966,41 @@ public:
         return root;
     }
 };
+
+//2019.03.18
+
+//671. 二叉树中第二小的节点
+class Solution671 {
+public:
+    int findSecondMinimumValue(TreeNode* root) {
+        if (root == NULL)
+            return -1;
+        int sec = -1;
+        if (root->left && root->left->val != root->val)
+            sec = root->left->val;
+        if (root->right && root->right->val != root->val)
+        {
+            if (sec > 0)
+                sec = std::min(root->right->val, sec);
+            else
+                sec = root->right->val;
+        }
+        int lsec = findSecondMinimumValue(root->left);
+        if (lsec > 0)
+        {
+            if (sec > 0)
+                sec = std::min(lsec, sec);
+            else
+                sec = lsec;
+        }
+        int rsec = findSecondMinimumValue(root->right);
+        if (rsec > 0)
+        {
+            if (sec > 0)
+                sec = std::min(rsec, sec);
+            else
+                sec = rsec;
+        }
+        return sec;
+    }
+};
