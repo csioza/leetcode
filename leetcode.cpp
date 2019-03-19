@@ -7209,7 +7209,54 @@ public:
 //863. 二叉树中所有距离为 K 的结点
 class Solution863 {
 public:
+    vector<int> res;
+    void disK(TreeNode* root, int K) {
+        if (root == NULL || K < 0)
+            return;
+        if (K == 0)
+        {
+            res.push_back(root->val);
+            return;
+        }
+        disK(root->left, K - 1);
+        disK(root->right, K - 1);
+    }
+    int disFindK(TreeNode* root, TreeNode* target, int K) {
+        if (root == NULL || K < 0)
+            return K;
+        if (target == root)
+            return K - 1;
+        int left = disFindK(root->left, target, K);
+        int right = disFindK(root->right, target, K);
+        if (left < 0 || right < 0)
+            return -1;
+        if (left == 0 || right == 0)
+        {
+            res.push_back(root->val);
+            return -1;
+        }
+        if (left < K)
+        {
+            disK(root->right, left - 1);
+            return left - 1;
+        }
+        if (right < K)
+        {
+            disK(root->left, right - 1);
+            return right - 1;
+        }
+        return K;
+    }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int K) {
-
+        if (K < 0 || target == NULL)
+            return res;
+        if (K == 0)
+        {
+            res.push_back(target->val);
+            return res;
+        }
+        disK(target, K);
+        disFindK(root,target,K);
+        return res;
     }
 };
