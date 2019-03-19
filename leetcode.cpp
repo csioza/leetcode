@@ -7146,3 +7146,17 @@ public:
         return res;
     }
 };
+//700. ¶þ²æËÑË÷Ê÷ÖÐµÄËÑË÷
+class Solution700 {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if (root == NULL)
+            return root;
+        if (root->val == val)
+            return root;
+        else if (root->val > val)
+            return searchBST(root->left, val);
+        else
+            return searchBST(root->right, val);
+    }
+};
