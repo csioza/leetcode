@@ -7160,3 +7160,31 @@ public:
             return searchBST(root->right, val);
     }
 };
+//701. 二叉搜索树中的插入操作
+class Solution701 {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if (root == NULL)
+            return root;
+        if (root->val == val)
+        {
+        }
+        else if (root->val > val)
+        {
+            if (root->left)
+                insertIntoBST(root->left, val);
+            else
+            {
+                root->left = new TreeNode(val);
+            }
+        }
+        else
+        {
+            if (root->right)
+                insertIntoBST(root->right, val);
+            else
+                root->right = new TreeNode(val);
+        }
+        return root;
+    }
+};
