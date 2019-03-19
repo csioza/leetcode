@@ -7130,4 +7130,19 @@ public:
         return res;
     }
 };
-//
+//590. N²æÊ÷µÄºóÐò±éÀú
+class Solution590 {
+public:
+    vector<int> postorder(NNode* root) {
+        vector<int> res;
+        if (root == NULL)
+            return res;
+        for (int i = 0; i < root->children.size(); ++i)
+        {
+            vector<int> r = postorder(root->children[i]);
+            res.insert(res.end(), r.begin(), r.end());
+        }
+        res.push_back(root->val);
+        return res;
+    }
+};
