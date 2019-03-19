@@ -7206,3 +7206,10 @@ public:
         return root->val != 0 || left || right ? root : NULL;
     }
 };
+//863. 二叉树中所有距离为 K 的结点
+class Solution863 {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int K) {
+
+    }
+};
