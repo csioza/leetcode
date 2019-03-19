@@ -7191,3 +7191,18 @@ public:
         return root;
     }
 };
+//814. ¶þ²æÊ÷¼ôÖ¦
+class Solution814 {
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        if (root == NULL)
+            return root;
+        TreeNode* left = pruneTree(root->left);
+        TreeNode* right = pruneTree(root->right);
+        if (!left)
+            root->left = NULL;
+        if (!right)
+            root->right = NULL;
+        return root->val != 0 || left || right ? root : NULL;
+    }
+};
