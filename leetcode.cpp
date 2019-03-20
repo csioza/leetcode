@@ -7284,7 +7284,7 @@ public:
     }
 };
 //872. 叶子相似的树
-class Solution {
+class Solution872 {
 public:
     void bianli(TreeNode* root,vector<int> &s) {
         if (root == NULL)
@@ -7314,5 +7314,22 @@ public:
             return false;
         }
         return true;
+    }
+};
+//897. 递增顺序查找树
+class Solution897 {
+public:
+    TreeNode* increasingBST(TreeNode* root) {
+        if (root == NULL)
+            return NULL;
+        root->right = increasingBST(root->right);
+        TreeNode* left = increasingBST(root->left);
+        root->left = NULL;
+        if (left)
+        {
+            left->right = root;
+            return left;
+        }
+        return root;
     }
 };
