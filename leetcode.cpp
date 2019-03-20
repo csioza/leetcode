@@ -7260,3 +7260,26 @@ public:
         return res;
     }
 };
+//865. 具有所有最深结点的最小子树
+class Solution865 {
+public:
+    int deep(TreeNode* root)
+    {
+        if (root == NULL)
+            return 0;
+        int left = deep(root->left);
+        int right = deep(root->right);
+        return max(left,right) + 1;
+    }
+    TreeNode* subtreeWithAllDeepest(TreeNode* root) {
+        if (root == NULL || (root->left == NULL && root->right == NULL))
+            return root;
+        int left = deep(root->left);
+        int right = deep(root->right);
+        if (left == right)
+            return root;
+        if (left > right)
+            return subtreeWithAllDeepest(root->left);
+        return subtreeWithAllDeepest(root->right);
+    }
+};
