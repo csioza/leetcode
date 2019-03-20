@@ -7283,3 +7283,36 @@ public:
         return subtreeWithAllDeepest(root->right);
     }
 };
+//872. Ò¶×ÓÏàËÆµÄÊ÷
+class Solution {
+public:
+    void bianli(TreeNode* root,vector<int> &s) {
+        if (root == NULL)
+            return;
+        if (!root->left && !root->right)
+            s.push_back(root->val);
+        bianli(root->left,s);
+        bianli(root->right,s);
+    }
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        vector<int> s1;
+        vector<int> s2;
+        bianli(root1, s1);
+        bianli(root2, s2);
+        if (s1.size() == s2.size())
+        {
+            for (int i = 0; i < s1.size(); ++i)
+            {
+                if (s1[i] != s2[i])
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+};
