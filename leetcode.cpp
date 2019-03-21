@@ -7448,13 +7448,9 @@ public:
         if (root == NULL)
             return;
         if (root->val == x)
-        {
             xDeep = curDeep;
-        }
         else if (root->val == y)
-        {
             yDeep = curDeep;
-        }
         if (root->left && root->right && 
             ((root->left->val == x && root->right->val == y)
              || (root->left->val == y && root->right->val == x)))
