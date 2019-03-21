@@ -7488,3 +7488,36 @@ public:
         return false;
     }
 };
+//958. 二叉树的完全性检验
+class Solution {
+public:
+    int maxDeep = 0;
+    int scdDeep = 0;
+    bool isCompleteTree2(TreeNode* root,int deep) {
+        if (!root)
+            return true;
+        if (deep > maxDeep)
+        {
+            maxDeep = deep;
+        }
+        if (!root->left && !root->right)
+        {
+            if (deep < maxDeep - 1)
+            {
+                return false;
+            }
+            else if (deep < maxDeep)
+            {
+                scdDeep = deep;
+            }
+            if (scdDeep > 0 && deep > scdDeep)
+            {
+                return false;
+            }
+        }
+        return isCompleteTree2(root->left,deep+1) && isCompleteTree2(root->right, deep + 1);
+    }
+    bool isCompleteTree(TreeNode* root) {
+        return isCompleteTree2(root, 0) && scdDeep >= maxDeep - 1;
+    }
+};
