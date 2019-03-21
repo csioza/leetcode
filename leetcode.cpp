@@ -7319,20 +7319,92 @@ public:
         return true;
     }
 };
+
+//2019.03.21
+
 //897. 递增顺序查找树
 class Solution897 {
 public:
+    TreeNode* increasingBST2(TreeNode* root, TreeNode* &end) {
+        if (root == NULL)
+            return NULL;
+        TreeNode* rend = NULL;
+        TreeNode* rstr = NULL;
+        rstr = increasingBST2(root->right, rend);
+        TreeNode* lend = NULL;
+        TreeNode* lstr = NULL;
+        lstr = increasingBST2(root->left, lend);
+        //
+        root->left = NULL;
+        root->right = rstr;
+        if (rend)
+            end = rend;
+        else
+            end = root;
+        if (lend)
+        {
+            lend->right = root;
+        }
+        if (lstr)
+        {
+            return lstr;
+        }
+        return root;
+    }
     TreeNode* increasingBST(TreeNode* root) {
         if (root == NULL)
             return NULL;
-        root->right = increasingBST(root->right);
-        TreeNode* left = increasingBST(root->left);
-        root->left = NULL;
-        if (left)
-        {
-            left->right = root;
-            return left;
-        }
-        return root;
+        TreeNode* end = NULL;
+        return increasingBST2(root, end);
+    }
+};
+int main897()
+{
+    Solution897 s;
+    TreeNode*n1 = new TreeNode(1);
+    TreeNode*n2 = new TreeNode(2);
+    TreeNode*n3 = new TreeNode(3);
+    TreeNode*n4 = new TreeNode(4);
+    TreeNode*n5 = new TreeNode(5);
+    TreeNode*n6 = new TreeNode(6);
+    TreeNode*n7 = new TreeNode(7);
+    TreeNode*n8 = new TreeNode(8);
+    TreeNode*n9 = new TreeNode(9);
+    n5->left = n3;
+    n5->right = n6;
+    n3->left = n2;
+    n3->right = n4;
+    n6->right = n8;
+    n2->left = n1;
+    n8->left = n7;
+    n8->right = n9;
+    TreeNode * r = s.increasingBST(n5);
+    getchar();
+    return 0;
+}
+//889. 根据前序和后序遍历构造二叉树
+class Solution889 {
+public:
+    TreeNode* constructFromPrePost(
+        vector<int>& pre, int xl, int xr,
+        vector<int>& post, int hl, int hr ) {
+        if (xl > xr || xr - xl != hr - hl)
+            return NULL;
+        TreeNode *node = new TreeNode(pre[xl]);
+        if (xr - xl == 0)
+            return node;
+        xl++;
+        int i = 0;
+        for (; i + hl <= hr && post[i + hl] != pre[xl]; i++);
+        node->left = constructFromPrePost(pre, xl, xl + i, post, hl, hl + i);
+        node->right = constructFromPrePost(pre, xl + 1 + i, xr, post, hl + i + 1, hr-1);
+        return node;
+    }
+    TreeNode* constructFromPrePost(vector<int>& pre, vector<int>& post) {
+        int xlen = pre.size();
+        int hlen = post.size();
+        if (xlen != hlen || xlen == 0)
+            return NULL;
+        return constructFromPrePost(pre,0,xlen-1,post,0,hlen-1);
     }
 };
