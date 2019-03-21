@@ -7408,3 +7408,33 @@ public:
         return constructFromPrePost(pre,0,xlen-1,post,0,hlen-1);
     }
 };
+//894. 所有可能的满二叉树
+class Solution894 {
+public:
+    vector<TreeNode*> allPossibleFBT(int N) {
+        vector<TreeNode*> res;
+        if (N % 2 == 0)
+            return res;
+        if (N == 1)
+        {
+            TreeNode* head = new TreeNode(0);
+            res.push_back(head);
+        }
+        for (int i = 1; i < N; ++i)
+        {
+            vector<TreeNode*> left = allPossibleFBT(i);
+            vector<TreeNode*> right = allPossibleFBT(N-i-1);
+            for (int j = 0; j < left.size(); ++j)
+            {
+                for (int k = 0; k < right.size(); ++k)
+                {
+                    TreeNode* head = new TreeNode(0);
+                    head->left = left[j];
+                    head->right = right[k];
+                    res.push_back(head);
+                }
+            }
+        }
+        return res;
+    }
+};
