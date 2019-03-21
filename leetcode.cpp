@@ -7438,3 +7438,40 @@ public:
         return res;
     }
 };
+//993. 二叉树的堂兄弟节点
+class Solution993 {
+public:
+    int deep(TreeNode* root, int x)
+    {
+        if (root == NULL)
+        {
+            return -1;
+        }
+        if (root->val == x)
+        {
+            return 1;
+        }
+        int left = deep(root->left, x);
+        int right = deep(root->left, x);
+        int d = max(left, right);
+        return d > 0 ? d + 1 : -1;
+    }
+    bool isCousins(TreeNode* root, int x, int y) {
+        if (root == NULL)
+        {
+            return false;
+        }
+        int xD = deep(root, x);
+        int yD = deep(root, y);
+        if (xD != yD)
+        {
+            return false;
+        }
+        if (root->left && root->right && 
+            ((root->left->val == x && root->right->val == y) 
+            || (root->left->val == y && root->right->val == x)))
+        {
+            return false;
+        }
+    }
+};
