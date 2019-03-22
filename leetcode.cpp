@@ -7489,13 +7489,23 @@ public:
     }
 };
 //958. 二叉树的完全性检验
-class Solution {
+class Solution958 {
 public:
     int maxDeep = 0;
     int scdDeep = 0;
     bool isCompleteTree2(TreeNode* root,int deep) {
         if (!root)
+        {
+            if (deep < maxDeep - 1)
+            {
+                return false;
+            }
+            if (deep == maxDeep)
+            {
+                scdDeep = deep - 1;
+            }
             return true;
+        }
         if (deep > maxDeep)
         {
             maxDeep = deep;
@@ -7517,7 +7527,100 @@ public:
         }
         return isCompleteTree2(root->left,deep+1) && isCompleteTree2(root->right, deep + 1);
     }
-    bool isCompleteTree(TreeNode* root) {
-        return isCompleteTree2(root, 0) && scdDeep >= maxDeep - 1;
+    bool isCompleteTree(TreeNode* root) {//错误答案
+        return isCompleteTree2(root, 1) && (scdDeep == 0 || scdDeep > 0 && scdDeep >= maxDeep - 1);
+    }
+    int isCompleteTree3(TreeNode* root) {//错误答案
+        if (root == NULL)
+            return 0;
+        int left = isCompleteTree3(root->left);
+        int right = isCompleteTree3(root->right);
+        if (left < 0 && right < 0)
+        {
+            return INT_MIN;
+        }
+        if (left > 0 && right > 0)
+        {
+            if (right > left)
+            {
+                return INT_MIN;
+            }
+            if (left - 1 > right)
+            {
+                return INT_MIN;
+            }
+            return left + 1;
+        }
+        if (left > 0 && right < 0 && left == -right)
+        {
+            return right - 1;
+        }
+        if (left < 0 && right > 0 && -left == right - 1)
+        {
+            return left;
+        }
+        return INT_MIN;
+    }
+    bool isCompleteTree(TreeNode* root) {//终于过啦
+        if (root == NULL)
+            return true;
+        vector<TreeNode*> s;
+        s.push_back(root);
+        int j = 1;
+        for (int i = 0; i < s.size();j*=2)
+        {
+            int len = s.size();
+            bool last = true;
+            int cnt = 0;
+            int cnt2 = 0;
+            for (; i < len; ++i)
+            {
+                if (s[i])
+                {
+                    if (s[i]->left)
+                    {
+                        s.push_back(s[i]->left);
+                        cnt2++;
+                        if (last)
+                            cnt++;
+                    }
+                    else
+                        last = false;
+                    if (s[i]->right)
+                    {
+                        s.push_back(s[i]->right);
+                        cnt2++;
+                        if (last)
+                            cnt++;
+                    }
+                    else
+                        last = false;
+                }
+            }
+            if (cnt2 < j*2)
+            {
+                if (cnt < cnt2)
+                    return false;
+                for (; i < s.size(); ++i)
+                {
+                    if (s[i]->left || s[i]->right)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+//965. 单值二叉树
+class Solution965 {
+public:
+    bool isUnivalTree(TreeNode* root) {
+        if (root == NULL)
+            return true;
+        if (root->left && root->left->val != root->val)
+            return false;
+        if (root->right && root->right->val != root->val)
+            return false;
+        return isUnivalTree(root->left) && isUnivalTree(root->right);
     }
 };
