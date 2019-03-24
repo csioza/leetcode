@@ -7704,3 +7704,26 @@ public:
         return res;
     }
 };
+//979. 在二叉树中分配硬币
+class Solution979 {
+public:
+    int cnt = 0;
+    int distributeCoins2(TreeNode* root) {
+        if (root == NULL)
+        {
+            return 0;
+        }
+        int left = distributeCoins2(root->left);
+        int right = distributeCoins2(root->right);
+        cnt += left >= 0 ? left : -left;
+        cnt += right >= 0 ? right : -right;
+        int r = root->val - 1;
+        return left + right + r;
+    }
+    int distributeCoins(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        distributeCoins2(root);
+        return cnt;
+    }
+};
