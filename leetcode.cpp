@@ -7624,4 +7624,39 @@ public:
         return isUnivalTree(root->left) && isUnivalTree(root->right);
     }
 };
-//
+//968. ¼à¿Ø¶þ²æÊ÷
+class Solution968 {
+public:
+    int minCameraCover2(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        if (!root->left && !root->right)
+        {
+            return 0x10000;
+        }
+        int left = minCameraCover2(root->left);
+        int right = minCameraCover2(root->right);
+        int res = (left & 0xffff) + (right & 0xffff);
+        if ((left & 0x10000) || (right & 0x10000))
+        {
+            res |= 0x20000;
+            res++;
+            return res;
+        }
+        if ((left & 0x20000) || (right & 0x20000))
+        {
+            return res;
+        }
+        return res | 0x10000;
+    }
+    int minCameraCover(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        int res = minCameraCover2(root);
+        if (res & 0x10000)
+        {
+            res++;
+        }
+        return res & 0xffff;
+    }
+};
