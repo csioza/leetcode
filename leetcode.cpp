@@ -7727,3 +7727,16 @@ public:
         return cnt;
     }
 };
+//987. ¶þ²æÊ÷µÄ´¹Ðò±éÀú
+class Solution987 {
+public:
+    map<int, map<int, int>> res;
+    void verticalTraversal2(TreeNode* root,int x,int y) {
+        if (root == NULL)
+            return;
+        map<int, map<int, int>>::iterator iter = res.find(x);
+    }
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+
+    }
+};
