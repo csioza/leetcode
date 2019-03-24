@@ -7663,3 +7663,44 @@ public:
         return res & 0xffff;
     }
 };
+//971. 翻转二叉树以匹配先序遍历
+class Solution971 {
+public:
+    int index = 0;
+    vector<int> res;
+    bool flipMatchVoyage2(TreeNode* root, vector<int>& voyage) {
+        if (root == NULL)
+            return true;
+        if (voyage.size() <= index
+            || root->val != voyage[index])
+        {
+            return false;
+        }
+        index++;
+        if (flipMatchVoyage2(root->left, voyage))
+        {
+            return flipMatchVoyage2(root->right, voyage);
+        }
+        else
+        {
+            if (flipMatchVoyage2(root->right, voyage))
+            {
+                res.push_back(root->val);
+                return flipMatchVoyage2(root->left, voyage);
+            }
+        }
+        return false;
+    }
+    vector<int> flipMatchVoyage(TreeNode* root, vector<int>& voyage) {
+        if (root == NULL)
+        {
+            return res;
+        }
+        if (!flipMatchVoyage2(root,voyage))
+        {
+            res.clear();
+            res.push_back(-1);
+        }
+        return res;
+    }
+};
