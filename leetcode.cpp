@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 #include <stack>
+#include <set>
 using namespace std;
 #include <time.h>
 #include <sstream>
@@ -7527,7 +7528,7 @@ public:
         }
         return isCompleteTree2(root->left,deep+1) && isCompleteTree2(root->right, deep + 1);
     }
-    bool isCompleteTree(TreeNode* root) {//´íÎó´ð°¸
+    bool isCompleteTree22(TreeNode* root) {//´íÎó´ð°¸
         return isCompleteTree2(root, 1) && (scdDeep == 0 || scdDeep > 0 && scdDeep >= maxDeep - 1);
     }
     int isCompleteTree3(TreeNode* root) {//´íÎó´ð°¸
@@ -7730,13 +7731,75 @@ public:
 //987. ¶þ²æÊ÷µÄ´¹Ðò±éÀú
 class Solution987 {
 public:
-    map<int, map<int, int>> res;
+    struct record
+    {
+        int _x;
+        int _y;
+        int _val;
+        record(int x, int y, int v):_x(x),_y(y),_val(v){}
+        bool operator < (const record &r) const
+        {
+            if (this->_x < r._x)
+                return true;
+            else if (this->_x == r._x)
+            {
+                if (this->_y > r._y)
+                    return true;
+                else if (this->_y == r._y && this->_val < r._val)
+                    return true;
+            }
+            return false;
+        }
+    };
+    set<record> res;
     void verticalTraversal2(TreeNode* root,int x,int y) {
         if (root == NULL)
             return;
-        map<int, map<int, int>>::iterator iter = res.find(x);
+        record r(x,y,root->val);
+        res.insert(r);
+        verticalTraversal2(root->left, x - 1, y - 1);
+        verticalTraversal2(root->right, x + 1, y - 1);
     }
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-
+        verticalTraversal2(root,0,0);
+        int x = INT_MIN;
+        vector<int> r;
+        vector<vector<int>> rr;
+        set<record>::iterator iter = res.begin();
+        for (; iter != res.end(); ++iter)
+        {
+            if (x != iter->_x)
+            {
+                x = iter->_x;
+                if (r.size() > 0)
+                {
+                    rr.push_back(r);
+                    r.clear();
+                }
+            }
+            r.push_back(iter->_val);
+        }
+        if (r.size()>0)
+        {
+            rr.push_back(r);
+            r.clear();
+        }
+        return rr;
     }
 };
+
+int main()
+{
+    TreeNode*n1 = new TreeNode(3);
+    TreeNode*n2 = new TreeNode(9);
+    TreeNode*n3 = new TreeNode(20);
+    TreeNode*n4 = new TreeNode(15);
+    TreeNode*n5 = new TreeNode(7);
+    n1->left = n2;
+    n1->right = n3;
+    n3->left = n4;
+    n3->right = n5;
+    Solution987 s;
+    vector<vector<int>> rr = s.verticalTraversal(n1);
+    return 0;
+}
