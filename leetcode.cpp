@@ -7806,7 +7806,7 @@ int main987()
     return 0;
 }
 //988. 从叶结点开始的最小字符串
-class Solution988 {
+class Solution988 {//错误答案
 public:
     bool less(string a,string b)
     {
@@ -7846,5 +7846,35 @@ public:
         if (less(l,r))
             return l;
         return r;
+    }
+};
+//78. 子集
+class Solution78 {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> rr;
+        res.push_back(rr);
+        int len = nums.size();
+        if (len == 0)
+        {
+            return res;
+        }
+        int max = 1 << len;
+        for (int i = 1; i < max; ++i)
+        {
+            vector<int> rrr;
+            int h = i;
+            int j = 0;
+            while (h > 0)
+            {
+                if (h & 1)
+                    rrr.push_back(nums[j]);
+                h >>= 1;
+                j++;
+            }
+            res.push_back(rrr);
+        }
+        return res;
     }
 };
