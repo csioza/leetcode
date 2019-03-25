@@ -7728,6 +7728,9 @@ public:
         return cnt;
     }
 };
+
+//2019.03.25
+
 //987. 二叉树的垂序遍历
 class Solution987 {
 public:
@@ -7787,8 +7790,7 @@ public:
         return rr;
     }
 };
-
-int main()
+int main987()
 {
     TreeNode*n1 = new TreeNode(3);
     TreeNode*n2 = new TreeNode(9);
@@ -7803,3 +7805,46 @@ int main()
     vector<vector<int>> rr = s.verticalTraversal(n1);
     return 0;
 }
+//988. 从叶结点开始的最小字符串
+class Solution988 {
+public:
+    bool less(string a,string b)
+    {
+        int alen = a.size();
+        int blen = b.size();
+        bool is = true;
+        for (int i = 0; i < alen && i < blen; ++i)
+        {
+            if (a[i] > b[i])
+                return false;
+            if (a[i] == b[i])
+            {
+            }
+            else
+            {
+                is = false;
+            }
+        }
+        if (is)
+        {
+            return alen <= blen;
+        }
+        return true;
+    }
+    string smallestFromLeaf(TreeNode* root) {
+        string rr;
+        if (root == NULL)
+            return rr;
+        string l = smallestFromLeaf(root->left);
+        string r = smallestFromLeaf(root->right);
+        l.push_back(root->val + 'a');
+        r.push_back(root->val + 'a');
+        if (l.size() == 1)
+            return r;
+        if (r.size() == 1)
+            return l;
+        if (less(l,r))
+            return l;
+        return r;
+    }
+};
