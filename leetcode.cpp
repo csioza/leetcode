@@ -7966,10 +7966,10 @@ public:
         }
         return s;
     }
-    int rangeBitwiseAnd2(int m, int n) {//	超出时间限制
+    int rangeBitwiseAnd2(int m, int n) {//my
         if (m > n || m == 0)
             return 0;
-        int t = m;
+        int t = n;
         int w = 0;
         while (t > 0)
         {
@@ -7986,5 +7986,12 @@ public:
             return max2;
         }
         return max2 | rangeBitwiseAnd2(m - max2, n - max2);
+    }
+    int rangeBitwiseAnd3(int m, int n) {//网上找的
+        while (n > m)
+        {
+            n &= (n-1);
+        }
+        return n;
     }
 };
