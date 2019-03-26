@@ -7966,4 +7966,25 @@ public:
         }
         return s;
     }
+    int rangeBitwiseAnd2(int m, int n) {//	超出时间限制
+        if (m > n || m == 0)
+            return 0;
+        int t = m;
+        int w = 0;
+        while (t > 0)
+        {
+            w++;
+            t >>= 1;
+        }
+        int max2 = 1 << (w-1);
+        if (max2 > m)
+        {
+            return 0;
+        }
+        else if (max2 == m)
+        {
+            return max2;
+        }
+        return max2 | rangeBitwiseAnd2(m - max2, n - max2);
+    }
 };
