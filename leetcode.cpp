@@ -7878,6 +7878,9 @@ public:
         return res;
     }
 };
+
+//2019.03.26
+
 //187. 重复的DNA序列
 class Solution187 {
 public:
@@ -7993,5 +7996,34 @@ public:
             n &= (n-1);
         }
         return n;
+    }
+};
+//260. 只出现一次的数字 III
+class Solution260 {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        int yh = 0;
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            yh ^= nums[i];
+        }
+        yh &= (-yh);
+        int a = 0;
+        int b = 0;
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            if ((nums[i] & yh) > 0)
+            {
+                a ^= nums[i];
+            }
+            else
+            {
+                b ^= nums[i];
+            }
+        }
+        vector<int> r;
+        r.push_back(a);
+        r.push_back(b);
+        return r;
     }
 };
