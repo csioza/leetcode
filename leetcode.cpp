@@ -8052,3 +8052,35 @@ public:
         return dp;
     }
 };
+//397. ÕûÊıÌæ»»
+class Solution397 {
+public:
+    int integerReplacement(int n) {
+        int cnt = 0;
+        long long m = n;
+        while (m != 1)
+        {
+            if (m == 3)
+            {
+                return cnt+2;
+            }
+            if (m & 1)
+            {
+                if (m & 2)
+                {
+                    m += 1;
+                }
+                else
+                {
+                    m -= 1;
+                }
+            }
+            else
+            {
+                m >>= 1;
+            }
+            cnt++;
+        }
+        return cnt;
+    }
+};
