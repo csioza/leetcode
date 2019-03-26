@@ -7954,7 +7954,16 @@ int main187()
 //201. 数字范围按位与
 class Solution201 {
 public:
-    int rangeBitwiseAnd(int m, int n) {
-
+    int rangeBitwiseAnd(int m, int n) {//	超出时间限制
+        if (m>n)
+        {
+            return 0;
+        }
+        int s = m;
+        for (int i = m+1; i <= n; ++i)
+        {
+            s &= i;
+        }
+        return s;
     }
 };
