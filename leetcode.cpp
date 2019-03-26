@@ -7878,3 +7878,83 @@ public:
         return res;
     }
 };
+//187. 重复的DNA序列
+class Solution187 {
+public:
+    vector<string> findRepeatedDnaSequences(string s) {
+        map<int,int> r;
+        int len = s.size();
+        vector<string> rr;
+        if (len < 10)
+            return rr;
+        int t = 0;
+        for (int i = 0; i < 10; ++i)
+        {
+            t <<= 2;
+            switch (s[i])
+            {
+            case 'A':
+                break;
+            case 'C':
+                t |= 1;
+                break;
+            case 'G':
+                t |= 2;
+                break;
+            case 'T':
+                t |= 3;
+                break;
+            default:
+                break;
+            }
+            t &= 0xfffff;
+        }
+        r[t] = 1;
+        for (int i = 10; i < len; ++i)
+        {
+            t <<= 2;
+            switch (s[i])
+            {
+            case 'A':
+                break;
+            case 'C':
+                t |= 1;
+                break;
+            case 'G':
+                t |= 2;
+                break;
+            case 'T':
+                t |= 3;
+                break;
+            default:
+                break;
+            }
+            t &= 0xfffff;
+            map<int, int>::iterator iter = r.find(t);
+            if (iter != r.end())
+            {
+                iter->second++;
+                if (iter->second == 2)
+                    rr.push_back(s.substr(i - 9, 10));
+            }
+            else
+            {
+                r[t] = 1;
+            }
+        }
+        return rr;
+    }
+};
+int main187()
+{
+    Solution187 s;
+    s.findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT");
+    return 0;
+}
+//201. 数字范围按位与
+class Solution201 {
+public:
+    int rangeBitwiseAnd(int m, int n) {
+
+    }
+};
