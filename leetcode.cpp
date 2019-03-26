@@ -8097,3 +8097,15 @@ public:
         return i ^ num;
     }
 };
+//693. 交替位二进制数
+class Solution693 {
+public:
+    bool hasAlternatingBits(int n) {
+        int n1 = n;
+        n1 <<= 1;
+        n1 ^= n;
+        n1 >>= 1;
+        n1++;
+        return (n1 & (n1-1)) == 0;
+    }
+};
