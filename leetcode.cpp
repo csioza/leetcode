@@ -8084,3 +8084,16 @@ public:
         return cnt;
     }
 };
+//476. Êý×ÖµÄ²¹Êý
+class Solution476 {
+public:
+    int findComplement(int num) {
+        long long i = 1;
+        while (i <= num)
+        {
+            i <<= 1;
+        }
+        i--;
+        return i ^ num;
+    }
+};
