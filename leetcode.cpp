@@ -8109,3 +8109,48 @@ public:
         return (n1 & (n1-1)) == 0;
     }
 };
+
+//2019.03.27
+
+//784. 字母大小写全排列
+class Solution784 {
+public:
+    vector<string> letterCasePermutation(string S) {
+        vector<string> res;
+        int len = S.size();
+        if (len <= 0)
+        {
+            res.push_back(S);
+            return res;
+        }
+        int cnt = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            if (S[i] < '0' || S[i] > '9')
+                cnt++;
+            if (S[i] >= 'A' && S[i] <= 'Z')
+                S[i] = S[i] - 'A' + 'a';
+        }
+        if (cnt == 0)
+        {
+            res.push_back(S);
+            return res;
+        }
+        int maxNum = 1 << cnt;
+        for (int i = 0; i < maxNum; ++i)
+        {
+            string s = S;
+            for (int j = 0,k = 0; j < s.size() && k < cnt; ++j)
+            {
+                if (s[j] >= 'a' && s[j] <= 'z')
+                {
+                    if (i & (1 << k))
+                        s[j] = s[j] - 'a' + 'A';
+                    k++;
+                }
+            }
+            res.push_back(s);
+        }
+        return res;
+    }
+};
