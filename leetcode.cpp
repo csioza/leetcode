@@ -8236,13 +8236,23 @@ public:
     {
         return 0;
     }
-    int rand10() {
-        int sum = 0;
-        for (int i = 0; i < 5; ++i)
-        {
-            sum += (rand7() - 1);
+    int rand10() {//网上找的 2.56次
+        int small = rand7();
+        while (small == 7)
+            small = rand7();
+        int tmpn = rand7();
+        while (tmpn > 5)
+            tmpn = rand7();
+        if (small < 4)
+            return tmpn;
+        else
+            return tmpn + 5;
+    }
+    int rand102() {
+        int res = 40;
+        while (res >= 40) {//网上找的 2.4
+            res = 7 * (rand7() - 1) + (rand7() - 1); //rand10可以通过对10取余+1得到。rand7()-1产生0~6,7*(rand7()-1)产生[0,7,14,21,28,35,42],再加rand7()-1得到0~49,舍去大于等于40的部分即可
         }
-        sum /= 3;
-        return sum + 1;
+        return res % 10 + 1;
     }
 };
