@@ -8154,3 +8154,50 @@ public:
         return res;
     }
 };
+
+//2019.03.28
+
+//762. 二进制表示中质数个计算置位
+class Solution762 {
+public:
+    bool isZhishu(int num)
+    {
+        switch (num)
+        {
+        case 1:
+        case 2:
+        case 3:
+        case 5:
+        case 7:
+        case 11:
+        case 13:
+        case 17:
+        case 19:
+        case 23:
+        case 29:
+        case 31:
+            return true;
+        default:
+            break;
+        }
+        return false;
+    }
+    int countPrimeSetBits(int L, int R) {
+        int res = 0;
+        for (int i = L; i <= R; ++i)
+        {
+            int num = i;
+            int cnt = 0;
+            while (num > 0)
+            {
+                cnt++;
+                num &= (num-1);
+            }
+            if (isZhishu(cnt))
+            {
+                res++;
+            }
+        }
+        return res;
+    }
+};
