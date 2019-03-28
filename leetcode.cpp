@@ -8229,3 +8229,20 @@ public:
         return sum;
     }
 };
+//470. ÓÃ Rand7() ÊµÏÖ Rand10()
+class Solution470 {
+public:
+    int rand7()
+    {
+        return 0;
+    }
+    int rand10() {
+        int sum = 0;
+        for (int i = 0; i < 5; ++i)
+        {
+            sum += (rand7() - 1);
+        }
+        sum /= 3;
+        return sum + 1;
+    }
+};
