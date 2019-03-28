@@ -8210,7 +8210,22 @@ public:
         int sum = 0;
         for (int i = 0; i < nums.size(); ++i)
         {
-
+            int n = nums[i];
+            unsigned int probe = 1;
+            for (int j = 0; j < 32; ++j, probe <<= 1)
+            {
+                if (n & probe)//1
+                {
+                    num1[j]++;
+                    sum += num0[j];
+                }
+                else //0
+                {
+                    num0[j]++;
+                    sum += num1[j];
+                }
+            }
         }
+        return sum;
     }
 };
