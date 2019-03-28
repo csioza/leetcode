@@ -8201,3 +8201,16 @@ public:
         return res;
     }
 };
+//477. ººÃ÷¾àÀë×ÜºÍ
+class Solution477 {
+public:
+    int totalHammingDistance(vector<int>& nums) {
+        vector<int> num0(32, 0);
+        vector<int> num1(32, 0);
+        int sum = 0;
+        for (int i = 0; i < nums.size(); ++i)
+        {
+
+        }
+    }
+};
