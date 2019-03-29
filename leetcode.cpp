@@ -760,6 +760,12 @@ public:
             return -1;
     }
 };
+int main28()
+{
+    Solution28 s;
+    s.next("abcababc");
+    return 0;
+}
 //35. ËÑË÷²åÈëÎ»ÖÃ
 int searchInsert(vector<int>& nums, int target) {
     int max = nums.size() - 1;
