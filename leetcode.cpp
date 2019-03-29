@@ -8308,3 +8308,13 @@ public:
         return res % 10 + 1;
     }
 };
+
+//2019.03.29
+
+//318. 最大单词长度乘积
+class Solution318 {
+public:
+    int maxProduct(vector<string>& words) {
+
+    }
+};
