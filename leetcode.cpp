@@ -8344,10 +8344,25 @@ public:
         return max;
     }
 };
-//421. 数组中两个数的最大异或值
-class Solution421 {
+//478. 在圆内随机生成点
+class Solution478 {
 public:
-    int findMaximumXOR(vector<int>& nums) {
-
+    double _radius;
+    double _x_center;
+    double _y_center;
+    Solution478(double radius, double x_center, double y_center) {
+        _radius = radius;
+        _x_center = x_center;
+        _y_center = y_center;
+    }
+    vector<double> randPoint() {
+        double ranX = rand() % 20000 / 10000.0 * _radius - _radius;
+        double ranY = rand() % 20000 / 10000.0 * _radius - _radius;
+        if (ranX*ranX + ranY*ranY > _radius*_radius)
+            return randPoint();
+        vector<double> res;
+        res.push_back(ranX + _x_center);
+        res.push_back(ranY + _y_center);
+        return res;
     }
 };
