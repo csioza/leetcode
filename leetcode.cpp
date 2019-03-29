@@ -8315,6 +8315,45 @@ public:
 class Solution318 {
 public:
     int maxProduct(vector<string>& words) {
-
+        int len = words.size();
+        if (len == 0)
+            return 0;
+        int* res = new int[len];//√ª≥ı ºªØ
+        memset(res, 0, sizeof(int)*len);//*******
+        //vector<int> res(len,0);
+        for (int i = 0; i < len; ++i)
+        {
+            for (int j = 0; j < words[i].size(); ++j)
+            {
+                res[i] |= (1 << (words[i][j] - 'a'));
+            }
+        }
+        int max = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            for (int j = 0; j < len; ++j)
+            {
+                if (i != j && !(res[i] & res[j]))
+                {
+                    int num = words[i].size() * words[j].size();
+                    if (num > max)
+                        max = num;
+                }
+            }
+        }
+        return max;
     }
 };
+int main()
+{
+    Solution318 s;
+    vector<string> r;
+    r.push_back("abcw");
+    r.push_back("baz");
+    r.push_back("foo");
+    r.push_back("bar");
+    r.push_back("xtfn");
+    r.push_back("abcdef");
+    s.maxProduct(r);
+    return 0;
+}
