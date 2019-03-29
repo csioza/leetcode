@@ -737,7 +737,9 @@ public:
     }
     int strStr(string haystack, string needle)//KMP
     {
-        int i = 0, j = 0, len1 = haystack.size(), len2 = needle.size();
+        int i = 0, j = 0;
+        int len1 = haystack.size();
+        int len2 = needle.size();
         vector<int> nextptr;
         if (needle.empty())
             return 0;
