@@ -8344,3 +8344,10 @@ public:
         return max;
     }
 };
+//421. 数组中两个数的最大异或值
+class Solution421 {
+public:
+    int findMaximumXOR(vector<int>& nums) {
+
+    }
+};
