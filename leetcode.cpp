@@ -8344,16 +8344,3 @@ public:
         return max;
     }
 };
-int main()
-{
-    Solution318 s;
-    vector<string> r;
-    r.push_back("abcw");
-    r.push_back("baz");
-    r.push_back("foo");
-    r.push_back("bar");
-    r.push_back("xtfn");
-    r.push_back("abcdef");
-    s.maxProduct(r);
-    return 0;
-}
