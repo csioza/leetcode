@@ -692,28 +692,72 @@ int removeElement(vector<int>& nums, int val) {
     return len - gap;
 }
 //28. 实现strStr()
-int strStr(string haystack, string needle) {//TODO:KMP
-    int hlen = haystack.size();
-    int nlen = needle.size();
-    if (nlen == 0)
-    {
-        return 0;
-    }
-    if (hlen == 0)
-    {
+class Solution28 {
+public:
+    int strStr2(string haystack, string needle) {
+        int hlen = haystack.size();
+        int nlen = needle.size();
+        if (nlen == 0)
+        {
+            return 0;
+        }
+        if (hlen == 0)
+        {
+            return -1;
+        }
+        for (int i = 0; i < hlen; i++)
+        {
+            int k = 0, j = i;
+            for (; k < nlen && j < hlen && haystack[j] == needle[k]; j++, k++);
+            if (k == nlen)
+            {
+                return i;
+            }
+        }
         return -1;
     }
-    for (int i = 0; i < hlen; i++)
+    //
+    vector<int> next(string str)
     {
-        int k = 0, j = i;
-        for (; k < nlen && j < hlen && haystack[j] == needle[k]; j++, k++);
-        if (k == nlen)
+        vector<int> v;
+        v.push_back(-1);
+        int i = 0, j = -1;
+        while (i < str.size())
         {
-            return i;
+            if (j == -1 || str[i] == str[j])
+            {
+                ++i;
+                ++j;
+                v.push_back(j);
+            }
+            else
+                j = v[j];
         }
+        return v;
     }
-    return -1;
-}
+    int strStr(string haystack, string needle)//KMP
+    {
+        int i = 0, j = 0, len1 = haystack.size(), len2 = needle.size();
+        vector<int> nextptr;
+        if (needle.empty())
+            return 0;
+        nextptr = next(needle);
+        while ((i < len1) && (j < len2))
+        {
+            if ((j == -1) || (haystack[i] == needle[j]))
+            {
+                i++;
+                j++;
+            }
+            else
+                j = nextptr[j];
+        };
+        if (j == needle.size())
+            return i - j;
+        else
+            return -1;
+    }
+};
 //35. 搜索插入位置
 int searchInsert(vector<int>& nums, int target) {
     int max = nums.size() - 1;
