@@ -8314,7 +8314,7 @@ public:
 //318. 最大单词长度乘积
 class Solution318 {
 public:
-    int maxProduct(vector<string>& words) {
+    int maxProduct(vector<string>& words) {//参考答案写的
         int len = words.size();
         if (len == 0)
             return 0;
