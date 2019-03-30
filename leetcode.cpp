@@ -8386,16 +8386,16 @@ public:
         return best;
     }
 };
-int main720()
+int main()
 {
     Solution720 s;
     vector<string> r;
-    r.push_back("m");
+    //r.push_back("m");
     r.push_back("mo");
     r.push_back("moc");
     r.push_back("moch");
     r.push_back("mocha");
-    r.push_back("l");
+    //r.push_back("l");
     r.push_back("la");
     r.push_back("lat");
     r.push_back("latt");
