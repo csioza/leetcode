@@ -8538,3 +8538,48 @@ public:
         return maxLen;
     }
 };
+//322. ¡„«Æ∂“ªª
+class Solution322 {
+public:
+    int coinChange2(vector<int>& coins, int last, int amount) {
+        if (last < 0)
+            return -1;
+        int cnt = amount / coins[last];
+        int y = amount % coins[last];
+        if (y == 0)
+        {
+            printf("\n%d,%d,%d,%d", coins[last], cnt, cnt, amount);
+            return cnt;
+        }
+        if (cnt == 0)
+        {
+            return coinChange2(coins, last - 1, amount);
+        }
+        for (int i = cnt; i >= 0; --i,y+= coins[last])
+        {
+            int ret = coinChange2(coins, last - 1, y);
+            if (ret >= 0)
+            {
+                printf("\n%d,%d,%d,%d",coins[last],ret,i, amount);
+                return ret + i;
+            }
+        }
+        return -1;
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        sort(coins.begin(),coins.end());
+        return coinChange2(coins, coins.size()-1,amount);
+    }
+};
+int main()
+{
+    Solution322 s;
+    vector<int> coins;
+    coins.push_back(186);
+    coins.push_back(419);
+    coins.push_back(83);
+    coins.push_back(408);
+    s.coinChange(coins,6249);
+    getchar();
+    return 0;
+}
