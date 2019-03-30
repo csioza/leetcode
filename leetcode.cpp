@@ -8479,3 +8479,62 @@ public:
         return false;
     }
 };
+//32. 最长有效括号
+class Solution32 {
+public:
+    int longestValidParentheses2(string s) {//错误答案
+        int len = s.size();
+        vector<int> dp(len+1,0);
+        int max = 0;
+        int num = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            if (s[i] == '(')
+            {
+                if (dp[i] > 0)
+                {
+                    dp[i + 1] = -1;
+                }
+                else
+                {
+                    dp[i + 1] = dp[i] - 1;
+                }
+                
+            }
+            else
+            {
+                dp[i + 1] = dp[i] + 1;
+                if (dp[i+1] <= 0 )
+                {
+                    num++;
+                    if (max < num)
+                    {
+                        max = num;
+                    }
+                }
+                else
+                {
+                    num = 0;
+                }
+            }
+        }
+        return max*2;
+    }
+    int longestValidParentheses(string s) {//网上找的
+        int len = s.size();
+        vector<int> dp(len, 0);
+        int maxLen = 0;
+        for (int i = 1; i < len; i++) {
+            if (s[i] == ')' && i - dp[i - 1] - 1 >= 0 && s[i - dp[i - 1] - 1] == '(') {
+                //寻找该')'之前的最大匹配
+                dp[i] = dp[i - 1] + 2;
+                //将前面不间断匹配加起来
+                if (i - dp[i] >= 0) {
+                    dp[i] += dp[i - dp[i]];
+                }
+                maxLen = dp[i] > maxLen ? dp[i] : maxLen;
+            }
+        }
+        return maxLen;
+    }
+};
