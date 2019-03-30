@@ -8386,7 +8386,7 @@ public:
         return best;
     }
 };
-int main()
+int main720()
 {
     Solution720 s;
     vector<string> r;
@@ -8406,3 +8406,76 @@ int main()
     s.longestWord(r);
     return 0;
 }
+//208. ÊµÏÖ Trie (Ç°×ºÊ÷)
+class Trie {
+public:
+    char val;
+    bool isEnd;
+    int cnt;
+    Trie* next[26];
+    /** Initialize your data structure here. */
+    Trie() {
+        val = 0;
+        isEnd = false;
+        cnt = 0;
+        memset(next, 0, sizeof(next));
+    }
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        if (word.size() > 0)
+        {
+            for (int i = 0; i < cnt; ++i)
+            {
+                if (word[0] == next[i]->val)
+                {
+                    next[i]->insert(word.substr(1, word.size() - 1));
+                    return;
+                }
+            }
+            Trie* n = new Trie();
+            n->val = word[0];
+            next[cnt++] = n;
+            n->insert(word.substr(1, word.size() - 1));
+        }
+        else
+        {
+            isEnd = true;
+        }
+    }
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        if (word.size() > 0)
+        {
+            for (int i = 0; i < cnt; ++i)
+            {
+                if (next[i]->val == word[0])
+                {
+                    return next[i]->search(word.substr(1,word.size()-1));
+                }
+            }
+        }
+        else if (isEnd)
+        {
+            return true;
+        }
+        return false;
+    }
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        if (prefix.size() > 0)
+        {
+            for (int i = 0; i < cnt; ++i)
+            {
+                if (next[i]->val == prefix[0])
+                {
+                    return next[i]->startsWith(prefix.substr(1, prefix.size() - 1));
+                }
+            }
+        }
+        else
+        {
+            return true;
+        }
+        return false;
+    }
+};
