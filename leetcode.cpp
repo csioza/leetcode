@@ -8386,7 +8386,7 @@ public:
         return best;
     }
 };
-int main()
+int main720()
 {
     Solution720 s;
     vector<string> r;
