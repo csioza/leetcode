@@ -8366,3 +8366,43 @@ public:
         return res;
     }
 };
+
+//2019.03.30
+
+//720. 词典中最长的单词
+class Solution720 {//网上找的
+public:
+    string longestWord(vector<string>& words) {
+        string best, temp;
+        sort(words.begin(), words.end());
+        for (int i = 0; i < words.size(); i++) {
+            int len = words[i].length();
+            if (temp.substr(0, len - 1) == words[i].substr(0, len - 1)) {
+                temp = words[i];
+                if (len > best.length())
+                    best = words[i];
+            }
+        }
+        return best;
+    }
+};
+int main()
+{
+    Solution720 s;
+    vector<string> r;
+    r.push_back("m");
+    r.push_back("mo");
+    r.push_back("moc");
+    r.push_back("moch");
+    r.push_back("mocha");
+    r.push_back("l");
+    r.push_back("la");
+    r.push_back("lat");
+    r.push_back("latt");
+    r.push_back("latte");
+    r.push_back("c");
+    r.push_back("ca");
+    r.push_back("cat");
+    s.longestWord(r);
+    return 0;
+}
