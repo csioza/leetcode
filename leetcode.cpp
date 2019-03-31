@@ -8580,16 +8580,36 @@ public:
         }
         return coinChange2(/*coins, */coins.size()-1,amount);
     }
-    int coinChange3(vector<int>& coins, int amount) {
-        if (amount == 0)
-            return 0;
-        sort(coins.begin(), coins.end());
-        coin = new int[coins.size()];
-        for (int i = 0; i < coins.size(); ++i)
-        {
-            coin[i] = coins[i];
+    int coinChange3(vector<int>& coins, int amount) {//网上找的
+        int res = INT_MAX, n = coins.size();
+        sort(coins.begin(), coins.end());//先进行排序
+        helper(coins, n - 1, amount, 0, res);
+        return (res == INT_MAX) ? -1 : res;
+    }
+    void helper(vector<int>& coins, int start, int target, int cur, int& res) {
+        if (start < 0) return;
+        if (target % coins[start] == 0) {//如果是coins[start] 的倍数，也可以直接兑换，无需继续搜索
+            res = min(res, cur + target / coins[start]);
+            return;
         }
-        return coinChange2(/*coins, */coins.size() - 1, amount);
+        for (int i = target / coins[start]; i >= 0; --i) {//穷举可以兑换多少个coins[start]
+            if (cur + i >= res - 1) break;
+            helper(coins, start - 1, target - i * coins[start], cur + i, res);//搜搜的步长为i * coins[start]
+        }
+    }
+    int coinChange4(vector<int>& coins, int amount) {//动态规划的慢
+        vector<int> dp(amount + 1, -1);
+        sort(coins.begin(), coins.end());
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int c = 0; c < coins.size(); c++) {
+                if (coins[c] > i) break;
+                if (dp[i - coins[c]] != -1) {
+                    dp[i] = dp[i] == -1 ? dp[i - coins[c]] + 1 : min(dp[i], dp[i - coins[c]] + 1);
+                }
+            }
+        }
+        return dp[amount];
     }
 };
 int main322()
