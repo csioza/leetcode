@@ -8731,3 +8731,41 @@ int main1028()
     getchar();
     return 0;
 }
+//343. 整数拆分
+class Solution343 {
+public:
+    int integerBreak(int n) {//我的正确答案
+        int m = 0;
+        for (int i = 2; i <= n; ++i)
+        {
+            int s = 1;
+            int c = n / i;
+            int y = n % i;
+            for (int j = 0; j < i; ++j)
+            {
+                if (j < y)
+                {
+                    s *= (c+1);
+                }
+                else
+                {
+                    s *= c;
+                }
+            }
+            m = max(m,s);
+        }
+        return m;
+    }
+    int integerBreak2(int n) {//网上找的
+        vector<int>res(n + 1, 1);
+        for (int i = 3; i <= n; i++)
+        {
+            for (int j = 1; j < i; j++)
+            {
+                int max_tmp = max(j * (i - j), j * res[i - j]);
+                res[i] = max(res[i], max_tmp);
+            }
+        }
+        return res[n];
+    }
+};
