@@ -8541,37 +8541,55 @@ public:
 //322. 零钱兑换
 class Solution322 {
 public:
-    int coinChange2(vector<int>& coins, int last, int amount) {
+    int *coin;
+    int coinChange2(/*vector<int>& coins, */int last, int amount) {//超出时间限制
         if (last < 0)
             return -1;
-        int cnt = amount / coins[last];
-        int y = amount % coins[last];
-        if (y == 0)
-        {
-            printf("\n%d,%d,%d,%d", coins[last], cnt, cnt, amount);
-            return cnt;
-        }
+        int cnt = amount / coin[last];
+        int y = amount % coin[last];
         if (cnt == 0)
+            return coinChange2(/*coins, */last - 1, amount);
+        if (y == 0)
+            return cnt;
+        int minc = -1;
+        for (int i = cnt; i >= 0; --i,y+= coin[last])
         {
-            return coinChange2(coins, last - 1, amount);
-        }
-        for (int i = cnt; i >= 0; --i,y+= coins[last])
-        {
-            int ret = coinChange2(coins, last - 1, y);
+            int ret = coinChange2(/*coins,*/ last - 1, y);
             if (ret >= 0)
             {
-                printf("\n%d,%d,%d,%d",coins[last],ret,i, amount);
-                return ret + i;
+                if (minc < 0)
+                    minc = ret + i;
+                else
+                    minc = min(ret + i, minc);
             }
         }
-        return -1;
+        //printf("\n%d,%d,%d", coins[last],minc, amount);
+        return minc;
     }
     int coinChange(vector<int>& coins, int amount) {
+        if (amount == 0)
+            return 0;
         sort(coins.begin(),coins.end());
-        return coinChange2(coins, coins.size()-1,amount);
+        coin = new int[coins.size()];
+        for (int i = 0; i < coins.size(); ++i)
+        {
+            coin[i] = coins[i];
+        }
+        return coinChange2(/*coins, */coins.size()-1,amount);
+    }
+    int coinChange3(vector<int>& coins, int amount) {
+        if (amount == 0)
+            return 0;
+        sort(coins.begin(), coins.end());
+        coin = new int[coins.size()];
+        for (int i = 0; i < coins.size(); ++i)
+        {
+            coin[i] = coins[i];
+        }
+        return coinChange2(/*coins, */coins.size() - 1, amount);
     }
 };
-int main()
+int main322()
 {
     Solution322 s;
     vector<int> coins;
@@ -8580,6 +8598,113 @@ int main()
     coins.push_back(83);
     coins.push_back(408);
     s.coinChange(coins,6249);
+    getchar();
+    return 0;
+}
+//1029. 可被 5 整除的二进制前缀
+class Solution1029 {
+public:
+    vector<bool> prefixesDivBy5(vector<int>& A) {
+        vector<bool> res;
+        int len = A.size();
+        if (len == 0)
+            return res;
+        res.resize(len);
+        int num = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            num = (num << 1) + A[i];
+            num %= 5;
+            if (num == 0)
+            {
+                res[i] = true;
+            }
+            else
+            {
+                res[i] = false;
+            }
+        }
+        return res;
+    }
+};
+int main1029()
+{
+    Solution1029 s;
+    vector<int> r;
+    r.push_back(0);
+    r.push_back(1);
+    r.push_back(1);
+    s.prefixesDivBy5(r);
+    return 0;
+}
+//1028. 负二进制转换
+class Solution1028 {
+public:
+    int baseNeg2(int N) {
+        if (N == 0)
+            return 0;
+        int probe = 1;
+        int n = N;
+        int ret = 0;
+        for (int i = 0; n > 0;i++, probe <<= 1)
+        {
+            if (i % 2 == 0)
+            {
+                if (probe & n & ret)
+                {
+                    ret ^= probe;
+                    ret |= (probe << 1);
+                    ret |= (probe << 2);
+                }
+                else
+                {
+                    if (probe & n)
+                    {
+                        ret |= probe;
+                    }
+                }
+            }
+            else
+            {
+                if (probe & n & ret)
+                {
+                    ret ^= probe;
+                }
+                else
+                {
+                    if (probe & n)
+                    {
+                        ret |= probe;
+                        ret |= (probe << 1);
+                    }
+                }
+            }
+            if (probe & n)
+            {
+                n ^= probe;
+            }
+        }
+        return ret;
+    }
+    int test(int num)
+    {
+        int ret = 0;
+        for (int i = 0; num > 0; i++)
+        {
+            if (num & 1)
+            {
+                ret += pow(-2, i);
+            }
+            num >>= 1;
+        }
+        return ret;
+    }
+};
+int main1028()
+{
+    Solution1028 s;
+    int ss = s.baseNeg2(259);
+    printf("%d,%d",ss,s.test(ss));
     getchar();
     return 0;
 }
