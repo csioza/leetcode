@@ -8937,3 +8937,24 @@ public:
         return ret;
     }
 };
+
+// Definition for a Node.
+class TNode {
+public:
+    int val;
+    vector<TNode*> neighbors;
+    TNode() {}
+    TNode(int _val, vector<TNode*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+
+//133. ¿ËÂ¡Í¼
+class Solution133 {
+public:
+    TNode* cloneGraph(TNode* node) {
+
+    }
+};
+
