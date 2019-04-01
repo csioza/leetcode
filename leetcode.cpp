@@ -8911,4 +8911,29 @@ public:
         return memo[start][end] = res;
     }
 };
-//
+//997. 找到小镇的法官
+class Solution997 {
+public:
+    int findJudge(int N, vector<vector<int>>& trust) {
+        if (N < 1)
+            return -1;
+        vector<int> dp(N,0);
+        for (int i = 0; i < trust.size(); ++i)
+        {
+            dp[trust[i][0]-1]--;
+            dp[trust[i][1]-1]++;
+        }
+        int ret = -1;
+        for (int i = 0; i < N; ++i)
+        {
+            if (dp[i] == N - 1)
+            {
+                if (ret > 0)
+                    return -1;
+                else
+                    ret = i + 1;
+            }
+        }
+        return ret;
+    }
+};
