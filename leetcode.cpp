@@ -8953,8 +8953,19 @@ public:
 //133. ¿ËÂ¡Í¼
 class Solution133 {
 public:
+    map<int, TNode*> table;
     TNode* cloneGraph(TNode* node) {
-
+        if (node == NULL)
+            return NULL;
+        map<int, TNode*>::iterator iter = table.find(node->val);
+        if (iter != table.end())
+            return iter->second;
+        TNode * r = new TNode();
+        table[node->val] = r;
+        r->val = node->val;
+        for (int i = 0; i < node->neighbors.size(); ++i)
+            r->neighbors.push_back(cloneGraph(node->neighbors[i]));
+        return r;
     }
 };
 
