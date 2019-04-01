@@ -8800,3 +8800,115 @@ public:
         return ans;
     }
 };
+//368. 最大整除子集
+class Solution368 {
+public:
+    vector<int> largestDivisibleSubset1(vector<int>& nums) {//网上找的
+        vector<int> res;
+        if (nums.size() == 0) return res;
+        vector<vector<int>> s(nums.size());
+        sort(nums.begin(), nums.end());
+        s[0].push_back(nums[0]);
+        int mindex = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (nums[i] % nums[j] == 0 && s[j].size() + 1 > s[i].size()) {
+                    s[i] = s[j];
+                    s[i].push_back(nums[i]);
+                    mindex = s[mindex].size() > s[i].size() ? mindex : i;
+                }
+            }
+            if (s[i].size() == 0) s[i].push_back(nums[i]);
+        }
+        return s[mindex];
+    }
+    vector<int> largestDivisibleSubset2(vector<int>& nums) {//我的 比1快
+        vector<int> ret;
+        int len = nums.size();
+        if (len == 0) return ret;
+        vector<int> index(len, -1);
+        vector<int> res(len, 1);
+        sort(nums.begin(), nums.end());
+        int maxNum = 0;
+        int maxIndex = 0;
+        for (int i = 0; i < len; i++) {
+            int ma = 0;
+            for (int j = i - 1; j >= 0; j--) {
+                if (nums[i] % nums[j] == 0) {
+                    if (res[i] < res[j] + 1)
+                    {
+                        res[i] = res[j] + 1;
+                        index[i] = j;
+                        if (maxNum < res[i])
+                        {
+                            maxNum = res[i];
+                            maxIndex = i;
+                        }
+                    }
+                }
+            }
+        }
+        while (maxIndex >= 0)
+        {
+            ret.push_back(nums[maxIndex]);
+            maxIndex = index[maxIndex];
+        }
+        return ret;
+    }
+};
+//375. 猜数字大小 II
+class Solution375 {
+public:
+    int getMoneyAmount2(int n) {//错误答案
+        int maxNum = 0;
+        for (int i = 1; i <= n; ++i)
+        {
+            int curNum = 0;
+            int left = 1;
+            int right = n;
+            while (left < right)
+            {
+                int mid = left + (right - left) / 2;
+                if (mid == i)
+                    break;
+                else if (mid < i)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+                curNum += mid;
+            }
+            maxNum = max(curNum,maxNum);
+        }
+        return maxNum;
+    }
+    //TODO:https://www.cnblogs.com/grandyang/p/5677550.html
+    int getMoneyAmount(int n) {//网上找的
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+        for (int i = 2; i <= n; ++i) {
+            for (int j = i - 1; j > 0; --j) {
+                int global_min = INT_MAX;
+                for (int k = j + 1; k < i; ++k) {
+                    int local_max = k + max(dp[j][k - 1], dp[k + 1][i]);
+                    global_min = min(global_min, local_max);
+                }
+                dp[j][i] = j + 1 == i ? j : global_min;
+            }
+        }
+        return dp[1][n];
+    }
+    int getMoneyAmount3(int n) {//网上找的
+        vector<vector<int>> memo(n + 1, vector<int>(n + 1, 0));
+        return helper(1, n, memo);
+    }
+    int helper(int start, int end, vector<vector<int>>& memo) {
+        if (start >= end) return 0;
+        if (memo[start][end] > 0) return memo[start][end];
+        int res = INT_MAX;
+        for (int k = start; k <= end; ++k) {
+            int t = k + max(helper(start, k - 1, memo), helper(k + 1, end, memo));
+            res = min(res, t);
+        }
+        return memo[start][end] = res;
+    }
+};
+//
