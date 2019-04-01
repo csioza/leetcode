@@ -8744,13 +8744,9 @@ public:
             for (int j = 0; j < i; ++j)
             {
                 if (j < y)
-                {
                     s *= (c+1);
-                }
                 else
-                {
                     s *= c;
-                }
             }
             m = max(m,s);
         }
@@ -8767,5 +8763,40 @@ public:
             }
         }
         return res[n];
+    }
+};
+
+//2019.04.01
+
+//357. 计算各个位数不同的数字个数
+class Solution357 {
+public:
+    int countNumbersWithUniqueDigits(int n) {//网上找的
+        if (n == 0) return 1;
+        if (n == 1) return 10;
+        if (n > 10)
+            return countNumbersWithUniqueDigits(10);
+        int count = 10;
+        for (int i = 1; i < n; i++) {
+            int t = 9, m = 9, k = i;
+            while (k > 0) {
+                t = t * m;
+                m--;
+                k--;
+            }
+            count = count + t;
+        }
+        return count;
+    }
+    int countNumbersWithUniqueDigits2(int n) {//网上找的
+        if (n == 0) return 1;
+        if (n == 1) return 10;
+        int val = 9, ans = 10;
+        for (int i = 2; i <= n; i++)
+        {
+            val *= (9 - i + 2);
+            ans += val;
+        }
+        return ans;
     }
 };
