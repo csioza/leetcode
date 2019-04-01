@@ -4,6 +4,7 @@
 #include <vector>
 #include <stack>
 #include <set>
+#include <iostream>
 using namespace std;
 #include <time.h>
 #include <sstream>
@@ -8969,3 +8970,47 @@ public:
     }
 };
 //
+
+class A
+{
+public:
+    static int aa;
+    static int bb()
+    {
+        aa++;
+        return aa;
+    }
+};
+int A::aa = 0;
+//int demo(int &a)
+//{
+//    a++;
+//    return 0;
+//}
+//int demo2(int a)
+//{
+//    a++;
+//    return 0;
+//}
+//int main()
+//{
+//    A a;
+//    cout << A::aa << a.aa << A::bb() << a.bb() << a.aa << endl;
+//    printf("\n%d,%d,%d,%d,%d", A::aa, a.aa, A::bb(), a.bb(), a.aa);
+//
+//    const int * a = 0;
+//    //const * int b = 0;
+//    int const * c = 0;
+//    int * const d = 0;
+//    //
+//    int * g;
+//    *g = 100;
+//    int h = 101;
+//    int f1 = 1;
+//    int f2 = 1;
+//    demo(f1);
+//    demo2(f2);
+//    printf("%d,%d",f1,f2);
+//    getchar();
+//    return 0;
+//}
