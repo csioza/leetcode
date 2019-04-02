@@ -9052,3 +9052,201 @@ int main310()
     getchar();
     return 0;
 }
+//332. 重新安排行程
+class Solution332 {//没有考虑到重复机票的情况
+public:
+    struct TSNode
+    {
+        string val;
+        map<string, TSNode*> neighbors;
+        int num;
+    };
+    map<string,TSNode*> res;
+    void genTree(vector<pair<string, string>> edges)
+    {
+        for (int i = 0; i < edges.size(); ++i)
+        {
+            map<string, TSNode*>::iterator iter = res.find(edges[i].first);
+            TSNode *n1 = NULL;
+            if (iter != res.end())
+            {
+                n1 = iter->second;
+            }
+            else
+            {
+                n1 = new TSNode();
+                n1->val = edges[i].first;
+                n1->num = 0;
+                res[edges[i].first] = n1;
+            }
+            TSNode *n2 = NULL;
+            map<string, TSNode*>::iterator it = res.find(edges[i].second);
+            if (it != res.end())
+            {
+                n2 = it->second;
+            }
+            else
+            {
+                n2 = new TSNode();
+                n2->val = edges[i].second;
+                n2->num = 0;
+                res[edges[i].second] = n2;
+            }
+            n1->neighbors[edges[i].second] = n2;
+            n1->num++;
+        }
+    }
+    bool visit(TSNode *root,int b)
+    {
+        //if (root == NULL)
+        //    return false;
+        if (b > 0 && root->num == 0)
+            return false;
+        ret.push_back(root->val);
+        if (b == 0 && root->num == 0)
+            return true;
+        bool is = false;
+        map<string, TSNode*>::iterator iter = root->neighbors.begin();
+        for (; iter != root->neighbors.end(); iter++)
+        {
+            TSNode *second = iter->second;
+            if (second)
+            {
+                iter->second = NULL;
+                root->num--;
+                if (!visit(second, b - 1))
+                {
+                    iter->second = second;
+                    root->num++;
+                }
+                else
+                {
+                    is = true;
+                }
+            }
+        }
+        if (!is)
+        {
+            ret.pop_back();
+        }
+        return is;
+    }
+    vector<string> ret;
+    vector<string> findItinerary(vector<pair<string, string>> tickets) {
+        if (tickets.size() == 0)
+            return ret;
+        genTree(tickets);
+        map<string, TSNode*>::iterator iter = res.find("JFK");
+        if (iter != res.end())
+        {
+            visit(iter->second,tickets.size());
+        }
+        return ret;
+    }
+};
+class Solution332b {//过了，但是效率有点低
+public:
+    struct TSNode
+    {
+        string val;
+        map<string, TSNode*> neighbors;
+    };
+    map<string, TSNode*> res;
+    map<string, int> ft;
+    void genTree(vector<pair<string, string>> edges)
+    {
+        for (int i = 0; i < edges.size(); ++i)
+        {
+            map<string, TSNode*>::iterator iter = res.find(edges[i].first);
+            TSNode *n1 = NULL;
+            if (iter != res.end())
+                n1 = iter->second;
+            else
+            {
+                n1 = new TSNode();
+                n1->val = edges[i].first;
+                res[edges[i].first] = n1;
+            }
+            TSNode *n2 = NULL;
+            map<string, TSNode*>::iterator it = res.find(edges[i].second);
+            if (it != res.end())
+                n2 = it->second;
+            else
+            {
+                n2 = new TSNode();
+                n2->val = edges[i].second;
+                res[edges[i].second] = n2;
+            }
+            n1->neighbors[edges[i].second] = n2;
+            string fromto = edges[i].first + edges[i].second;
+            map<string, int>::iterator it2 = ft.find(fromto);
+            if (it2 != ft.end())
+                it2->second++;
+            else
+                ft[fromto] = 1;
+        }
+    }
+    bool visit(TSNode *root, int b)
+    {
+        if (b > 0 && root->neighbors.size() == 0)
+            return false;
+        ret.push_back(root->val);
+        if (b == 0)
+            return true;
+        bool is = false;
+        map<string, TSNode*>::iterator iter = root->neighbors.begin();
+        for (; iter != root->neighbors.end(); iter++)
+        {
+            map<string, int>::iterator it2 = ft.find(root->val + iter->second->val);
+            if (it2->second > 0)
+            {
+                it2->second--;
+                if (!visit(iter->second, b - 1))
+                    it2->second++;
+                else
+                    is = true;
+            }
+        }
+        if (!is)
+            ret.pop_back();
+        return is;
+    }
+    vector<string> ret;
+    vector<string> findItinerary(vector<pair<string, string>> tickets) {
+        if (tickets.size() == 0)
+            return ret;
+        genTree(tickets);
+        map<string, TSNode*>::iterator iter = res.find("JFK");
+        if (iter != res.end())
+        {
+            visit(iter->second, tickets.size());
+        }
+        return ret;
+    }
+};
+int main332()
+{
+    //[["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+    //[["JFK","KUL"],["JFK","NRT"],["NRT","JFK"]]
+    //[["EZE","AXA"],["TIA","ANU"],["ANU","JFK"],["JFK","ANU"],["ANU","EZE"],
+    //["TIA","ANU"],["AXA","TIA"],["TIA","JFK"],["ANU","TIA"],["JFK","TIA"]]
+    Solution332b s;
+    vector<pair<string, string>> edges;
+    //edges.push_back(pair<string, string>("JFK", "SFO"));
+    //edges.push_back(pair<string, string>("JFK", "ATL"));
+    //edges.push_back(pair<string, string>("SFO", "ATL"));
+    //edges.push_back(pair<string, string>("ATL", "JFK"));
+    //edges.push_back(pair<string, string>("ATL", "SFO"));
+    edges.push_back(pair<string, string>("EZE", "AXA"));
+    edges.push_back(pair<string, string>("TIA", "ANU"));
+    edges.push_back(pair<string, string>("ANU", "JFK"));
+    edges.push_back(pair<string, string>("JFK", "ANU"));
+    edges.push_back(pair<string, string>("ANU", "EZE"));
+    edges.push_back(pair<string, string>("TIA", "ANU"));
+    edges.push_back(pair<string, string>("AXA", "TIA"));
+    edges.push_back(pair<string, string>("TIA", "JFK"));
+    edges.push_back(pair<string, string>("ANU", "TIA"));
+    edges.push_back(pair<string, string>("JFK", "TIA"));
+    vector<string> ret = s.findItinerary(edges);
+    return 0;
+}
