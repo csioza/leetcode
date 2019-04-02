@@ -9250,3 +9250,44 @@ int main332()
     vector<string> ret = s.findItinerary(edges);
     return 0;
 }
+
+//841. Ô¿³×ºÍ·¿¼ä
+class Solution841 {
+public:
+    int *isV;
+    int visit(vector<vector<int>>& rooms, int index)
+    {
+        if (isV[index])
+            return 0;
+        vector<int> r = rooms[index];
+        int num = 1;
+        for (int i = 0; i < r.size(); ++i)
+        {
+            num += visit(rooms, r[i]);
+        }
+        isV[index] = 1;
+        return num;
+    }
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        if (rooms.size() == 0)
+            return false;
+        isV = new int[rooms.size()];
+        memset(isV, 0, sizeof(int) * rooms.size());
+        int num = visit(rooms, 0);
+        if (num < rooms.size())
+            return false;
+        return true;
+    }
+};
+
+int main()
+{
+    Solution841 s;
+    vector<vector<int>> rooms;
+    rooms.push_back(vector<int>(1,1));
+    rooms.push_back(vector<int>(1,2));
+    rooms.push_back(vector<int>(1,3));
+    rooms.push_back(vector<int>());
+    s.canVisitAllRooms(rooms);
+    return 0;
+}
