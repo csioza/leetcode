@@ -9250,7 +9250,6 @@ int main332()
     vector<string> ret = s.findItinerary(edges);
     return 0;
 }
-
 //841. 钥匙和房间
 class Solution841 {
 public:
@@ -9299,3 +9298,31 @@ int main841()
     bool r = s.canVisitAllRooms(rooms);
     return 0;
 }
+//802. 找到最终的安全状态
+class Solution802 {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<int> res;
+        for (int i = 0; i < graph.size(); ++i)
+        {
+            int len = graph[i].size();
+            if (len == 0)
+            {
+                res.push_back(i);
+                continue;
+            }
+            bool is = true;
+            for (int j = 0; j < len; ++j)
+            {
+                if (graph[graph[i][j]].size() != 0)
+                {
+                    is = false;
+                    break;
+                }
+            }
+            if (is)
+                res.push_back(i);
+        }
+        return res;
+    }
+};
