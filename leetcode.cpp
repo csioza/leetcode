@@ -8950,7 +8950,6 @@ public:
         neighbors = _neighbors;
     }
 };
-
 //133. 克隆图
 class Solution133 {
 public:
@@ -8969,4 +8968,87 @@ public:
         return r;
     }
 };
-//
+
+//2019.04.02
+
+//310. 最小高度树
+class Solution310 {
+public:
+    vector<TNode*> res;
+    void genTree(int n, vector<pair<int, int>>& edges)
+    {
+        res.resize(n);
+        for (int i = 0; i < edges.size(); ++i)
+        {
+            if (!res[edges[i].first])
+            {
+                TNode *n = new TNode();
+                n->val = edges[i].first;
+                res[edges[i].first] = n;
+            }
+            if (!res[edges[i].second])
+            {
+                TNode *n = new TNode();
+                n->val = edges[i].second;
+                res[edges[i].second] = n;
+            }
+            res[edges[i].first]->neighbors.push_back(res[edges[i].second]);
+            res[edges[i].second]->neighbors.push_back(res[edges[i].first]);
+        }
+    }
+    vector<int> ret;
+    int getH(TNode* root, int curDeep, int ext)
+    {
+        if (root == NULL)
+            return 0;
+        int len = root->neighbors.size();
+        if (len == 0)
+            return 1;
+        if (curDeep > curMin)
+            return INT_MAX;
+        int maxH = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            if (root->neighbors[i]->val != ext)
+            {
+                maxH = max(maxH, getH(root->neighbors[i], curDeep+1, root->val));
+                if (maxH > curMin)//剪枝
+                    return INT_MAX;
+            }
+        }
+        return maxH + 1;
+    }
+    int curMin = INT_MAX;
+    vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) {
+        if (n <= 0)
+            return ret;
+        genTree(n, edges);
+        for (int i = 0; i < res.size(); ++i)
+        {
+            int cur = getH(res[i],0,i);
+            if (cur == curMin)
+            {
+                ret.push_back(i);
+            }
+            else if (cur < curMin)
+            {
+                ret.clear();
+                ret.push_back(i);
+                curMin = cur;
+            }
+        }
+        return ret;
+    }
+};
+int main310()
+{
+    Solution310 s;
+    int n = 4;
+    vector<pair<int, int>> edges;
+    edges.push_back(pair<int, int>(1, 0));
+    edges.push_back(pair<int, int>(1, 2));
+    edges.push_back(pair<int, int>(1, 3));
+    vector<int> r = s.findMinHeightTrees(n,edges);
+    getchar();
+    return 0;
+}
