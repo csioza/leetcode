@@ -9259,13 +9259,11 @@ public:
     {
         if (isV[index])
             return 0;
+        isV[index] = 1;
         vector<int> r = rooms[index];
         int num = 1;
         for (int i = 0; i < r.size(); ++i)
-        {
             num += visit(rooms, r[i]);
-        }
-        isV[index] = 1;
         return num;
     }
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
@@ -9279,15 +9277,25 @@ public:
         return true;
     }
 };
-
-int main()
+int main841()
 {
     Solution841 s;
     vector<vector<int>> rooms;
-    rooms.push_back(vector<int>(1,1));
-    rooms.push_back(vector<int>(1,2));
-    rooms.push_back(vector<int>(1,3));
-    rooms.push_back(vector<int>());
-    s.canVisitAllRooms(rooms);
+    vector<int> n1;
+    n1.push_back(1);
+    n1.push_back(3);
+    rooms.push_back(n1);
+    vector<int> n2;
+    n2.push_back(3);
+    n2.push_back(0);
+    n2.push_back(1);
+    rooms.push_back(n2);
+    vector<int> n3;
+    n3.push_back(2);
+    rooms.push_back(n3);
+    vector<int> n4;
+    n4.push_back(0);
+    rooms.push_back(n4);
+    bool r = s.canVisitAllRooms(rooms);
     return 0;
 }
