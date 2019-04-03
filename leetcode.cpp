@@ -9301,27 +9301,54 @@ int main841()
 //802. 找到最终的安全状态
 class Solution802 {
 public:
+    vector<int> res;
+    map<int, int> dp;
+    bool visit(vector<vector<int>>& graph,int index)
+    {
+        if (graph[index].size() == 0)
+        {
+            dp[index] = 1;
+            res.push_back(index);
+            return true;
+        }
+        map<int, int>::iterator iter = dp.find(index);
+        if (iter != dp.end())
+        {
+            if (iter->second == 1)
+            {
+                res.push_back(index);
+                return true;
+            }
+            if (iter->second == 0)
+            {
+                return false;
+            }
+            if (iter->second == -1)
+            {
+                iter->second = 0;
+                return false;
+            }
+        }
+        else
+        {
+            dp[index] = -1;
+        }
+        bool ret = true;
+        for (int i = 0; i < graph[index].size(); ++i)
+        {
+            if (!visit(graph, graph[index][i]))
+            {
+                dp[index] = 0;
+                return false;
+            }
+        }
+        return true;
+    }
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         vector<int> res;
         for (int i = 0; i < graph.size(); ++i)
         {
-            int len = graph[i].size();
-            if (len == 0)
-            {
-                res.push_back(i);
-                continue;
-            }
-            bool is = true;
-            for (int j = 0; j < len; ++j)
-            {
-                if (graph[graph[i][j]].size() != 0)
-                {
-                    is = false;
-                    break;
-                }
-            }
-            if (is)
-                res.push_back(i);
+            visit(graph, i);
         }
         return res;
     }
