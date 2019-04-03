@@ -9394,3 +9394,10 @@ int main802()
     s.eventualSafeNodes(graph);
     return 0;
 }
+//785. ÅÐ¶Ï¶þ·ÖÍ¼
+class Solution785 {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+
+    }
+};
