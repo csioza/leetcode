@@ -9397,7 +9397,78 @@ int main802()
 //785. ÅÐ¶Ï¶þ·ÖÍ¼
 class Solution785 {
 public:
+    bool isBipartite2(vector<vector<int>>& graph, vector<int>& n, int index) {
+        if (index >= n.size())
+            return true;
+        int len = graph[index].size();
+        if (len == 0)
+            return isBipartite2(graph, n, index + 1);
+        int last = n[graph[index][0]];
+        for (int i = 0; i < graph[index].size(); ++i)
+        {
+            if (n[graph[index][i]] >= 0)
+            {
+                if (n[graph[index][i]] != last && last >= 0)
+                    return false;
+                last = n[graph[index][i]];
+            }
+            if (n[index] >= 0)
+            {
+                if (n[index] == n[graph[index][i]])
+                    return false;
+                n[graph[index][i]] = n[index] ^ 1;
+            }
+        }
+        if (n[index] < 0)
+        {
+            if (last < 0)
+            {
+                n[index] = 1;
+                for (int i = 0; i < graph[index].size(); ++i)
+                    n[graph[index][i]] = 0;
+                if (!isBipartite2(graph, n, index + 1))
+                {
+                    n[index] = 0;
+                    for (int i = 0; i < graph[index].size(); ++i)
+                        n[graph[index][i]] = 1;
+                    return isBipartite2(graph, n, index + 1);
+                }
+                return true;
+            }
+            else
+            {
+                n[index] = last ^ 1;
+                for (int i = 0; i < graph[index].size(); ++i)
+                    n[graph[index][i]] = last;
+            }
+        }
+        return isBipartite2(graph, n, index + 1);
+    }
     bool isBipartite(vector<vector<int>>& graph) {
-
+        vector<int> r(graph.size(),-1);
+        return isBipartite2(graph,r,0);
     }
 };
+int main()
+{
+    Solution785 s;
+    vector<vector<int>> r;
+    vector<int> n;
+    n.push_back(1);
+    n.push_back(3);
+    r.push_back(n);
+    n.clear();
+    n.push_back(0);
+    n.push_back(2);
+    r.push_back(n);
+    n.clear();
+    n.push_back(1);
+    n.push_back(3);
+    r.push_back(n);
+    n.clear();
+    n.push_back(0);
+    n.push_back(2);
+    r.push_back(n);
+    bool ss = s.isBipartite(r);
+    return 0;
+}
