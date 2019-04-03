@@ -9301,14 +9301,14 @@ int main841()
 //802. 找到最终的安全状态
 class Solution802 {
 public:
-    vector<int> res;
+    set<int> res;
     map<int, int> dp;
     bool visit(vector<vector<int>>& graph,int index)
     {
         if (graph[index].size() == 0)
         {
             dp[index] = 1;
-            res.push_back(index);
+            //res.insert(index);
             return true;
         }
         map<int, int>::iterator iter = dp.find(index);
@@ -9316,7 +9316,7 @@ public:
         {
             if (iter->second == 1)
             {
-                res.push_back(index);
+                //res.insert(index);
                 return true;
             }
             if (iter->second == 0)
@@ -9342,14 +9342,53 @@ public:
                 return false;
             }
         }
+        dp[index] = 1;
+        //res.insert(index);
         return true;
     }
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        vector<int> res;
+        vector<int> ret;
         for (int i = 0; i < graph.size(); ++i)
         {
-            visit(graph, i);
+            if (visit(graph, i))
+            {
+                ret.push_back(i);
+            }
+            //visit(graph, i);
         }
-        return res;
+        //set<int>::iterator iter = res.begin();
+        //for (; iter != res.end(); ++iter)
+        //{
+        //    ret.push_back(*iter);
+        //}
+        return ret;
     }
 };
+int main()
+{
+    Solution802 s;
+    vector<vector<int>> graph;
+    vector<int> n;
+    n.push_back(1);
+    n.push_back(2);
+    graph.push_back(n);
+    n.clear();
+    n.push_back(2);
+    n.push_back(3);
+    graph.push_back(n);
+    n.clear();
+    n.push_back(5);
+    graph.push_back(n);
+    n.clear();
+    n.push_back(0);
+    graph.push_back(n);
+    n.clear();
+    n.push_back(5);
+    graph.push_back(n);
+    n.clear();
+    graph.push_back(n);
+    n.clear();
+    graph.push_back(n);
+    s.eventualSafeNodes(graph);
+    return 0;
+}
