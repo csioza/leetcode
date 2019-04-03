@@ -9298,10 +9298,12 @@ int main841()
     bool r = s.canVisitAllRooms(rooms);
     return 0;
 }
+//2019.04.03
+
 //802. 找到最终的安全状态
 class Solution802 {
 public:
-    set<int> res;
+    //set<int> res;
     map<int, int> dp;
     bool visit(vector<vector<int>>& graph,int index)
     {
@@ -9364,7 +9366,7 @@ public:
         return ret;
     }
 };
-int main()
+int main802()
 {
     Solution802 s;
     vector<vector<int>> graph;
