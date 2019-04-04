@@ -9475,11 +9475,36 @@ int main785()
 }
 //2019.04.04
 
-//803. ´ò×©¿é
-class Solution803 {
+//200. µºÓìµÄ¸öÊý
+class Solution200 {
 public:
-    vector<int> hitBricks(vector<vector<int>>& grid, vector<vector<int>>& hits) {
-
+    void f(vector<vector<char>>& grid, int x, int y)
+    {
+        if (grid[y][x] == 1)
+        {
+            grid[y][x] = 0;
+            int ylen = grid.size();
+            int xlen = grid[0].size();
+            if (x < xlen - 1)
+                f(grid, y, x + 1);
+            if (y < ylen - 1)
+                f(grid, y + 1, x);
+        }
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        int ret = 0;
+        for (int i = 0; i < grid.size(); ++i)
+        {
+            for (int j = 0; j < grid[i].size(); ++j)
+            {
+                if (grid[i][j] == 1)
+                {
+                    ret++;
+                    f(grid, j, i);
+                }
+            }
+        }
+        return ret;
     }
 };
 //547. ÅóÓÑÈ¦
@@ -9592,3 +9617,4 @@ int main547()
     int i = s.findCircleNum(M);
     return 0;
 }
+//
