@@ -9478,17 +9478,21 @@ int main785()
 //200. µºÓìµÄ¸öÊý
 class Solution200 {
 public:
-    void f(vector<vector<char>>& grid, int x, int y)
+    void f(vector<vector<char>>& grid, int i, int j)
     {
-        if (grid[y][x] == 1)
+        if (grid[i][j] == '1')
         {
-            grid[y][x] = 0;
-            int ylen = grid.size();
-            int xlen = grid[0].size();
-            if (x < xlen - 1)
-                f(grid, y, x + 1);
-            if (y < ylen - 1)
-                f(grid, y + 1, x);
+            grid[i][j] = 0;
+            int ilen = grid.size();
+            int jlen = grid[i].size();
+            if (i < ilen - 1)
+                f(grid, i + 1, j);
+            if (j < jlen - 1)
+                f(grid, i, j + 1);
+            if (i > 0)
+                f(grid, i - 1, j);
+            if (j > 0)
+                f(grid, i, j - 1);
         }
     }
     int numIslands(vector<vector<char>>& grid) {
@@ -9497,10 +9501,10 @@ public:
         {
             for (int j = 0; j < grid[i].size(); ++j)
             {
-                if (grid[i][j] == 1)
+                if (grid[i][j] == '1')
                 {
                     ret++;
-                    f(grid, j, i);
+                    f(grid, i, j);
                 }
             }
         }
