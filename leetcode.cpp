@@ -5,6 +5,7 @@
 #include <stack>
 #include <set>
 #include <iostream>
+#include <list>
 using namespace std;
 #include <time.h>
 #include <sstream>
@@ -9449,7 +9450,7 @@ public:
         return isBipartite2(graph,r,0);
     }
 };
-int main()
+int main785()
 {
     Solution785 s;
     vector<vector<int>> r;
@@ -9470,5 +9471,124 @@ int main()
     n.push_back(2);
     r.push_back(n);
     bool ss = s.isBipartite(r);
+    return 0;
+}
+//2019.04.04
+
+//803. ´ò×©¿é
+class Solution803 {
+public:
+    vector<int> hitBricks(vector<vector<int>>& grid, vector<vector<int>>& hits) {
+
+    }
+};
+//547. ÅóÓÑÈ¦
+class Solution547 {
+public:
+    vector<int> nn;
+    vector<int> nr;
+    int find_pre(int x)
+    {
+        if (nn[x] < 0)
+            nn[x] = x;
+        if (nn[x] != x)
+            nn[x] = find_pre(nn[x]);
+        return nn[x];
+    }
+    void unin(int x, int y)
+    {
+        int xx = find_pre(x);
+        int yy = find_pre(y);
+        if (xx == yy)
+            return;
+        if (nr[xx] < nr[yy])
+            nn[xx] = yy;
+        else
+        {
+            if (nr[xx] == nr[yy])
+                nr[xx]++;
+            nn[yy] = xx;
+        }
+    }
+    int findCircleNum(vector<vector<int>>& M) {
+        int n = M.size();
+        vector<int> t(n, -1);
+        vector<int> tr(n, 0);
+        nn = t;
+        nr = tr;
+        for (int i = 0; i < n; ++i)
+            for (int j = 0; j < i; ++j)//j <= i
+                if (M[i][j] == 1)
+                    unin(i, j);
+        set<int> ret;
+        for (int i = 0; i < n; ++i)
+            //ret.insert(nn[i]);//´íµÄ
+            ret.insert(find_pre(i));
+        return ret.size();
+    }
+    //void de(vector<vector<int>>& M,vector<int> delist)
+    //{
+    //    for (int i = 0; i < delist.size(); ++i)
+    //    {
+    //        for (int j = 0; j < len; ++j)
+    //        {
+    //            if (M[delist[i]][nn2[j]] == 1)
+    //            {
+    //                nn2[i] = nn2[len--];
+    //            }
+    //        }
+    //    }
+    //}
+    //int *nn2;
+    //int len = 0;
+    //int findCircleNum2(vector<vector<int>>& M) {
+    //    int n = M.size();
+    //    nn2 = new int[n]; 
+    //    vector<int> delist;
+    //    for (int i = 0; i < n; ++i)
+    //    {
+    //        if (M[0][i] == 1)
+    //        {
+    //            delist.push_back(i);
+    //        }
+    //        else
+    //        {
+    //            nn2[i] = i;
+    //            len++;
+    //        }
+    //    }
+    //    for (int i = 0; i < len; ++i)
+    //    {
+    //        if (nn2[i] >= 0)
+    //        {
+    //        }
+    //        else
+    //        {
+    //            return i;
+    //        }
+    //    }
+    //    return 0;
+    //}
+};
+int main547()
+{
+    Solution547 s;
+    vector<vector<int>> M;
+    vector<int> n;
+    n.push_back(1);
+    n.push_back(1);
+    n.push_back(0);
+    M.push_back(n);
+    n.clear();
+    n.push_back(1);
+    n.push_back(1);
+    n.push_back(0);
+    M.push_back(n);
+    n.clear();
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(1);
+    M.push_back(n);
+    int i = s.findCircleNum(M);
     return 0;
 }
