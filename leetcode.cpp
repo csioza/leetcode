@@ -9710,3 +9710,107 @@ public:
         }
     }
 };
+//743. Õ¯¬Á—”≥Ÿ ±º‰
+class Solution743 {
+public:
+    struct TNode743
+    {
+        int val;
+        int time = INT_MAX;
+        int vi = 0;
+        map<TNode743*,int> next;
+    };
+    int dfs(TNode743* k,int curTime)
+    {
+        if (curTime < k->time)
+        {
+            k->time = curTime;
+            int max = 0;
+            map<TNode743*, int>::iterator iter = k->next.begin();
+            for (; iter != k->next.end(); ++iter)
+            {
+                int cur = dfs(iter->first, iter->second + k->time);
+                if (cur > max)
+                    max = cur;
+            }
+            return max > 0 ? max : k->time;
+        }
+        return curTime;
+    }
+    void dfs2(TNode743* k, int curTime)
+    {
+        if (curTime < k->time)
+            k->time = curTime;
+        k->vi--;
+        if (k->vi == 0)
+        {
+            map<TNode743*, int>::iterator iter = k->next.begin();
+            for (; iter != k->next.end(); ++iter)
+                dfs2(iter->first, iter->second + k->time);
+        }
+    }
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+        vector<TNode743*> n(N+1,NULL);
+        TNode743* k = NULL;
+        for (int i = 0; i < times.size(); ++i)
+        {
+            if (!n[times[i][0]])
+            {
+                n[times[i][0]] = new TNode743();
+                n[times[i][0]]->val = times[i][0];
+                if (times[i][0] == K)
+                    k = n[times[i][0]];
+            }
+            if (!n[times[i][1]])
+            {
+                n[times[i][1]] = new TNode743();
+                n[times[i][1]]->val = times[i][1];
+                if (times[i][1] == K)
+                    k = n[times[i][1]];
+            }
+            n[times[i][1]]->vi++;
+            n[times[i][0]]->next[n[times[i][1]]] = times[i][2];
+        }
+        k->vi = 1;
+        dfs2(k, 0);
+        int ret = 0;
+        for (int i = 1; i < N + 1; ++i)
+        {
+            if (!n[i] || n[i]->time == INT_MAX)
+                return -1;
+            ret = max(ret,n[i]->time);
+        }
+        return ret;
+    }
+};
+int main()
+{
+    Solution743 s;
+    vector<vector<int>> times;
+    vector<int> n;
+    //n.push_back(2);
+    //n.push_back(1);
+    //n.push_back(1);
+    //times.push_back(n);
+    //n.clear();
+    //n.push_back(2);
+    //n.push_back(3);
+    //n.push_back(1);
+    //times.push_back(n);
+    //n.clear();
+    //n.push_back(3);
+    //n.push_back(4);
+    //n.push_back(1);
+
+    n.push_back(1);
+    n.push_back(2);
+    n.push_back(1);
+    times.push_back(n);
+    n.clear();
+    n.push_back(2);
+    n.push_back(1);
+    n.push_back(3);
+    times.push_back(n);
+    int r = s.networkDelayTime(times,2,2);
+    return 0;
+}
