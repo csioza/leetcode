@@ -9665,3 +9665,48 @@ public:
         return ret;
     }
 };
+//130. ±»Î§ÈÆµÄÇøÓò
+class Solution130 {
+public:
+    void in(vector<vector<char>>& board,vector<vector<bool>> &o,int i,int j)
+    {
+        if (board[i][j] != 'O')
+            return;
+        if (o[i][j])
+            return;
+        o[i][j] = true;
+        if (i > 0)
+            in(board, o, i - 1, j);
+        if (j > 0)
+            in(board, o, i, j-1);
+        if (i < board.size()-1)
+            in(board, o, i + 1, j);
+        if (j < board[0].size() - 1)
+            in(board, o, i, j+1);
+    }
+    void solve(vector<vector<char>>& board) {
+        if (board.size() == 0)
+            return;
+        vector<vector<bool>> o(board.size(),vector<bool>(board[0].size(),false));
+        for (int i = 0; i < board.size(); ++i)
+        {
+            in(board, o, i, 0);
+            in(board, o, i, board[0].size() - 1);
+        }
+        for (int i = 0; i < board[0].size(); ++i)
+        {
+            in(board, o, 0, i);
+            in(board, o, board.size()-1, i);
+        }
+        for (int i = 0; i < board.size(); ++i)
+        {
+            for (int j = 0; j < board[i].size(); ++j)
+            {
+                if (!o[i][j] && board[i][j] == 'O')
+                {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+};
