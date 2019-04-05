@@ -9737,7 +9737,7 @@ public:
         }
         return curTime;
     }
-    //void dfs2(TNode743* k, int curTime)
+    //void dfs2(TNode743* k, int curTime)//	解答错误
     //{
     //    if (curTime < k->time)
     //        k->time = curTime;
@@ -9749,7 +9749,7 @@ public:
     //            dfs2(iter->first, iter->second + k->time);
     //    }
     //}
-    int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) {//超出时间限制
         vector<TNode743*> n(N+1,NULL);
         TNode743* k = NULL;
         for (int i = 0; i < times.size(); ++i)
@@ -9782,7 +9782,7 @@ public:
         }
         return ret;
     }
-    int networkDelayTime2(vector<vector<int>>& times, int N, int K) {
+    int networkDelayTime2(vector<vector<int>>& times, int N, int K) {//网上
         vector<vector<int>> v(N + 1, vector<int>(N + 1, 0x3f3f3f3f));
         for (auto time : times) {
             v[time[0]][time[1]] = time[2];
@@ -9814,7 +9814,7 @@ public:
         }
         return max_t == 0x3f3f3f3f ? -1 : max_t;
     }
-    int networkDelayTime3(vector<vector<int>>& times, int N, int K) {
+    int networkDelayTime3(vector<vector<int>>& times, int N, int K) {//网上
         vector<int> is(N + 1, 999999999);//所有初始时间设为999999999,代表没有连通
         is[K] = 0;
         int loop = 1;
