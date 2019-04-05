@@ -9737,18 +9737,18 @@ public:
         }
         return curTime;
     }
-    void dfs2(TNode743* k, int curTime)
-    {
-        if (curTime < k->time)
-            k->time = curTime;
-        k->vi--;
-        if (k->vi == 0)
-        {
-            map<TNode743*, int>::iterator iter = k->next.begin();
-            for (; iter != k->next.end(); ++iter)
-                dfs2(iter->first, iter->second + k->time);
-        }
-    }
+    //void dfs2(TNode743* k, int curTime)
+    //{
+    //    if (curTime < k->time)
+    //        k->time = curTime;
+    //    k->vi--;
+    //    if (k->vi == 0)
+    //    {
+    //        map<TNode743*, int>::iterator iter = k->next.begin();
+    //        for (; iter != k->next.end(); ++iter)
+    //            dfs2(iter->first, iter->second + k->time);
+    //    }
+    //}
     int networkDelayTime(vector<vector<int>>& times, int N, int K) {
         vector<TNode743*> n(N+1,NULL);
         TNode743* k = NULL;
@@ -9768,11 +9768,11 @@ public:
                 if (times[i][1] == K)
                     k = n[times[i][1]];
             }
-            n[times[i][1]]->vi++;
+            //n[times[i][1]]->vi++;
             n[times[i][0]]->next[n[times[i][1]]] = times[i][2];
         }
-        k->vi = 1;
-        dfs2(k, 0);
+        //k->vi = 1;
+        dfs(k, 0);
         int ret = 0;
         for (int i = 1; i < N + 1; ++i)
         {
@@ -9781,6 +9781,59 @@ public:
             ret = max(ret,n[i]->time);
         }
         return ret;
+    }
+    int networkDelayTime2(vector<vector<int>>& times, int N, int K) {
+        vector<vector<int>> v(N + 1, vector<int>(N + 1, 0x3f3f3f3f));
+        for (auto time : times) {
+            v[time[0]][time[1]] = time[2];
+        }
+        // cost[j] = min(cost[j], cost[k] + v[k][j])
+        vector<int> T(N + 1, 0), S(N + 1, 0x3f3f3f3f);
+        for (int j = 1; j <= N; j++) {
+            T[j] = v[K][j];
+        }
+        T[K] = 0;
+        int t, min_T, max_t = 0;
+        for (int j = 1; j <= N; j++) {
+            //取 T 中距离最小的节点 t 最小放入 S
+            min_T = 0x3f3f3f3f + 1; //注意要比S默认值大1，否则节点加不进去
+            for (int k = 1; k <= N; k++) {
+                if (S[k] == 0x3f3f3f3f && T[k] < min_T) {
+                    min_T = T[k];
+                    t = k;
+                }
+            }
+            S[t] = T[t];
+            //用刚加入到 S 中的节点 t 更新 T 中节点距离
+            for (int k = 1; k <= N; k++) {
+                if (S[k] == 0x3f3f3f3f)
+                    T[k] = min(T[k], T[t] + v[t][k]);
+            }
+            //cout<<t<<" = "<<S[t]<<endl;
+            max_t = max(max_t, S[t]);
+        }
+        return max_t == 0x3f3f3f3f ? -1 : max_t;
+    }
+    int networkDelayTime3(vector<vector<int>>& times, int N, int K) {
+        vector<int> is(N + 1, 999999999);//所有初始时间设为999999999,代表没有连通
+        is[K] = 0;
+        int loop = 1;
+        while (loop--) {
+            for (int i = 0; i < times.size(); i++) {
+                int u = times[i][0], v = times[i][1], w = times[i][2];
+                if (is[u] != 999999999) {
+                    int t = is[times[i][1]];
+                    is[v] = min(is[u] + w, is[v]);//更新连通时间
+                    if (t != is[v])loop = 1;//如果这一趟没有任何变化,中止循环
+                }
+            }
+        }
+        int maxnum = 0;
+        for (int j = 1; j <= N; j++) {
+            if (is[j] == 999999999)return -1;
+            maxnum = max(maxnum, is[j]);
+        }
+        return maxnum;
     }
 };
 int main()
