@@ -9621,4 +9621,47 @@ int main547()
     int i = s.findCircleNum(M);
     return 0;
 }
-//
+//2019.04.05
+
+//684. »ﬂ”‡¡¨Ω”
+class Solution684 {
+public:
+    bool unin(vector<int> &nn, vector<int> &nr, int x, int y)
+    {
+        int xx = find_pre(nn, x);
+        int yy = find_pre(nn, y);
+        if (xx == yy)
+            return false;
+        if (nr[xx] < nr[yy])
+            nn[xx] = yy;
+        else
+        {
+            if (nr[xx] == nr[yy])
+                nr[xx]++;
+            nn[yy] = xx;
+        }
+        return true;
+    }
+    int find_pre(vector<int> &nn, int x)
+    {
+        if (nn[x] < 0)
+            nn[x] = x;
+        if (nn[x] != x)
+            nn[x] = find_pre(nn,nn[x]);
+        return nn[x];
+    }
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        vector<int> nn(edges.size() + 1, -1);
+        vector<int> nr(edges.size() + 1, 0);
+        vector<int> ret;
+        for (int i = 0; i < edges.size(); ++i)
+        {
+            if (!unin(nn,nr,edges[i][0],edges[i][1]))
+            {
+                ret = edges[i];
+                break;
+            }
+        }
+        return ret;
+    }
+};
