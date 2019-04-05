@@ -9836,7 +9836,7 @@ public:
         return maxnum;
     }
 };
-int main()
+int main743()
 {
     Solution743 s;
     vector<vector<int>> times;
