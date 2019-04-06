@@ -6,6 +6,7 @@
 #include <set>
 #include <iostream>
 #include <list>
+#include <queue>
 using namespace std;
 #include <time.h>
 #include <sstream>
@@ -9867,3 +9868,77 @@ int main743()
     int r = s.networkDelayTime(times,2,2);
     return 0;
 }
+//2019.04.06
+
+//207. 课程表
+class Solution207 {
+public:
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<int> inDegree(numCourses, 0);
+        for (int i = 0; i < prerequisites.size(); ++i)
+            inDegree[prerequisites[i].second]++;
+        queue<int> q;
+        for (int i = 0; i < numCourses; ++i)
+        {
+            if (inDegree[i] == 0)
+                q.push(i);
+        }
+        int num = 0;
+        while (!q.empty())
+        {
+            int cur = q.front();
+            q.pop();
+            num++;
+            for (int i = 0; i < prerequisites.size(); ++i)
+            {
+                if (prerequisites[i].first == cur)
+                {
+                    inDegree[prerequisites[i].second]--;
+                    if (inDegree[prerequisites[i].second] == 0)
+                    {
+                        q.push(prerequisites[i].second);
+                    }
+                }
+            }
+        }
+        return num < numCourses ? false : true;
+    }
+};
+//210. 课程表 II
+class Solution210 {
+public:
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<int> inDegree(numCourses, 0);
+        for (int i = 0; i < prerequisites.size(); ++i)
+            inDegree[prerequisites[i].second]++;
+        queue<int> q;
+        for (int i = 0; i < numCourses; ++i)
+        {
+            if (inDegree[i] == 0)
+                q.push(i);
+        }
+        vector<int> ret;
+        while (!q.empty())
+        {
+            int cur = q.front();
+            q.pop();
+            ret.push_back(cur);
+            for (int i = 0; i < prerequisites.size(); ++i)
+            {
+                if (prerequisites[i].first == cur)
+                {
+                    inDegree[prerequisites[i].second]--;
+                    if (inDegree[prerequisites[i].second] == 0)
+                        q.push(prerequisites[i].second);
+                }
+            }
+        }
+        for (int i = 0,j = ret.size() - 1; i < j; i++,j--)
+        {
+            int t = ret[i];
+            ret[i] = ret[j];
+            ret[j] = t;
+        }
+        return ret.size() < numCourses ? vector<int>() : ret;
+    }
+};
