@@ -10196,12 +10196,67 @@ public:
         return res.size();
     }
 };
-int main()
+int main959()
 {
     Solution959b s;
     vector<string> grid;
     grid.push_back(" /");
     grid.push_back("/ ");
     int ss = s.regionsBySlashes(grid);
+    return 0;
+}
+//990. 等式方程的可满足性
+class Solution990 {
+public:
+    int find_pre(vector<int> &nn, int x)
+    {
+        if (nn[x] == -1)
+            nn[x] = x;
+        if (nn[x] != x)
+            nn[x] = find_pre(nn, nn[x]);
+        return nn[x];
+    }
+    void unin(vector<int> &nn, int x, int y)
+    {
+        int xx = find_pre(nn, x);
+        int yy = find_pre(nn, y);
+        if (xx == yy)
+            return;
+        nn[yy] = xx;
+    }
+    bool equationsPossible(vector<string>& equations) {
+        vector<int> nn(26,-1);
+        for (int i = 0; i < equations.size(); ++i)
+        {
+            if (equations[i][1] == '=')
+                unin(nn, equations[i][0] - 'a', equations[i][3] - 'a');
+            else
+            {
+                int xx = find_pre(nn, equations[i][0] - 'a');
+                int yy = find_pre(nn, equations[i][3] - 'a');
+                if (xx == yy)
+                    return false;
+            }
+        }
+        for (int i = 0; i < equations.size(); ++i)
+        {
+            if (equations[i][1] == '!')
+            {
+                int xx = find_pre(nn, equations[i][0] - 'a');
+                int yy = find_pre(nn, equations[i][3] - 'a');
+                if (xx == yy)
+                    return false;
+            }
+        }
+        return true;
+    }
+};
+int main()
+{
+    Solution990 s;
+    vector<string> equations;
+    equations.push_back("a==b");
+    equations.push_back("b!=a");
+    bool r = s.equationsPossible(equations);
     return 0;
 }
