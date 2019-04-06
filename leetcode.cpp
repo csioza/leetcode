@@ -10007,3 +10007,201 @@ public:
         return ret;
     }
 };
+//959. 由斜杠划分区域
+class Solution959 {//给自己写蒙圈了，应该能出来，没耐性了
+public:
+    int find_pre(vector<vector<int>> &nn, int x)
+    {
+        bool left = (x >> 15) == 0;
+        int i = (x&0x3f00) >> 8;
+        int j = x & 0xff;
+        if (left)
+        {
+            if ((nn[i][j] >> 16) == 0x3f3f)
+            {
+                nn[i][j] = nn[i][j] & 0xffff;
+                nn[i][j] |= (x << 16);
+            }
+            if ((nn[i][j] >> 16) != x)
+            {
+                nn[i][j] = nn[i][j] & 0xffff;
+                nn[i][j] |= (find_pre(nn, nn[i][j] >> 16) & 0xffff0000);
+            }
+            return nn[i][j] >> 16;
+        }
+        else
+        {
+            if ((nn[i][j] & 0xffff) == 0x3f3f)
+            {
+                nn[i][j] = nn[i][j] & 0xffff0000;
+                nn[i][j] |= x;
+            }
+            if ((nn[i][j] & 0xffff) != x)
+            {
+                nn[i][j] = nn[i][j] & 0xffff0000;
+                nn[i][j] |= (find_pre(nn, nn[i][j] & 0xffff) & 0xffff);
+            }
+            return nn[i][j] & 0xffff;
+        }
+        return nn[i][j];
+    }
+    void unin(vector<vector<int>> &nn, int x, bool xleft, int y, bool yleft)
+    {
+        if (!xleft)
+            x |= 0x8000;
+        if (!yleft)
+            y |= 0x8000;
+        int xx = find_pre(nn, x);
+        int yy = find_pre(nn, y);
+        if (xx == yy)
+            return;
+        bool left = (xx >> 15) == 0;
+        int i = (x & 0x3f00) >> 8;
+        int j = x & 0xff;
+        if (left)
+        {
+            nn[i][j] = nn[i][j] & 0xffff;
+            nn[i][j] |= (yy << 16);
+        }
+        else
+        {
+            nn[i][j] = nn[i][j] & 0xffff0000;
+            nn[i][j] |= yy;
+        }
+    }
+    int regionsBySlashes(vector<string>& grid) {
+        int ilen = grid.size();
+        if (ilen == 0)
+            return 0;
+        int jlen = grid[0].size();
+        if (jlen == 0)
+            return 0;
+        vector<vector<int>> nn(ilen,vector<int>(jlen,0x3f3f3f3f));
+        for (int i = 0; i < ilen; ++i)
+        {
+            for (int j = 0; j < jlen; ++j)
+            {
+                if (grid[i][j] == ' ')
+                {
+                    int x = i << 8 | j;
+                    unin(nn, x, true, x, false);
+                    if (i > 0)
+                    {
+                        if (grid[i-1][j] == ' ')
+                        {
+                            int y = (i - 1) << 8 | j;
+                            unin(nn, x, true, y, false);
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};
+class Solution959b {//参考网上写的
+public:
+    int find_pre(vector<vector<int>> &nn, int x)
+    {
+        int i = x >> 16;
+        int j = (x & 0xff00) >> 8;
+        int index = (x & 0xff) + j * 4;
+        if (nn[i][index] == -1)
+        {
+            nn[i][index] = x;
+        }
+        if (nn[i][index] != x)
+        {
+            nn[i][index] = find_pre(nn, nn[i][index]);
+        }
+        return nn[i][index];
+    }
+    void unin(vector<vector<int>> &nn, int x, int y)
+    {
+        int xx = find_pre(nn, x);
+        int yy = find_pre(nn, y);
+        if (xx == yy)
+            return;
+        int i = x >> 16;
+        int j = (x & 0xff00) >> 8;
+        int index = (x & 0xff) + j * 4;
+        nn[i][index] = yy;
+    }
+    int regionsBySlashes(vector<string>& grid) {
+        int ilen = grid.size();
+        if (ilen == 0)
+            return 0;
+        int jlen = grid[0].size();
+        if (jlen == 0)
+            return 0;
+        vector<vector<int>> nn(ilen, vector<int>(jlen*4, -1));
+        for (int i = 0; i < ilen; ++i)
+        {
+            for (int j = 0; j < jlen; ++j)
+            {
+                int x0 = i << 16 | (j * 4);
+                int x1 = i << 16 | (j * 4 + 1);
+                int x2 = i << 16 | (j * 4 + 2);
+                int x3 = i << 16 | (j * 4 + 3);
+                switch (grid[i][j])
+                {
+                case ' ':
+                {
+                    unin(nn, x0, x1);
+                    unin(nn, x1, x2);
+                    unin(nn, x2, x3);
+                    unin(nn, x3, x0);
+                }
+                break;
+                case '/':
+                {
+                    unin(nn, x0, x1);
+                    unin(nn, x2, x3);
+                }
+                break;
+                case '\\':
+                {
+                    unin(nn, x1, x2);
+                    unin(nn, x3, x0);
+                }
+                break;
+                default:
+                    break;
+                }
+                if (i > 0)
+                {
+                    int x = (i - 1) << 16 | (j * 4 + 3);
+                    unin(nn, x1, x);
+                }
+                if (j > 0)
+                {
+                    int x = i << 16 | ((j - 1) * 4 + 2);
+                    unin(nn, x0, x);
+                }
+            }
+        }
+        set<int> res;
+        for (int i = 0; i < ilen; ++i)
+            for (int j = 0; j < jlen; ++j)
+            {
+                int x0 = i << 16 | (j * 4);
+                int x1 = i << 16 | (j * 4 + 1);
+                int x2 = i << 16 | (j * 4 + 2);
+                int x3 = i << 16 | (j * 4 + 3);
+                res.insert(find_pre(nn, x0));
+                res.insert(find_pre(nn, x1));
+                res.insert(find_pre(nn, x2));
+                res.insert(find_pre(nn, x3));
+            }
+        return res.size();
+    }
+};
+int main()
+{
+    Solution959b s;
+    vector<string> grid;
+    grid.push_back(" /");
+    grid.push_back("/ ");
+    int ss = s.regionsBySlashes(grid);
+    return 0;
+}
