@@ -10099,7 +10099,7 @@ public:
         return 0;
     }
 };
-class Solution959b {//参考网上写的
+class Solution959b {//参考网上写的,系里弧度地过了
 public:
     int find_pre(vector<vector<int>> &nn, int x)
     {
@@ -10122,10 +10122,10 @@ public:
         int yy = find_pre(nn, y);
         if (xx == yy)
             return;
-        int i = x >> 16;
-        int j = (x & 0xff00) >> 8;
-        int index = (x & 0xff) + j * 4;
-        nn[i][index] = yy;
+        int i = yy >> 16;
+        int j = (yy & 0xff00) >> 8;
+        int index = (yy & 0xff) + j * 4;
+        nn[i][index] = xx;
     }
     int regionsBySlashes(vector<string>& grid) {
         int ilen = grid.size();
