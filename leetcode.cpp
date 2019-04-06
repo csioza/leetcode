@@ -9942,3 +9942,68 @@ public:
         return ret.size() < numCourses ? vector<int>() : ret;
     }
 };
+//399. ³ý·¨ÇóÖµ
+class Solution399 {
+public:
+    pair<string, double> find_pre(
+        map<string, pair<string, double>> &nn,
+        string x)
+    {
+        map<string, pair<string, double>>::iterator it = nn.find(x);
+        if (it == nn.end())
+        {
+            nn[x] = pair<string, double>(x,1.0);
+        }
+        if (nn[x].first != x)
+        {
+            pair<string,double> rr = find_pre(nn, nn[x].first);
+            rr.second = rr.second * nn[x].second;
+            nn[x] = rr;
+        }
+        return nn[x];
+    }
+    void unin(
+        map<string, pair<string, double>> &nn,
+        string x, string y, double r)
+    {
+        pair<string, double> xx = find_pre(nn, x);
+        pair<string, double> yy = find_pre(nn, y);
+        if (xx.first == yy.first)
+            return;
+        xx.second = xx.second * r / yy.second;
+        nn[yy.first] = xx;
+    }
+    vector<double> calcEquation(
+        vector<pair<string, string>> equations, 
+        vector<double>& values, 
+        vector<pair<string, string>> queries) {
+        map<string, pair<string, double>> nn;
+        for (int i = 0; i < equations.size(); ++i)
+        {
+            unin(nn,equations[i].first, equations[i].second, values[i]);
+        }
+        vector<double> ret;
+        for (int i = 0; i < queries.size(); ++i)
+        {
+            map<string, pair<string, double>>::iterator it = nn.find(queries[i].first);
+            if (it == nn.end())
+            {
+                ret.push_back(-1.0);
+                continue;
+            }
+            map<string, pair<string, double>>::iterator it2 = nn.find(queries[i].second);
+            if (it2 == nn.end())
+            {
+                ret.push_back(-1.0);
+                continue;
+            }
+            pair<string, double> xx = find_pre(nn, queries[i].first);
+            pair<string, double> yy = find_pre(nn, queries[i].second);
+            if (xx.first == yy.first)
+                ret.push_back(xx.second / yy.second);
+            else
+                ret.push_back(-1.0);
+        }
+        return ret;
+    }
+};
