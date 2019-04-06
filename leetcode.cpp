@@ -10251,7 +10251,7 @@ public:
         return true;
     }
 };
-int main()
+int main990()
 {
     Solution990 s;
     vector<string> equations;
