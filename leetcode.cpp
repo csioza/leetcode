@@ -10260,3 +10260,4 @@ int main990()
     bool r = s.equationsPossible(equations);
     return 0;
 }
+//2019.04.07
