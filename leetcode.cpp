@@ -10261,3 +10261,182 @@ int main990()
     return 0;
 }
 //2019.04.07
+
+//1019. 链表中的下一个更大节点
+/**
+* Definition for singly-linked list.
+* struct ListNode {
+*     int val;
+*     ListNode *next;
+*     ListNode(int x) : val(x), next(NULL) {}
+* };
+*/
+class Solution1019 {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        vector<int> ret;
+        if (!head || !head->next)
+        {
+            return ret;
+        }
+        stack<ListNode*> s;
+        ListNode * p = head->next;
+        s.push(p);
+        while (p)
+        {
+            ListNode* cur = NULL;
+            if (!s.empty())
+                cur = s.top();
+            while (cur && cur->val < p->val)
+            {
+                ret.push_back(p->val);
+                s.pop();
+                if (s.empty())
+                    break;
+                cur = s.top();
+            }
+            s.push(p);
+            p = p->next;
+        }
+        
+    }
+};
+//5017. 从根到叶的二进制数之和
+class Solution5017 {
+public:
+    long long sum = 0;
+    void sumRootToLeaf2(TreeNode* root, long long cur) {
+        if (root == NULL)
+            return;
+        cur = (cur << 1) | root->val;
+        cur %= 1000000007;
+        if (!root->left && !root->right)
+        {
+            sum += cur;
+            sum %= 1000000007;
+            return;
+        }
+        sumRootToLeaf2(root->left, cur);
+        sumRootToLeaf2(root->right, cur);
+    }
+    int sumRootToLeaf(TreeNode* root) {
+        sumRootToLeaf2(root, 0);
+        return sum;
+    }
+};
+//5016. 删除最外层的括号
+class Solution5016 {
+public:
+    string removeOuterParentheses(string S) {
+        stack<char> st;
+        string res;
+        int len = S.size();
+        if (len == 0)
+            return res;
+        st.push(S[0]);
+        for (int i = 1; i < len; ++i)
+        {
+            if (st.empty())
+            {
+                st.push(S[i]);
+            }
+            else if (st.size() == 1)
+            {
+                char t = st.top();
+                if (t == '(' && S[i] == ')')
+                    st.pop();
+                else
+                {
+                    st.push(S[i]);
+                    res.push_back(S[i]);
+                }
+            }
+            else
+            {
+                char t = st.top();
+                if (t == '(' && S[i] == ')')
+                    st.pop();
+                else
+                    st.push(S[i]);
+                res.push_back(S[i]);
+            }
+        }
+        return res;
+    }
+};
+//5018. 驼峰式匹配
+class Solution5018 {
+public:
+    vector<string> chai(string query)
+    {
+        vector<string> ret;
+        int qlen = query.size();
+        int lastA = 0;
+        for (int i = 1; i < qlen; ++i)
+        {
+            if (query[i] >= 'A' && query[i] <= 'Z')
+            {
+                ret.push_back(query.substr(lastA, i - lastA));
+                lastA = i;
+            }
+        }
+        ret.push_back(query.substr(lastA, qlen - lastA));
+        return ret;
+    }
+    bool isMatch(string query,string pattern)
+    {
+        vector<string> q = chai(query);
+        vector<string> p = chai(pattern);
+        int qlen = q.size();
+        int plen = p.size();
+        if (qlen != plen)
+            return false;
+        for (int k = 0; k < plen; ++k)
+        {
+            int i = 0,j = 0;
+            if (q[k][i] != p[k][j])
+                return false;
+            i++;
+            j++;
+            for (; i < q[k].size() && j < p[k].size(); ++i)
+            {
+                if (q[k][i] == p[k][i])
+                {
+                    ++j;
+                }
+            }
+            if (j < p[k].size())
+                return false;
+        }
+        return true;
+    }
+    vector<bool> camelMatch(vector<string>& queries, string pattern) {
+        vector<bool> ret;
+        for (int i = 0; i < queries.size(); ++i)
+        {
+            ret.push_back(isMatch(queries[i], pattern));
+        }
+        return ret;
+    }
+};
+//["haFuYhbibsmetgtriziiljdutcco",
+//"haweuFkYohbibbsmetgizgiijcco",
+//"rhaFkYehbivbsmjeatgkiziijcco",
+//"bmhaFYhbibslmetgfgiziibjcnco",
+//"haFvYhqkybibsqmetnngiziijcco",
+//"mhakFYbhzsbibsmetgiziijvcgco"]
+//"haFYhbibsmetgiziijcco"
+int main()
+{
+    vector<string> queries;
+    string pattern = "haFYhbibsmetgiziijcco";
+    queries.push_back("haFuYhbibsmetgtriziiljdutcco");
+    queries.push_back("haweuFkYohbibbsmetgizgiijcco");
+    queries.push_back("rhaFkYehbivbsmjeatgkiziijcco");
+    queries.push_back("bmhaFYhbibslmetgfgiziibjcnco");
+    queries.push_back("haFvYhqkybibsqmetnngiziijcco");
+    queries.push_back("mhakFYbhzsbibsmetgiziijvcgco");
+    Solution5018 s;
+    s.camelMatch()
+    return 0;
+}
