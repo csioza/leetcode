@@ -10263,44 +10263,57 @@ int main990()
 //2019.04.07
 
 //1019. 链表中的下一个更大节点
-/**
-* Definition for singly-linked list.
-* struct ListNode {
-*     int val;
-*     ListNode *next;
-*     ListNode(int x) : val(x), next(NULL) {}
-* };
-*/
 class Solution1019 {
 public:
     vector<int> nextLargerNodes(ListNode* head) {
         vector<int> ret;
-        if (!head || !head->next)
-        {
+        if (!head)
             return ret;
-        }
-        stack<ListNode*> s;
-        ListNode * p = head->next;
-        s.push(p);
+        stack<int> s;
+        ListNode * p = head;
+        int i = 0;
         while (p)
         {
-            ListNode* cur = NULL;
+            int cur = -1;
             if (!s.empty())
                 cur = s.top();
-            while (cur && cur->val < p->val)
+            while (cur >= 0 && ret[cur] < p->val)
             {
-                ret.push_back(p->val);
+                ret[cur] = p->val;
                 s.pop();
                 if (s.empty())
                     break;
                 cur = s.top();
             }
-            s.push(p);
+            s.push(i);
+            ret.push_back(p->val);
             p = p->next;
+            i++;
         }
-        
+        while (!s.empty())
+        {
+            int cur = s.top();
+            ret[cur] = 0;
+            s.pop();
+        }
+        return ret;
     }
 };
+int main()
+{
+    Solution1019 s;
+    ListNode* n1 = new ListNode(2);
+    ListNode* n2 = new ListNode(7);
+    ListNode* n3 = new ListNode(4);
+    ListNode* n4 = new ListNode(3);
+    ListNode* n5 = new ListNode(5);
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    vector<int> r = s.nextLargerNodes(n1);
+    return 0;
+}
 //5017. 从根到叶的二进制数之和
 class Solution5017 {
 public:
@@ -10365,7 +10378,7 @@ public:
     }
 };
 //5018. 驼峰式匹配
-class Solution5018 {
+class Solution5018 {//解答错误 
 public:
     vector<string> chai(string query)
     {
@@ -10393,14 +10406,17 @@ public:
             return false;
         for (int k = 0; k < plen; ++k)
         {
-            int i = 0,j = 0;
-            if (q[k][i] != p[k][j])
-                return false;
-            i++;
-            j++;
+            int i = 0, j = 0;
+            if (p[k][i] >= 'A' && p[k][j] <= 'Z')
+            {
+                if (q[k][i] != p[k][j])
+                    return false;
+                i++;
+                j++;
+            }
             for (; i < q[k].size() && j < p[k].size(); ++i)
             {
-                if (q[k][i] == p[k][i])
+                if (q[k][i] == p[k][j])
                 {
                     ++j;
                 }
@@ -10426,7 +10442,9 @@ public:
 //"haFvYhqkybibsqmetnngiziijcco",
 //"mhakFYbhzsbibsmetgiziijvcgco"]
 //"haFYhbibsmetgiziijcco"
-int main()
+//["uAxaqlzahfialcezsLfj", "cAqlzyahaslccezssLfj", "AqlezahjarflcezshLfj", "AqlzofahaplcejuzsLfj", "tAqlzahavslcezsLwzfj", "AqlzahalcerrzsLpfonj", "AqlzahalceaczdsosLfj", "eAqlzbxahalcezelsLfj"]
+//"AqlzahalcezsLfj"
+int main5018()
 {
     vector<string> queries;
     string pattern = "haFYhbibsmetgiziijcco";
@@ -10437,6 +10455,6 @@ int main()
     queries.push_back("haFvYhqkybibsqmetnngiziijcco");
     queries.push_back("mhakFYbhzsbibsmetgiziijvcgco");
     Solution5018 s;
-    s.camelMatch()
+    vector<bool> r = s.camelMatch(queries,pattern);
     return 0;
 }
