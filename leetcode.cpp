@@ -7109,8 +7109,7 @@ int main687()
 }
 //429. N²æÊ÷µÄ²ãÐò±éÀú
 // Definition for a Node.
-class NNode {
-public:
+struct NNode {
     int val;
     vector<NNode*> children;
     NNode() {}
@@ -8942,8 +8941,7 @@ public:
 };
 
 // Definition for a Node.
-class TNode {
-public:
+struct TNode {
     int val;
     vector<TNode*> neighbors;
     TNode() {}
@@ -10299,7 +10297,7 @@ public:
         return ret;
     }
 };
-int main()
+int main1019()
 {
     Solution1019 s;
     ListNode* n1 = new ListNode(2);
@@ -10456,5 +10454,80 @@ int main5018()
     queries.push_back("mhakFYbhzsbibsmetgiziijvcgco");
     Solution5018 s;
     vector<bool> r = s.camelMatch(queries,pattern);
+    return 0;
+}
+//2019.04.08
+
+//71. ¼ò»¯Â·¾¶
+class Solution71 {
+public:
+    string simplifyPath(string path) {
+        int len = path.size();
+        string r = "/";
+        if (len == 0)
+            return r;
+        for (int i = 1; i < path.size(); ++i)
+        {
+            switch (path[i])
+            {
+            case '.':
+                switch (r[r.size() - 1])
+                {
+                case '.':
+                {
+                    int g = 2;
+                    while (r.size() > 0 && g > 0)
+                    {
+                        if (r[r.size() - 1] == '/')
+                            g--;
+                        if (r.size() > 1)
+                            r.pop_back();
+                        else
+                            break;
+                    }
+                }
+                break;
+                case '/':
+                    r.push_back(path[i]);
+                    break;
+                default:
+                    return "/";
+                    break;
+                }
+                break;
+            case '/':
+                switch (r[r.size() - 1])
+                {
+                case '.':
+                    r.pop_back();
+                    break;
+                case '/':
+                    break;
+                default:
+                    r.push_back(path[i]);
+                    break;
+                }
+                break;
+            default:
+                r.push_back(path[i]);
+                break;
+            }
+        }
+        if (r[r.size() - 1] == '.')
+        {
+            r.pop_back();
+        }
+        if (r[r.size() - 1] == '/')
+        {
+            r.pop_back();
+        }
+        return r;
+    }
+};
+int main()
+{
+    Solution71 s;
+    string ss = s.simplifyPath("/SxQ/////KAb/.///GoQWp/../..///.///VOpOr/G///./Iy///..///../..///../pv///.///EYiW/");
+    //"/SxQ/../pv///.///EYiW/"
     return 0;
 }
