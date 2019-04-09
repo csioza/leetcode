@@ -10461,7 +10461,7 @@ int main5018()
 //71. 简化路径
 class Solution71 {
 public:
-    string simplifyPath(string path) {
+    string simplifyPath(string path) {//错误答案
         int len = path.size();
         string r = "/";
         if (len == 0)
@@ -10475,12 +10475,9 @@ public:
                 {
                 case '.':
                 {
-                    int g = 2;
-                    while (r.size() > 0 && g > 0)
+                    while (r.size() > 0 && r[r.size()-1] != '/')
                     {
-                        if (r[r.size() - 1] == '/')
-                            g--;
-                        if (r.size() > 1)
+                        if (r.size() > 0)
                             r.pop_back();
                         else
                             break;
@@ -10513,21 +10510,34 @@ public:
                 break;
             }
         }
-        if (r[r.size() - 1] == '.')
-        {
+        if (r.size() > 0 && r[r.size() - 1] == '.')
             r.pop_back();
-        }
-        if (r[r.size() - 1] == '/')
-        {
+        if (r.size() > 0 && r[r.size() - 1] == '/')
             r.pop_back();
-        }
         return r;
+    }
+    string simplifyPath2(string path) {//网上
+        vector<string> stk;
+        for (int i = 0; i < path.length(); i++) {
+            if (path[i] == '/') continue;
+            string s = "";
+            while (i < path.length() && path[i] != '/')  s += path[i++];
+            i--;
+            if (s == ".") continue;
+            if (s == "..") {
+                if (stk.size() > 0) stk.pop_back();
+                continue;
+            }
+            stk.push_back(s);
+        }
+        string ans = "/";
+        for (int i = 0; i < stk.size(); i++) ans += stk[i] + (i == stk.size() - 1 ? "" : "/");
+        return ans;
     }
 };
 int main()
 {
     Solution71 s;
-    string ss = s.simplifyPath("/SxQ/////KAb/.///GoQWp/../..///.///VOpOr/G///./Iy///..///../..///../pv///.///EYiW/");
-    //"/SxQ/../pv///.///EYiW/"
+    string ss = s.simplifyPath2("/a/../../..");
     return 0;
 }
