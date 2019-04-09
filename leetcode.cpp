@@ -10689,3 +10689,35 @@ public:
         return st[0].empty() && st[1].empty();
     }
 };
+//331. 验证二叉树的前序序列化
+class Solution331 {
+public:
+    bool isValidSerialization(string preorder) {
+        stack<char> st;
+        for (int i = 0; i < preorder.size(); ++i)
+        {
+            if (preorder[i] == '#')
+            {
+                if (st.empty())
+                    return false;
+                char t = st.top();
+                if (t == '#')
+                {
+                    st.pop();
+                    if (st.empty())
+                        return false;
+                    else
+                    {
+                        st.pop();
+                        st.push('#');
+                    }
+                }
+                else
+                    st.push('#');
+            }
+            else
+                st.push(preorder[i]);
+        }
+        return true;
+    }
+};
