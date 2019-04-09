@@ -10705,7 +10705,7 @@ public:
             if (preorder[i] == '#')
             {
                 if (st.empty())
-                    return false;
+                    break;
                 char t = st.top();
                 if (t == '#')
                 {
@@ -10713,7 +10713,7 @@ public:
                     {
                         st.pop();
                         if (st.empty())
-                            return false;
+                            break;
                         else
                         {
                             st.pop();
