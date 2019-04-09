@@ -10693,51 +10693,84 @@ public:
 class Solution331 {
 public:
     bool isValidSerialization(string preorder) {
-        if (preorder.size() == 1 && preorder[0] == '#')
-        {
+        if (preorder.size() == 0)
             return true;
+        if (preorder[0] == '#')
+        {
+            if (preorder.size() > 1)
+                return false;
+            else
+                return true;
         }
-        stack<char> st;
-        for (int i = 0; i < preorder.size(); ++i)
+        stack<string> st;
+        int i = 0;
+        string tmp;
+        for (; i < preorder.size(); ++i)
         {
             if (preorder[i] == ',')
+            {
+                if (tmp != "")
+                {
+                    st.push(tmp);
+                    tmp = "";
+                }
                 continue;
-            if (preorder[i] == '#')
+            }
+            if (preorder[i] != '#')
+            {
+                tmp.push_back(preorder[i]);
+                continue;
+            }
+            string t = "#";
+            while (t == "#")
             {
                 if (st.empty())
+                    return false;
+                if (st.top() != "#")
                     break;
-                char t = st.top();
-                if (t == '#')
+                st.pop();
+                if (st.empty())
+                    return false;
+                st.pop();
+                if (st.empty())
                 {
-                    while (t == '#')
-                    {
-                        st.pop();
-                        if (st.empty())
-                            break;
-                        else
-                        {
-                            st.pop();
-                            if (st.empty())
-                                break;
-                            t = st.top();
-                            if (t == '#')
-                                continue;
-                            st.push('#');
-                        }
-                    }
+                    if (i == preorder.size() - 1)
+                        return true;
+                    else
+                        return false;
                 }
-                else
-                    st.push('#');
+                t = st.top();
             }
-            else
-                st.push(preorder[i]);
+            st.push("#");
         }
-        return st.empty();
+        return st.empty() && i == preorder.size() - 1;
+    }
+    bool isValidSerialization2(string preorder) {//ÍøÉÏ
+        int count = 1;
+        int i = 0;
+        for (; i < preorder.size(); i++)
+        {
+            if (preorder[i] == '#')  
+                count--;
+            else if (preorder[i] == ',')  
+                continue;
+            else
+            {
+                while (i < preorder.size() && isdigit(preorder[i])) 
+                    i++;
+                count++;
+            }
+            if (count == 0)  
+                break;
+        }
+        if (i != (preorder.size() - 1))  
+            return false;
+        return true;
     }
 };
-int main()
+int main331()
 {
     Solution331 s;
-    s.isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#");
+    bool r = s.isValidSerialization("9,#,92,#,#");
     return 0;
 }
