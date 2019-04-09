@@ -2002,33 +2002,40 @@ bool hasCycle2(ListNode *head) {//我的正确答案
 class MinStack {
 public:
     /** initialize your data structure here. */
-    int data[1024];
+    int data[4096];
     int len;
-    int min;
-    MinStack() : len(0), min(0){
+    MinStack() : len(0){
         memset(data, 0, sizeof(data));
     }
     void push(int x) {
-        if (len < 1024)
+        if (len < 4096)
         {
             data[len++] = x;
-            if (x > min)
+            if (len == 1)
+                data[len] = x;
+            else
             {
-                min = x;
+                if (x < data[len - 2])
+                    data[len] = x;
+                else
+                    data[len] = data[len - 2];
             }
+            len++;
         }
     }
     void pop() {
-        if (len > 0)
-        {
-            len--;
-        }
+        if (len > 1)
+            len -= 2;
     }
     int top() {
-
+        if (len > 1)
+            return data[len - 2];
+        return 0;
     }
     int getMin() {
-
+        if (len > 1)
+            return data[len - 1];
+        return 0;
     }
 };
 //160. 相交链表
