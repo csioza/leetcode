@@ -10627,19 +10627,65 @@ public:
 //232. 用栈实现队列
 class MyQueue {
 public:
+    stack<int> st[2];
     MyQueue() {
-
     }
     void push(int x) {
-
+        st[0].push(x);
     }
     int pop() {
-
+        if (st[1].empty())
+        {
+            if (st[0].empty())
+            {
+                return 0;
+            }
+            else
+            {
+                while (!st[0].empty())
+                {
+                    int t = st[0].top();
+                    st[1].push(t);
+                    st[0].pop();
+                }
+                int t = st[1].top();
+                st[1].pop();
+                return t;
+            }
+        }
+        else
+        {
+            int t = st[1].top();
+            st[1].pop();
+            return t;
+        }
     }
     int peek() {
-
+        if (st[1].empty())
+        {
+            if (st[0].empty())
+            {
+                return 0;
+            }
+            else
+            {
+                while (!st[0].empty())
+                {
+                    int t = st[0].top();
+                    st[1].push(t);
+                    st[0].pop();
+                }
+                int t = st[1].top();
+                return t;
+            }
+        }
+        else
+        {
+            int t = st[1].top();
+            return t;
+        }
     }
     bool empty() {
-
+        return st[0].empty() && st[1].empty();
     }
 };
