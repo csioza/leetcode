@@ -10524,20 +10524,26 @@ public:
     }
     string simplifyPath2(string path) {//ÍøÉÏ
         vector<string> stk;
-        for (int i = 0; i < path.length(); i++) {
-            if (path[i] == '/') continue;
+        for (int i = 0; i < path.length(); i++) 
+        {
+            if (path[i] == '/') 
+                continue;
             string s = "";
-            while (i < path.length() && path[i] != '/')  s += path[i++];
+            while (i < path.length() && path[i] != '/')  
+                s += path[i++];
             i--;
-            if (s == ".") continue;
-            if (s == "..") {
+            if (s == ".") 
+                continue;
+            if (s == "..") 
+            {
                 if (stk.size() > 0) stk.pop_back();
                 continue;
             }
             stk.push_back(s);
         }
         string ans = "/";
-        for (int i = 0; i < stk.size(); i++) ans += stk[i] + (i == stk.size() - 1 ? "" : "/");
+        for (int i = 0; i < stk.size(); i++) 
+            ans += stk[i] + (i == stk.size() - 1 ? "" : "/");
         return ans;
     }
 };
