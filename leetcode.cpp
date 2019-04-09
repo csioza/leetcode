@@ -10596,17 +10596,12 @@ class MyStack {
 public:
     queue<int> q[2];
     int pushId = 0;
-    /** Initialize your data structure here. */
     MyStack() {
 
     }
-
-    /** Push element x onto stack. */
     void push(int x) {
         q[pushId].push(x);
     }
-
-    /** Removes the element on top of the stack and returns that element. */
     int pop() {
         while (!q[pushId].empty())
         {
@@ -10622,14 +10617,29 @@ public:
         }
         return 0;
     }
-
-    /** Get the top element. */
     int top() {
         return q[pushId].back();
     }
-
-    /** Returns whether the stack is empty. */
     bool empty() {
         return q[pushId].empty();
+    }
+};
+//232. 用栈实现队列
+class MyQueue {
+public:
+    MyQueue() {
+
+    }
+    void push(int x) {
+
+    }
+    int pop() {
+
+    }
+    int peek() {
+
+    }
+    bool empty() {
+
     }
 };
