@@ -4741,7 +4741,6 @@ int maxProduct(vector<int>& nums) {//网上找的
     }
     return max;
 } 
-
 //2019.03.09
 
 //198. 打家劫舍
@@ -4941,7 +4940,6 @@ public:
             return dp[j];
     }
 };
-
 //2019.03.10
 
 //304. 二维区域和检索 - 矩阵不可变
@@ -5203,7 +5201,6 @@ TreeNode* buildTree2(vector<int>& inorder, vector<int>& postorder) {
     root->right = buildTree2(inorder2, postorder2);
     return root;
 }
-
 //2019.03.11
 
 //113. 路径总和 II
@@ -6388,7 +6385,6 @@ public:
         return bstFromPreorder(preorder, 0, len - 1);
     }
 };
-
 //2019.03.16
 
 //450. 删除二叉搜索树中的节点
@@ -6655,7 +6651,6 @@ public:
         return false;
     }
 };
-
 //2019.03.17
 
 //606. 根据二叉树创建字符串
@@ -7029,7 +7024,6 @@ public:
         return root;
     }
 };
-
 //2019.03.18
 
 //671. 二叉树中第二小的节点
@@ -7192,7 +7186,6 @@ public:
         return res;
     }
 };
-
 //2019.03.19
 
 //590. N叉树的后序遍历
@@ -7322,7 +7315,6 @@ public:
         return res;
     }
 };
-
 //2019.03.20
 
 //865. 具有所有最深结点的最小子树
@@ -7381,7 +7373,6 @@ public:
         return true;
     }
 };
-
 //2019.03.21
 
 //897. 递增顺序查找树
@@ -7686,7 +7677,6 @@ public:
         return isUnivalTree(root->left) && isUnivalTree(root->right);
     }
 };
-
 //2019.03.24
 
 //968. 监控二叉树
@@ -7789,7 +7779,6 @@ public:
         return cnt;
     }
 };
-
 //2019.03.25
 
 //987. 二叉树的垂序遍历
@@ -7939,7 +7928,6 @@ public:
         return res;
     }
 };
-
 //2019.03.26
 
 //187. 重复的DNA序列
@@ -8170,7 +8158,6 @@ public:
         return (n1 & (n1-1)) == 0;
     }
 };
-
 //2019.03.27
 
 //784. 字母大小写全排列
@@ -8215,7 +8202,6 @@ public:
         return res;
     }
 };
-
 //2019.03.28
 
 //762. 二进制表示中质数个计算置位
@@ -8317,7 +8303,6 @@ public:
         return res % 10 + 1;
     }
 };
-
 //2019.03.29
 
 //318. 最大单词长度乘积
@@ -8375,7 +8360,6 @@ public:
         return res;
     }
 };
-
 //2019.03.30
 
 //720. 词典中最长的单词
@@ -8547,7 +8531,6 @@ public:
         return maxLen;
     }
 };
-
 //2019.03.31
 
 //322. 零钱兑换
@@ -8774,7 +8757,6 @@ public:
         return res[n];
     }
 };
-
 //2019.04.01
 
 //357. 计算各个位数不同的数字个数
@@ -8975,7 +8957,6 @@ public:
         return r;
     }
 };
-
 //2019.04.02
 
 //310. 最小高度树
@@ -10560,6 +10541,8 @@ int main71()
     string ss = s.simplifyPath2("/a/../../..");
     return 0;
 }
+//2019.04.09
+
 //150. 逆波兰表达式求值
 class Solution150 {
 public:
@@ -10606,5 +10589,33 @@ public:
             }
         }
         return st.top();
+    }
+};
+//225. 用队列实现栈
+class MyStack {
+public:
+    /** Initialize your data structure here. */
+    MyStack() {
+
+    }
+
+    /** Push element x onto stack. */
+    void push(int x) {
+
+    }
+
+    /** Removes the element on top of the stack and returns that element. */
+    int pop() {
+
+    }
+
+    /** Get the top element. */
+    int top() {
+
+    }
+
+    /** Returns whether the stack is empty. */
+    bool empty() {
+
     }
 };
