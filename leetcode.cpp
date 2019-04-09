@@ -10471,38 +10471,44 @@ public:
             switch (path[i])
             {
             case '.':
-                switch (r[r.size() - 1])
+                if (r.size() > 0)
                 {
-                case '.':
-                {
-                    while (r.size() > 0 && r[r.size()-1] != '/')
+                    switch (r[r.size() - 1])
                     {
-                        if (r.size() > 0)
-                            r.pop_back();
-                        else
-                            break;
+                    case '.':
+                        r.pop_back();
+                        break;
+                    case '/':
+                        r.push_back(path[i]);
+                        break;
+                    default:
+                        return "/";
+                        break;
                     }
                 }
-                break;
-                case '/':
+                else
+                {
                     r.push_back(path[i]);
-                    break;
-                default:
-                    return "/";
-                    break;
                 }
                 break;
             case '/':
-                switch (r[r.size() - 1])
+                if (r.size() > 0)
                 {
-                case '.':
-                    r.pop_back();
-                    break;
-                case '/':
-                    break;
-                default:
+                    switch (r[r.size() - 1])
+                    {
+                    case '.':
+                        r.pop_back();
+                        break;
+                    case '/':
+                        break;
+                    default:
+                        r.push_back(path[i]);
+                        break;
+                    }
+                }
+                else
+                {
                     r.push_back(path[i]);
-                    break;
                 }
                 break;
             default:
@@ -10512,7 +10518,7 @@ public:
         }
         if (r.size() > 0 && r[r.size() - 1] == '.')
             r.pop_back();
-        if (r.size() > 0 && r[r.size() - 1] == '/')
+        if (r.size() > 1 && r[r.size() - 1] == '/')
             r.pop_back();
         return r;
     }
