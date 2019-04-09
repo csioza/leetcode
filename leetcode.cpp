@@ -10547,9 +10547,57 @@ public:
         return ans;
     }
 };
-int main()
+int main71()
 {
     Solution71 s;
     string ss = s.simplifyPath2("/a/../../..");
     return 0;
 }
+//150. 逆波兰表达式求值
+class Solution150 {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        int len = tokens.size();
+        for (int i = 0; i < len; ++i)
+        {
+            if (tokens[i] == "+")
+            {
+                int t1 = st.top();
+                st.pop();
+                int t2 = st.top();
+                st.pop();
+                st.push(t1 + t2);
+            }
+            else if (tokens[i] == "-")
+            {
+                int t1 = st.top();
+                st.pop();
+                int t2 = st.top();
+                st.pop();
+                st.push(t2 - t1);
+            }
+            else if (tokens[i] == "*")
+            {
+                int t1 = st.top();
+                st.pop();
+                int t2 = st.top();
+                st.pop();
+                st.push(t1 * t2);
+            }
+            else if (tokens[i] == "/")
+            {
+                int t1 = st.top();
+                st.pop();
+                int t2 = st.top();
+                st.pop();
+                st.push(t2 / t1);
+            }
+            else
+            {
+                st.push(atoi(tokens[i].c_str()));
+            }
+        }
+        return st.top();
+    }
+};
