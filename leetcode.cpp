@@ -10709,6 +10709,8 @@ public:
                     else
                     {
                         st.pop();
+                        if (st.empty())
+                            return false;
                         st.push('#');
                     }
                 }
