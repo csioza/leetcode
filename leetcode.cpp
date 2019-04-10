@@ -10877,6 +10877,41 @@ int main341()
 class Solution394 {
 public:
     string decodeString(string s) {
-
+        string ret;
+        int len = s.size();
+        for (int i = 0; i < len; ++i)
+        {
+            if (s[i] == ']')
+            {
+                int rlen = ret.size();
+                int j = rlen - 1;
+                while (ret[j] != '[') j--;
+                string a = ret.substr(j + 1, rlen - j - 1);
+                j--;
+                int num = 0;
+                //int wei = 1;
+                int cnt = 0;
+                while (j >= 0 && ret[j] >= '0' && ret[j] <= '9')
+                {
+                    num = num + (ret[j] - '0') * pow(10,cnt);
+                    j--;
+                    //wei *= 10;
+                    cnt++;
+                }
+                for (int k = 0; k < a.size() + 1 + cnt; ++k)
+                    ret.pop_back();
+                for (int ii = 0; ii < num * a.size(); ++ii) 
+                    ret.push_back(a[ii % a.size()]);
+            }
+            else
+                ret.push_back(s[i]);
+        }
+        return ret;
     }
 };
+int main()
+{
+    Solution394 s;
+    string r = s.decodeString("100[leetcode]");
+    return 0;
+}
