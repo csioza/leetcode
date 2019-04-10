@@ -10774,3 +10774,102 @@ int main331()
     bool r = s.isValidSerialization("9,#,92,#,#");
     return 0;
 }
+//2019.04.10
+
+//341. 扁平化嵌套列表迭代器
+class NestedInteger {
+public:
+    // Return true if this NestedInteger holds a single integer, rather than a nested list.
+    bool isInteger() const
+    {
+        return is;
+    }
+    // Return the single integer that this NestedInteger holds, if it holds a single integer
+    // The result is undefined if this NestedInteger holds a nested list
+    int getInteger() const
+    {
+        return val;
+    }
+    // Return the nested list that this NestedInteger holds, if it holds a nested list
+    // The result is undefined if this NestedInteger holds a single integer
+    const vector<NestedInteger> &getList() const
+    {
+        return list;
+    }
+    bool is;
+    int val;
+    vector<NestedInteger> list;
+};
+class NestedIterator {
+public:
+    vector<int> data;
+    int index = 0;
+    void pro(const vector<NestedInteger> &nestedList)
+    {
+        for (int i = 0; i < nestedList.size(); ++i)
+        {
+            if (nestedList[i].isInteger())
+            {
+                data.push_back(nestedList[i].getInteger());
+            }
+            else
+            {
+                pro(nestedList[i].getList());
+            }
+        }
+    }
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        pro(nestedList);
+    }
+    int next() {
+        if (hasNext())
+        {
+            return data[index++];
+        }
+        return 0;
+    }
+    bool hasNext() {
+        return index < data.size();
+    }
+};
+int main341()
+{
+    vector<NestedInteger> n;
+    //
+    NestedInteger n1;
+    n1.is = false;
+    NestedInteger n11;
+    n11.is = true;
+    n11.val = 1;
+    NestedInteger n12;
+    n12.is = true;
+    n12.val = 1;
+    n1.list.push_back(n11);
+    n1.list.push_back(n12);
+    n.push_back(n1);
+    //
+    NestedInteger n2;
+    n2.is = true;
+    n2.val = 2;
+    n.push_back(n2);
+    //
+    NestedInteger n3;
+    n3.is = false;
+    NestedInteger n31;
+    n31.is = true;
+    n31.val = 1;
+    NestedInteger n32;
+    n32.is = true;
+    n32.val = 1;
+    n3.list.push_back(n31);
+    n3.list.push_back(n32);
+    n.push_back(n3);
+    //
+    NestedIterator s(n);
+    vector<int> ret;
+    while (s.hasNext())
+    {
+        ret.push_back(s.next());
+    }
+    return 0;
+}
