@@ -10909,7 +10909,7 @@ public:
         return ret;
     }
 };
-int main()
+int main394()
 {
     Solution394 s;
     string r = s.decodeString("100[leetcode]");
