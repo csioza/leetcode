@@ -10873,3 +10873,10 @@ int main341()
     }
     return 0;
 }
+//394. ×Ö·û´®½âÂë
+class Solution394 {
+public:
+    string decodeString(string s) {
+
+    }
+};
