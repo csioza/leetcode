@@ -126,3 +126,13 @@ int A::aa = 0;
 //    getchar();
 //    return 0;
 //}
+int main()
+{
+    int a = 1;
+    a = a << 31;
+    printf("%d", a);
+    a = a >> 30;
+    printf("\n%d %u", a, unsigned int (a));
+    getchar();
+    return 0;
+}
