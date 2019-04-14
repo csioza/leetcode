@@ -10920,37 +10920,55 @@ int main394()
 //456. 132模式
 class Solution456 {
 public:
-    bool find132pattern(vector<int>& nums) {
+    bool find132pattern(vector<int>& nums) {//放弃了
         int len = nums.size();
         if (len < 3)
             return false;
-        int min = nums[0];
-        int max = nums[0];
-        int rmin = min;
-        int rmax = max;
-        for (int i = 0; i < len; ++i)
+        vector<int> res;
+        res.push_back(nums[0]);
+        res.push_back(nums[0]);
+        res.push_back(nums[0]);
+        for (int i = 1; i < len; ++i)
         {
-            if (rmax > rmin)
+            if (res.size() > 0)
             {
-                if (nums[i] > rmin && nums[i] < rmax)
+                if (nums[i] >= res[res.size() - 1])
                 {
-                    return true;
+                    res[res.size() - 3] = nums[i];
+                    res[res.size() - 1] = nums[i];
+                    continue;
+                }
+                if (nums[i] < res[res.size() - 2])
+                {
+                    res[res.size() - 3] = nums[i];
+                    res[res.size() - 2] = nums[i];
+                    continue;
+                }
+                else if (nums[i] == res[res.size() - 2])
+                {
+                    continue;
                 }
             }
-            else
+            for (int j = res.size() - 1; j >= 0; j -= 3)
             {
-                if (nums[i] > min)
+                if (res[j - 1] < nums[i])
                 {
-                    rmin = min;
-                    rmax = nums[i];
-                    if (max < nums[i])
+                    if (res[j - 2] > nums[i])
                     {
-                        max = nums[i];
+                        return true;
                     }
-                } 
-                else if (nums[i] < min)
+                    else
+                    {
+
+                    }
+                }
+                else
                 {
-                    min = nums[i];
+                    res.push_back(nums[i]);
+                    res.push_back(res[res.size()-2]);
+                    int t = max(nums[i],res[res.size()-1]);
+                    res.push_back(t);
+                    break;
                 }
             }
         }
@@ -11156,3 +11174,69 @@ int main5031()
     TreeNode* r = s.recoverFromPreorder("1-2--3---4-5--6---7");
     return 0;
 }
+//496. 下一个更大元素 I
+class Solution496 {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> ret;
+        for (int i = 0; i < nums1.size(); ++i)
+        {
+            int j = 0;
+            for (; j < nums2.size() && nums1[i] != nums2[j]; ++j);
+            for (; j < nums2.size(); ++j)
+            {
+                if (nums1[i] < nums2[j])
+                {
+                    ret.push_back(nums2[j]);
+                    break;
+                }
+            }
+            if (ret.size() == i)
+            {
+                ret.push_back(-1);
+            }
+        }
+        return ret;
+    }
+};
+//503. 下一个更大元素 II
+class Solution503 {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        int len = nums.size();
+        vector<int> ret(len,-1);
+        stack<int> st;
+        for (int i = 0; i < len; ++i)
+        {
+            while (!st.empty())
+            {
+                int index = st.top();
+                if (nums[index] < nums[i])
+                {
+                    ret[index] = nums[i];
+                    st.pop();
+                }
+                else
+                    break;
+            }
+            st.push(i);
+        }
+        for (int i = 0; i < len; ++i)
+        {
+            while (!st.empty())
+            {
+                int index = st.top();
+                if (nums[index] < nums[i])
+                {
+                    ret[index] = nums[i];
+                    st.pop();
+                }
+                else
+                    break;
+            }
+            if (st.empty())
+                break;
+        }
+        return ret;
+    }
+};
