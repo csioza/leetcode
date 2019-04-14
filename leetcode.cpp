@@ -10915,3 +10915,244 @@ int main394()
     string r = s.decodeString("100[leetcode]");
     return 0;
 }
+//2019.04.14
+
+//456. 132模式
+class Solution456 {
+public:
+    bool find132pattern(vector<int>& nums) {
+        int len = nums.size();
+        if (len < 3)
+            return false;
+        int min = nums[0];
+        int max = nums[0];
+        int rmin = min;
+        int rmax = max;
+        for (int i = 0; i < len; ++i)
+        {
+            if (rmax > rmin)
+            {
+                if (nums[i] > rmin && nums[i] < rmax)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (nums[i] > min)
+                {
+                    rmin = min;
+                    rmax = nums[i];
+                    if (max < nums[i])
+                    {
+                        max = nums[i];
+                    }
+                } 
+                else if (nums[i] < min)
+                {
+                    min = nums[i];
+                }
+            }
+        }
+        return false;
+    }
+};
+//5024. 除数博弈
+class Solution5024 {
+public:
+    bool divisorGame(int N) {
+        return N % 2 == 0;
+    }
+};
+//5030. 节点与其祖先之间的最大差值
+class Solution5030 {
+public:
+    int res = 0;
+    vector<int> find(TreeNode* root)
+    {
+        vector<int> ret;
+        if (root == NULL)
+            return ret;
+        if (root->left == NULL && root->right == NULL)
+        {
+            ret.push_back(root->val);
+            ret.push_back(root->val);
+        }
+        vector<int> left = find(root->left);
+        vector<int> right = find(root->right);
+        if (left.size())
+        {
+            ret = left;
+        }
+        if (right.size())
+        {
+            if (ret.size() == 0)
+            {
+                ret = right;
+            }
+            else
+            {
+                if (ret[0] > right[0])
+                {
+                    ret[0] = right[0];
+                }
+                if (ret[1] < right[1])
+                {
+                    ret[1] = right[1];
+                }
+            }
+        }
+        res = max(res, max(abs(root->val - ret[0]), abs(root->val - ret[1])));
+        if (root->val < ret[0])
+        {
+            ret[0] = root->val;
+        }
+        if (root->val > ret[1])
+        {
+            ret[1] = root->val;
+        }
+        return ret;
+    }
+    int maxAncestorDiff(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        find(root);
+        return res;
+    }
+};
+int main5030()
+{
+    Solution5030 s;
+    //TreeNode* n8 = new TreeNode(8);
+    //TreeNode* n3 = new TreeNode(3);
+    //TreeNode* n10 = new TreeNode(10);
+    //TreeNode* n1 = new TreeNode(1);
+    //TreeNode* n6 = new TreeNode(6);
+    //TreeNode* n14 = new TreeNode(14);
+    //TreeNode* n13 = new TreeNode(13);
+    //TreeNode* n7 = new TreeNode(7);
+    //TreeNode* n4 = new TreeNode(4);
+    //n8->left = n3;
+    //n8->right = n10;
+    //n3->left = n1;
+    //n3->right = n6;
+    //n6->left = n4;
+    //n6->right = n7;
+    //n10->right = n14;
+    //n14->left = n13;
+    TreeNode* n2 = new TreeNode(2);
+    TreeNode* n0 = new TreeNode(0);
+    TreeNode* n1 = new TreeNode(1);
+    n2->right = n0;
+    n0->left = n1;
+
+    int r = s.maxAncestorDiff(n2);
+    return 0;
+}
+//5031. 从先序遍历还原二叉树
+class Solution5031 {//未完待续
+public:
+    TreeNode* helper(string S) {
+        if (S.size() == 0)
+        {
+            return NULL;
+        }
+        int val = 0;
+        int i = 0;
+        for (; i < S.size() && S[i] != '-'; ++i)
+            val = val * 10 + S[i] - '0';
+        TreeNode* n = new TreeNode(val);
+        if (i == S.size())
+        {
+            return n;
+        }
+        string h;
+        for (; i < S.size() && S[i] == '-'; ++i)
+        {
+            h.push_back('-');
+        }
+        string ss = S.substr(i, S.size() - i);
+        int cnt = 0;
+        for (i = 0; i < ss.size(); ++i)
+        {
+            if (ss[i] == '-')
+            {
+                cnt++;
+            }
+            else
+            {
+                if (cnt == h.size())
+                {
+                    break;
+                }
+                cnt = 0;
+            }
+        }
+        if (i < ss.size())
+        {
+            string ss1 = ss.substr(0, i-h.size());
+            string ss2 = ss.substr(i, ss.size-i);
+            n->left = helper(ss);
+        }
+        else
+        {
+            n->left = helper(ss);
+        }
+        return n;
+    }
+    TreeNode* recoverFromPreorder(string S) {
+        if (S.size() == 0)
+        {
+            return NULL;
+        }
+        int val = 0;
+        int i = 0;
+        for (; i < S.size() && S[i] != '-'; ++i)
+            val = val * 10 + S[i] - '0';
+        TreeNode* n = new TreeNode(val);
+        if (i == S.size())
+        {
+            return n;
+        }
+        string h;
+        for (; i < S.size() && S[i] == '-'; ++i)
+        {
+            h.push_back('-');
+        }
+        string ss = S.substr(i, S.size() - i);
+        int cnt = 0;
+        for (i = 0; i < ss.size(); ++i)
+        {
+            if (ss[i] == '-')
+            {
+                cnt++;
+            }
+            else
+            {
+                if (cnt == h.size())
+                {
+                    break;
+                }
+                cnt = 0;
+            }
+        }
+        if (i < ss.size())
+        {
+            string ss1 = ss.substr(0, i - h.size());
+            string ss2 = ss.substr(i, ss.size - i);
+            n->left = recoverFromPreorder(ss1);
+            n->right = recoverFromPreorder(ss2);
+        }
+        else
+        {
+            n->left = recoverFromPreorder(ss);
+        }
+        return n;
+    }
+};
+int main5031()
+{
+    Solution5031 s;
+    TreeNode* r = s.recoverFromPreorder("1-2--3---4-5--6---7");
+    return 0;
+}
