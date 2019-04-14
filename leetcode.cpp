@@ -11240,3 +11240,48 @@ public:
         return ret;
     }
 };
+//682. °ôÇò±ÈÈü
+class Solution682 {
+public:
+    int calPoints(vector<string>& ops) {
+        vector<int> st;
+        int sum = 0;
+        for (int i = 0; i < ops.size(); ++i)
+        {
+            if (ops[i] == "C")
+            {
+                if (st.size() < 1)
+                    continue;
+                int t = st[st.size() - 1];
+                st.pop_back();
+                sum -= t;
+            }
+            else if (ops[i] == "D")
+            {
+                if (st.size() < 1)
+                    continue;
+                int t = st[st.size() - 1];
+                int ss = t * 2;
+                sum += ss;
+                st.push_back(ss);
+            }
+            else if (ops[i] == "+")
+            {
+                if (st.size() < 2)
+                    continue;
+                int t = st[st.size() - 1];
+                int t2 = st[st.size() - 2];
+                int ss = t + t2;
+                st.push_back(ss);
+                sum += ss;
+            }
+            else
+            {
+                int t = atoi(ops[i].c_str());
+                sum += t;
+                st.push_back(t);
+            }
+        }
+        return sum;
+    }
+};
