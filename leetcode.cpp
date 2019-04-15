@@ -11467,3 +11467,35 @@ public:
         return res;
     }
 };
+//921. 使括号有效的最少添加
+class Solution921 {
+public:
+    int minAddToMakeValid(string S) {
+        stack<char> st;
+        int cnt = 0;
+        for (int i = 0; i < S.size(); ++i)
+        {
+            if (S[i] == ')')
+            {
+                if (st.empty())
+                    cnt++;
+                else
+                    st.pop();
+            }
+            else
+                st.push('(');
+        }
+        return cnt + st.size();
+    }
+    int minAddToMakeValid2(string S) {//错误答案 "()))(("
+        int i = 0, j = 0;
+        for (int k = 0; k < S.size(); k++)
+        {
+            if (S[k] == '(')
+                ++i;
+            else
+                ++j;
+        }
+        return abs(i - j);
+    }
+};
