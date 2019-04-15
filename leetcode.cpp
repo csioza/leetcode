@@ -11566,3 +11566,37 @@ int main856()
     int r = s.scoreOfParentheses("((()(()()))(())()())((()))()((())()())(())");
     return 0;
 }
+//1003. 检查替换后的词是否有效
+class Solution1003 {
+public:
+    bool isValid(string S) {
+        stack<char> st;
+        for (int i = 0; i < S.size(); ++i)
+        {
+            if (st.empty() && S[i] != 'a')
+                return false;
+            if (S[i] == 'c')
+            {
+                if (st.empty())
+                    return false;
+                char b = st.top();
+                if (b == 'b')
+                {
+                    if (st.empty())
+                        return false;
+                    st.pop();
+                    char a = st.top();
+                    if (a == 'a')
+                        st.pop();
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            else
+                st.push(S[i]);
+        }
+        return st.empty();
+    }
+};
