@@ -11440,3 +11440,30 @@ public:
         return s == t;
     }
 };
+//739. Ã¿ÈÕÎÂ¶È
+class Solution739 {
+public:
+    vector<int> dailyTemperatures(vector<int>& T) {
+        int len = T.size();
+        vector<int> res(len,0);
+        stack<int> st;
+        for (int i = 0; i < len; ++i)
+        {
+            while (!st.empty())
+            {
+                int index = st.top();
+                if (T[index] < T[i])
+                {
+                    res[index] = i - index;
+                    st.pop();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            st.push(i);
+        }
+        return res;
+    }
+};
