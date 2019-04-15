@@ -11404,4 +11404,39 @@ int main946()
     bool r = s.validateStackSequences(pu,po);
     return 0;
 }
-//
+//844. 比较含退格的字符串
+class Solution844 {
+public:
+    bool backspaceCompare(string S, string T) {
+        string s, t;
+        for (int i = 0; i < S.size(); ++i)
+        {
+            if (S[i] == '#')
+            {
+                if (s.size() > 0)
+                {
+                    s.pop_back();
+                }
+            }
+            else
+            {
+                s.push_back(S[i]);
+            }
+        }
+        for (int i = 0; i < T.size(); ++i)
+        {
+            if (T[i] == '#')
+            {
+                if (t.size() > 0)
+                {
+                    t.pop_back();
+                }
+            }
+            else
+            {
+                t.push_back(T[i]);
+            }
+        }
+        return s == t;
+    }
+};
