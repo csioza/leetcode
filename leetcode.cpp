@@ -11339,3 +11339,39 @@ public:
         return st;
     }
 };
+//946. —È÷§’ª–Ú¡–
+class Solution946 {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> st;
+        int j = 0;
+        for (int i = 0; i < popped.size(); ++i)
+        {
+            for (; j < pushed.size(); ++j)
+            {
+                st.push(pushed[j]);
+                if (pushed[j] == popped[i])
+                {
+                    break;
+                }
+            }
+            if (!st.empty())
+            {
+                int t = st.top();
+                if (t == popped[i])
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};
