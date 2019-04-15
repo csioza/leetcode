@@ -11109,7 +11109,7 @@ public:
         if (i < ss.size())
         {
             string ss1 = ss.substr(0, i-h.size());
-            string ss2 = ss.substr(i, ss.size-i);
+            string ss2 = ss.substr(i, ss.size()-i);
             n->left = helper(ss);
         }
         else
@@ -11157,7 +11157,7 @@ public:
         if (i < ss.size())
         {
             string ss1 = ss.substr(0, i - h.size());
-            string ss2 = ss.substr(i, ss.size - i);
+            string ss2 = ss.substr(i, ss.size() - i);
             n->left = recoverFromPreorder(ss1);
             n->right = recoverFromPreorder(ss2);
         }
@@ -11347,11 +11347,21 @@ public:
         int j = 0;
         for (int i = 0; i < popped.size(); ++i)
         {
+            if (!st.empty())
+            {
+                int t = st.top();
+                if (t == popped[i])
+                {
+                    st.pop();
+                    continue;
+                }
+            }
             for (; j < pushed.size(); ++j)
             {
                 st.push(pushed[j]);
                 if (pushed[j] == popped[i])
                 {
+                    ++j;
                     break;
                 }
             }
@@ -11360,6 +11370,7 @@ public:
                 int t = st.top();
                 if (t == popped[i])
                 {
+                    st.pop();
                     continue;
                 }
                 else
@@ -11375,3 +11386,22 @@ public:
         return true;
     }
 };
+int main946()
+{
+    Solution946 s;
+    vector<int> pu;
+    pu.push_back(1);
+    pu.push_back(2);
+    pu.push_back(3);
+    pu.push_back(4);
+    pu.push_back(5);
+    vector<int> po;
+    po.push_back(4);
+    po.push_back(5);
+    po.push_back(3);
+    po.push_back(2);
+    po.push_back(1);
+    bool r = s.validateStackSequences(pu,po);
+    return 0;
+}
+//
