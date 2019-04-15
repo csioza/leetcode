@@ -11285,3 +11285,57 @@ public:
         return sum;
     }
 };
+//2019.04.15
+
+//735. ÐÐÐÇÅö×²
+class Solution735 {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> st;
+        for (int a : asteroids)
+        {
+            while (true)
+            {
+                if (st.empty())
+                {
+                    st.push_back(a);
+                    break;
+                }
+                else
+                {
+                    int t = st.back();
+                    if (t > 0)
+                    {
+                        if (a < 0)
+                        {
+                            if (abs(t) > abs(a))
+                            {
+                                break;
+                            }
+                            else if (abs(t) < abs(a))
+                            {
+                                st.pop_back();
+                            }
+                            else
+                            {
+                                st.pop_back();
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            st.push_back(a);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        st.push_back(a);
+                        break;
+                    }
+                }
+            }
+        }
+        return st;
+    }
+};
