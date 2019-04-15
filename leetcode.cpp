@@ -11499,3 +11499,70 @@ public:
         return abs(i - j);
     }
 };
+//856. À¨ºÅµÄ·ÖÊý
+class Solution856 {
+public:
+    int scoreOfParentheses(string S) {
+        stack<int> st;
+        for (int i = 0; i < S.size(); ++i)
+        {
+            if (S[i] == ')')
+            {
+                if (!st.empty())
+                {
+                    int s = st.top();
+                    if (s == '(')
+                    {
+                        st.pop();
+                        int ss = -1;
+                        while (!st.empty())
+                        {
+                            int sss = st.top();
+                            if (sss != '(')
+                            {
+                                ss += sss;
+                                st.pop();
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        st.push(ss);
+                    }
+                    else
+                    {
+                        s *= 2;
+                        st.pop();
+                        st.pop();
+                        while (!st.empty())
+                        {
+                            int sss = st.top();
+                            if (sss != '(')
+                            {
+                                s += sss;
+                                st.pop();
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        st.push(s);
+                    }
+                }
+            }
+            else
+            {
+                st.push('(');
+            }
+        }
+        return st.empty() ? 0 : -st.top();
+    }
+};
+int main856()
+{
+    Solution856 s;
+    int r = s.scoreOfParentheses("((()(()()))(())()())((()))()((())()())(())");
+    return 0;
+}
