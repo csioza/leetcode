@@ -11602,3 +11602,94 @@ public:
 };
 //2019.04.16
 
+//316. È¥³ýÖØ¸´×ÖÄ¸
+class Solution316 {
+public:
+    string removeDuplicateLetters(string s) {
+        vector<int> abc(26,0);
+        for (int i = 0; i < s.size(); ++i)
+        {
+            abc[s[i] - 'a']++;
+        }
+        string res;
+        for (int i = 0; i < s.size(); ++i)
+        {
+            if (res.size() == 0)
+            {
+                res.push_back(s[i]);
+                abc[s[i] - 'a']--;
+            }
+            else
+            {
+                while (res.size() != 0)
+                {
+                    if (res[res.size() - 1] > s[i])
+                    {
+                        if (abc[res[res.size()-1]-'a'] > 0)
+                        {
+                            res.pop_back();
+                        }
+                        else
+                        {
+                            bool is = false;
+                            for (int j = 0; j < res.size(); ++j)
+                            {
+                                if (res[j] == s[i])
+                                {
+                                    abc[s[i] - 'a']--;
+                                    is = true;
+                                    break;
+                                }
+                            }
+                            if (!is)
+                            {
+                                res.push_back(s[i]);
+                                abc[s[i] - 'a']--;
+                            }
+                            break;
+                        }
+                        if (res.size() == 0)
+                        {
+                            res.push_back(s[i]);
+                            abc[s[i] - 'a']--;
+                            break;
+                        }
+                    }
+                    else if (res[res.size() - 1] == s[i])
+                    {
+                        abc[s[i] - 'a']--;
+                        break;
+                    }
+                    else
+                    {
+                        bool is = false;
+                        for (int j = 0; j < res.size(); ++j)
+                        {
+                            if (res[j] == s[i])
+                            {
+                                abc[s[i] - 'a']--;
+                                is = true;
+                                break;
+                            }
+                        }
+                        if (!is)
+                        {
+                            res.push_back(s[i]);
+                            abc[s[i] - 'a']--;
+                        }
+                        //res.push_back(s[i]);
+                        //abc[s[i] - 'a']--;
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
+int main()
+{
+    Solution316 s;
+    string ss = s.removeDuplicateLetters("cbacdcbc");
+    return 0;
+}
