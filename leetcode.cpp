@@ -11605,12 +11605,10 @@ public:
 //316. È¥³ýÖØ¸´×ÖÄ¸
 class Solution316 {
 public:
-    string removeDuplicateLetters(string s) {
+    string removeDuplicateLetters(string s) {//8ms
         vector<int> abc(26,0);
         for (int i = 0; i < s.size(); ++i)
-        {
             abc[s[i] - 'a']++;
-        }
         string res;
         for (int i = 0; i < s.size(); ++i)
         {
@@ -11625,27 +11623,25 @@ public:
                 {
                     if (res[res.size() - 1] > s[i])
                     {
-                        if (abc[res[res.size()-1]-'a'] > 0)
+                        bool is = false;
+                        for (int j = 0; j < res.size(); ++j)
+                            if (res[j] == s[i])
+                                is = true;
+                        if (abc[res[res.size()-1] - 'a'] > 0)
                         {
-                            res.pop_back();
+                            if (is)
+                            {
+                                abc[s[i] - 'a']--;
+                                break;
+                            }
+                            else
+                                res.pop_back();
                         }
                         else
                         {
-                            bool is = false;
-                            for (int j = 0; j < res.size(); ++j)
-                            {
-                                if (res[j] == s[i])
-                                {
-                                    abc[s[i] - 'a']--;
-                                    is = true;
-                                    break;
-                                }
-                            }
                             if (!is)
-                            {
                                 res.push_back(s[i]);
-                                abc[s[i] - 'a']--;
-                            }
+                            abc[s[i] - 'a']--;
                             break;
                         }
                         if (res.size() == 0)
@@ -11662,10 +11658,70 @@ public:
                     }
                     else
                     {
-                        res.push_back(s[i]);
-                        abc[s[i] - 'a']--;
+                        bool is = false;
+                        for (int j = 0; j < res.size(); ++j)
+                        {
+                            if (res[j] == s[i])
+                            {
+                                abc[s[i] - 'a']--;
+                                is = true;
+                                break;
+                            }
+                        }
+                        if (!is)
+                        {
+                            res.push_back(s[i]);
+                            abc[s[i] - 'a']--;
+                        }
                         break;
                     }
+                }
+            }
+        }
+        return res;
+    }
+    string removeDuplicateLetters2(string s) {//12ms
+        vector<int> abc(26, 0);
+        for (int i = 0; i < s.size(); ++i)
+            abc[s[i] - 'a']++;
+        string res;
+        for (int i = 0; i < s.size(); ++i)
+        {
+            bool is = false;
+            for (int j = 0; j < res.size(); ++j)
+                if (res[j] == s[i])
+                    is = true;
+            while (true)
+            {
+                if (res.size() == 0)
+                {
+                    res.push_back(s[i]);
+                    abc[s[i] - 'a']--;
+                    break;
+                }
+                if (res[res.size() - 1] > s[i])
+                {
+                    if (abc[res[res.size() - 1] - 'a'] > 0 && !is)
+                    {
+                        res.pop_back();
+                        continue;
+                    }
+                    if (!is)
+                        res.push_back(s[i]);
+                    abc[s[i] - 'a']--;
+                    break;
+                }
+                else if (res[res.size() - 1] == s[i])
+                {
+                    abc[s[i] - 'a']--;
+                    break;
+                }
+                else
+                {
+                    if (!is)
+                        res.push_back(s[i]);
+                    abc[s[i] - 'a']--;
+                    break;
                 }
             }
         }
@@ -11675,6 +11731,7 @@ public:
 int main()
 {
     Solution316 s;
-    string ss = s.removeDuplicateLetters("cbacdcbc");
+    string ss = s.removeDuplicateLetters("sotoywrtym");
+    //string ss = s.removeDuplicateLetters("eywdgenmcnzhztolafcfnirfpuxmfcenlppegrcalgxjlajxmphwidqqtrqnmmbssotoywfrtylm");
     return 0;
 }
