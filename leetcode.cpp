@@ -11728,7 +11728,7 @@ public:
         return res;
     }
 };
-int main()
+int main316()
 {
     Solution316 s;
     string ss = s.removeDuplicateLetters("sotoywrtym");
