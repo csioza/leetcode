@@ -11662,23 +11662,8 @@ public:
                     }
                     else
                     {
-                        bool is = false;
-                        for (int j = 0; j < res.size(); ++j)
-                        {
-                            if (res[j] == s[i])
-                            {
-                                abc[s[i] - 'a']--;
-                                is = true;
-                                break;
-                            }
-                        }
-                        if (!is)
-                        {
-                            res.push_back(s[i]);
-                            abc[s[i] - 'a']--;
-                        }
-                        //res.push_back(s[i]);
-                        //abc[s[i] - 'a']--;
+                        res.push_back(s[i]);
+                        abc[s[i] - 'a']--;
                         break;
                     }
                 }
