@@ -11680,49 +11680,34 @@ public:
         }
         return res;
     }
-    string removeDuplicateLetters2(string s) {//12ms
+    string removeDuplicateLetters2(string s) {//8ms
         vector<int> abc(26, 0);
+        vector<int> ishave(26, 0);
         for (int i = 0; i < s.size(); ++i)
             abc[s[i] - 'a']++;
         string res;
         for (int i = 0; i < s.size(); ++i)
         {
-            bool is = false;
-            for (int j = 0; j < res.size(); ++j)
-                if (res[j] == s[i])
-                    is = true;
+            if (ishave[s[i] - 'a'] > 0)
+            {
+                abc[s[i] - 'a']--;
+                continue;
+            }
             while (true)
             {
-                if (res.size() == 0)
+                if (res.size() > 0 && res[res.size() - 1] > s[i])
                 {
-                    res.push_back(s[i]);
-                    abc[s[i] - 'a']--;
-                    break;
-                }
-                if (res[res.size() - 1] > s[i])
-                {
-                    if (abc[res[res.size() - 1] - 'a'] > 0 && !is)
+                    if (abc[res[res.size() - 1] - 'a'] > 0)
                     {
+                        ishave[res[res.size() - 1] - 'a'] = 0;
                         res.pop_back();
                         continue;
                     }
-                    if (!is)
-                        res.push_back(s[i]);
-                    abc[s[i] - 'a']--;
-                    break;
                 }
-                else if (res[res.size() - 1] == s[i])
-                {
-                    abc[s[i] - 'a']--;
-                    break;
-                }
-                else
-                {
-                    if (!is)
-                        res.push_back(s[i]);
-                    abc[s[i] - 'a']--;
-                    break;
-                }
+                res.push_back(s[i]);
+                ishave[s[i] - 'a'] = 1;
+                abc[s[i] - 'a']--;
+                break;
             }
         }
         return res;
