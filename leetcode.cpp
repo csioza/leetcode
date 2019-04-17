@@ -11681,38 +11681,6 @@ public:
         return res;
     }
     string removeDuplicateLetters2(string s) {//8ms
-        vector<int> abc(26, 0);
-        vector<int> ishave(26, 0);
-        for (int i = 0; i < s.size(); ++i)
-            abc[s[i] - 'a']++;
-        string res;
-        for (int i = 0; i < s.size(); ++i)
-        {
-            if (ishave[s[i] - 'a'] > 0)
-            {
-                abc[s[i] - 'a']--;
-                continue;
-            }
-            while (true)
-            {
-                if (res.size() > 0 && res[res.size() - 1] > s[i])
-                {
-                    if (abc[res[res.size() - 1] - 'a'] > 0)
-                    {
-                        ishave[res[res.size() - 1] - 'a'] = 0;
-                        res.pop_back();
-                        continue;
-                    }
-                }
-                res.push_back(s[i]);
-                ishave[s[i] - 'a'] = 1;
-                abc[s[i] - 'a']--;
-                break;
-            }
-        }
-        return res;
-    }
-    string removeDuplicateLetters2(string s) {//8ms
         int abc[26] = { 0 };
         int ishave[26] = { 0 };
         for (int i = 0; i < s.size(); ++i)
