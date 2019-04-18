@@ -3,5 +3,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\leetcode.cpp" />
     <ClCompile Include="..\..\tool.cpp" />
+    <ClCompile Include="..\..\leetcode2.cpp" />
   </ItemGroup>
 </Project>
