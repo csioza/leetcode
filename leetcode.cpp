@@ -10,6 +10,7 @@
 #include <time.h>
 #include <sstream>
 #include <algorithm>
+#include <functional>//因为用了greater<int>()
 using namespace std;
 
 //1. 两数之和
@@ -11723,22 +11724,19 @@ int main316()
 
 //2019.04.18
 
-//703. 数据流中的第K大元素
-class KthLargest {//网上
+//215. 数组中的第K个最大元素
+class Solution215 {//使用优先队列实现，比较简单 TODO:自己构建小顶堆试试
 public:
-    //定义放在前面了
-    priority_queue<int, vector<int>, greater<int>> pq;
-    int size;
-    KthLargest(int k, vector<int> nums) {
-        size = k;
-        for (int i = 0; i < nums.size(); i++) {
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for (int i = 0; i < nums.size(); ++i)
+        {
             pq.push(nums[i]);
-            if (pq.size() > k) pq.pop();
+            if (pq.size() > k)
+            {
+                pq.pop();
+            }
         }
-    }
-    int add(int val) {
-        pq.push(val);
-        if (pq.size() > size) pq.pop();
         return pq.top();
     }
 };
