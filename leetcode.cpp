@@ -11740,3 +11740,99 @@ public:
         return pq.top();
     }
 };
+//2019.04.19
+
+//373. 查找和最小的K对数字
+class Solution373 {
+public:
+    vector<pair<int, int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        using E = pair<int, pair<int, int>>;
+        priority_queue<E/*, vector<E>, greater<E>*/> pq;
+        for (int i = 0; i < nums1.size(); ++i)
+        {
+            for (int j = 0; j < nums2.size(); ++j)
+            {
+                int sum = nums1[i] + nums2[j];
+                if (pq.size() < k)
+                {
+                    pq.push(make_pair(sum, make_pair(nums1[i], nums2[j])));
+                }
+                else
+                {
+                    if (pq.top().first > sum)
+                    {
+                        pq.pop();
+                        pq.push(make_pair(sum, make_pair(nums1[i], nums2[j])));
+                    }
+                }
+            }
+        }
+        vector<pair<int, int>> ret;
+        while (pq.size() > 0)
+        {
+            ret.push_back(pq.top().second);
+            pq.pop();
+        }
+        return ret;
+    }
+};
+//378. 有序矩阵中第K小的元素
+class Solution378 {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        priority_queue<int> pq;
+        for (int i = 0; i < matrix.size(); ++i)
+        {
+            for (int j = 0; j < matrix[i].size(); ++j)
+            {
+                if (pq.size() < k)
+                {
+                    pq.push(matrix[i][j]);
+                }
+                else
+                {
+                    if (pq.top() > matrix[i][j])
+                    {
+                        pq.pop();
+                        pq.push(matrix[i][j]);
+                    }
+                }
+            }
+        }
+        return pq.top();
+    }
+};
+//451. 根据字符出现频率排序
+class Solution451 {
+public:
+    string frequencySort(string s) {
+        map<char, int> sc;
+        for (int i = 0; i < s.size(); ++i)
+        {
+            map<char, int>::iterator iter = sc.find(s[i]);
+            if (iter != sc.end())
+                iter->second++;
+            else
+                sc[s[i]] = 1;
+        }
+        priority_queue<pair<int, char>,vector<pair<int, char>>,greater<pair<int, char>>> pq;
+        map<char, int>::iterator iter = sc.begin();
+        for (; iter != sc.end(); ++iter)
+        {
+            pq.push(make_pair(iter->second,iter->first));
+        }
+        string res = s;
+        int len = s.size();
+        while (!pq.empty())
+        {
+            int cnt = pq.top().first;
+            char ss = pq.top().second;
+            for (int ii = 0; ii < cnt; ++ii)
+            {
+                res[--len] = ss;
+            }
+            pq.pop();
+        }
+        return res;
+    }
+};

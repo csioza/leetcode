@@ -34,3 +34,34 @@ public:
         return pq.top();
     }
 };
+//2019.04.19
+
+//347. 前K个高频元素
+class Solution347 {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        // pair<count, val>
+        // top k, min heap(小根堆)
+        using E = pair<int, int>;
+        priority_queue<E, vector<E>, greater<E>> minHeap;
+        map<int, int> counter;
+        for (auto e : nums) {
+            ++counter[e];
+        }
+        for (auto& x : counter) {
+            auto pair = make_pair(x.second, x.first);
+            if (minHeap.size() == k) {
+                if (pair < minHeap.top()) continue;
+                minHeap.pop();
+            }
+            minHeap.push(move(pair));
+        }
+        vector<int> res(minHeap.size());
+        k = res.size();
+        while (!minHeap.empty()) {
+            res[--k] = minHeap.top().second;
+            minHeap.pop();
+        }
+        return res;
+    }
+};
