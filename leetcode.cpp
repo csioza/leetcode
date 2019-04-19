@@ -11898,7 +11898,7 @@ public:
         }
         return true;
     }
-    bool isPossible2(vector<int>& nums) {//网上 贪心
+    bool isPossible2(vector<int>& nums) {//网上 贪心 TODO:不理解
         map<int, int> ref;
         map<int, int> need;
         for (int num : nums) ref[num]++;
