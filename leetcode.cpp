@@ -11836,3 +11836,87 @@ public:
         return res;
     }
 };
+//659. 分割数组为连续子序列
+class Solution659 {
+public:
+    bool isPossible(vector<int>& nums) {
+        if (nums.size() < 3)
+        {
+            return false;
+        }
+        vector<priority_queue<int/*,vector<int>,greater<int>*/>> vpq;
+        priority_queue<int/*, vector<int>, greater<int>*/> pq;
+        pq.push(nums[0]);
+        vpq.push_back(pq);
+        for (int i = 1; i < nums.size(); ++i)
+        {
+            int index = -1;
+            int need  = -1;
+            for (int j = 0; j < vpq.size(); ++j)
+            {
+                int t = vpq[j].top();
+                if (t + 1 == nums[i])
+                {
+                    if (index < 0)
+                    {
+                        index = j;
+                    }
+                    if (vpq[j].size() < 3)
+                    {
+                        need = j;
+                    }
+                }
+                else if (t + 1 < nums[i])
+                {
+                    if (vpq[j].size() < 3)
+                    {
+                        return false;
+                    }
+                }
+            }
+            if (need < 0 && index < 0)
+            {
+                priority_queue<int/*, vector<int>, greater<int>*/> pq;
+                pq.push(nums[i]);
+                vpq.push_back(pq);
+            }
+            else if (need < 0)
+            {
+                vpq[index].push(nums[i]);
+            }
+            else
+            {
+                vpq[need].push(nums[i]);
+            }
+        }
+        for (int j = 0; j < vpq.size(); ++j)
+        {
+            if (vpq[j].size() < 3)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    bool isPossible2(vector<int>& nums) {//网上 贪心
+        map<int, int> ref;
+        map<int, int> need;
+        for (int num : nums) ref[num]++;
+        for (int num : nums) {
+            if (ref[num] == 0) continue;
+            if (need[num] > 0) {
+                need[num]--;
+                need[num + 1]++;
+                ref[num]--;
+            }
+            else if (ref[num + 1] && ref[num + 2]) {
+                need[num + 3]++;
+                ref[num]--;
+                ref[num + 1]--;
+                ref[num + 2]--;
+            }
+            else return false;
+        }
+        return true;
+    }
+};
