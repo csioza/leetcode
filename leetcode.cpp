@@ -11977,3 +11977,27 @@ public:
         return ret;
     }
 };
+//973. 最接近原点的 K 个点
+class Solution973 {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int K) {
+        priority_queue<pair<long long, pair<int, int>>> pq;
+        for (int i = 0; i < points.size(); ++i)
+        {
+            long long dis = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            pq.push(make_pair(dis, make_pair(points[i][0], points[i][1])));
+            if (pq.size() > K)
+                pq.pop();
+        }
+        vector<vector<int>> ret;
+        while (!pq.empty())
+        {
+            vector<int> tmp;
+            tmp.push_back(pq.top().second.first);
+            tmp.push_back(pq.top().second.second);
+            ret.push_back(tmp);
+            pq.pop();
+        }
+        return ret;
+    }
+};
