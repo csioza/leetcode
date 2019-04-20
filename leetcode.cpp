@@ -11920,3 +11920,60 @@ public:
         return true;
     }
 };
+//2019.04.20
+
+//767. ÖØ¹¹×Ö·û´®
+class Solution767 {
+public:
+    string reorganizeString(string S) {
+        map<char, int> ss;
+        for (int i = 0; i < S.size(); ++i)
+        {
+            map<char, int>::iterator iter = ss.find(S[i]);
+            if (iter != ss.end())
+                iter->second++;
+            else
+                ss[S[i]] = 1;
+        }
+        priority_queue<pair<int,char>> pq;
+        map<char, int>::iterator iter = ss.begin();
+        for (; iter!= ss.end(); ++iter)
+            pq.push(make_pair(iter->second,iter->first));
+        string ret;
+        while (!pq.empty())
+        {
+            if (ret.size() == 0)
+            {
+                pair<int, char> n = pq.top();
+                ret.push_back(n.second);
+                pq.pop();
+                if (n.first > 1)
+                    pq.push(make_pair(n.first - 1,n.second));
+            }
+            else
+            {
+                pair<int, char> n = pq.top();
+                if (ret.back() != n.second)
+                {
+                    ret.push_back(n.second);
+                    pq.pop();
+                    if (n.first > 1)
+                        pq.push(make_pair(n.first - 1, n.second));
+                }
+                else
+                {
+                    pq.pop();
+                    if (pq.empty())
+                        return "";
+                    pair<int, char> n2 = pq.top();
+                    ret.push_back(n2.second);
+                    pq.pop();
+                    if (n2.first > 1)
+                        pq.push(make_pair(n2.first - 1, n2.second));
+                    pq.push(n);
+                }
+            }
+        }
+        return ret;
+    }
+};
