@@ -12001,3 +12001,45 @@ public:
         return ret;
     }
 };
+//692. 前K个高频单词
+struct cmp
+{
+    bool operator()(const pair<int, string> p1, const pair<int, string> p2)
+    {
+        if (p1.first != p2.first)
+            return p1.first > p2.first; //first的小值优先
+        return p1.second < p2.second;
+    }
+};
+class Solution692 {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        map<string, int> sc;
+        for (int i = 0; i < words.size(); ++i)
+        {
+            map<string, int>::iterator iter = sc.find(words[i]);
+            if (iter != sc.end())
+                iter->second++;
+            else
+                sc[words[i]] = 1;
+        }
+        using E = pair<int, string>;
+        priority_queue<E,vector<E>, cmp> pq;//TODO: 记住
+        map<string, int>::iterator iter = sc.begin();
+        for (; iter != sc.end(); ++iter)
+        {
+            pq.push(make_pair(iter->second, iter->first));
+            if (pq.size() > k)
+            {
+                pq.pop();
+            }
+        }
+        vector<string> res(k,"");
+        while (!pq.empty())
+        {
+            res[--k] = pq.top().second;
+            pq.pop();
+        }
+        return res;
+    }
+};
