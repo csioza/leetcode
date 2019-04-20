@@ -12043,3 +12043,38 @@ public:
         return res;
     }
 };
+//55. ÌøÔ¾ÓÎÏ·
+class Solution55 {
+public:
+    bool canJump(vector<int>& nums) {
+        int len = nums.size() - 1;
+        for (int i = 0; i < nums.size();)
+        {
+            if (i + nums[i] >= len)
+                return true;
+            else
+            {
+                if (nums[i] == 0)
+                    return false;
+                int maxid = i + 1;
+                for (int j = i + 2; j <= i + nums[i]; ++j)
+                    if (nums[maxid] + maxid <= nums[j] + j)
+                        maxid = j;
+                i = maxid;
+            }
+        }
+        return false;
+    }
+};
+int main55()
+{
+    Solution55 s;
+    vector<int> v;
+    v.push_back(3);
+    v.push_back(2);
+    v.push_back(1);
+    v.push_back(0);
+    v.push_back(4);
+    bool r = s.canJump(v);
+    return 0;
+}
