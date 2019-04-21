@@ -12142,3 +12142,48 @@ public:
         return i >= s.size();
     }
 };
+//402. ÒÆµôKÎ»Êý×Ö
+class Solution402 {
+public:
+    int findFirstMax(string num, int start) 
+    {
+        for (int i = start; i < num.size() - 1; ++i)
+            if (num[i] > num[i+1])
+                return i;
+        return num.size() - 1;
+    }
+    string removeKdigits(string num, int k) {
+        int len = num.size();
+        int curIndex = 0;
+        for (int i = 0; i < k; ++i)
+        {
+            int iii = curIndex - 1;
+            while (iii >= 0 && num[iii] == 'a')
+                iii--;
+            if (curIndex > 0 && iii >= 0 && num[curIndex] < num[iii])
+                num[iii] = 'a';
+            else
+            {
+                int ii = findFirstMax(num, curIndex);
+                num[ii] = 'a';
+                curIndex = ii + 1;
+            }
+        }
+        string ret;
+        bool sss = false;
+        for (int i = 0; i < num.size(); ++i)
+        {
+            if (!sss && num[i] != '0' && num[i] != 'a')
+                sss = true;
+            if (sss && num[i] != 'a')
+                ret.push_back(num[i]);
+        }
+        return ret.size() > 0 ? ret : "0";
+    }
+};
+int main402()
+{
+    Solution402 s;
+    string ss = s.removeKdigits("10",1);
+    return 0;
+}
