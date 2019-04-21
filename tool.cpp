@@ -136,3 +136,9 @@
 //    getchar();
 //    return 0;
 //}
+
+
+
+//vector 
+#include <vector>
+using namespace std;

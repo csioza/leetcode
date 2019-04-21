@@ -12187,3 +12187,70 @@ int main402()
     string ss = s.removeKdigits("10",1);
     return 0;
 }
+//406. 根据身高重建队列
+class Solution406 {
+public:
+    vector<pair<int, int>> reconstructQueue(vector<pair<int, int>>& people) {//错误答案
+        priority_queue<pair<int, int>> pq;
+        for (int i = 0; i < people.size(); ++i)
+        {
+            pq.push(make_pair(people[i].second, people[i].first));
+        }
+        vector<pair<int, int>> ret;
+        ret.resize(people.size());
+        for (int i = people.size() - 1; i >= 0; --i)
+        {
+            ret[i] = make_pair(pq.top().second, pq.top().first);
+            pq.pop();
+        }
+        return ret;
+    }
+    vector<pair<int, int>> reconstructQueue2(vector<pair<int, int>>& people) {//有点慢
+        using E = pair<int, int>;
+        priority_queue<E, vector<E>, greater<E>> pq;
+        for (int i = 0; i < people.size(); ++i)
+            pq.push(people[i]);
+        vector<pair<int, int>> ret(people.size(),make_pair(-1,-1));
+        while (!pq.empty())
+        {
+            int cnt = 0;
+            for (int i = 0; i < ret.size(); ++i)
+            {
+                if (ret[i].first == -1 || ret[i].first >= pq.top().first)
+                {
+                    cnt++;
+                }
+                if (cnt > pq.top().second)
+                {
+                    ret[i] = pq.top();
+                    break;
+                }
+            }
+            pq.pop();
+        }
+        return ret;
+    }
+    vector<pair<int, int>> reconstructQueue3(vector<pair<int, int>>& people) {//网上找的
+        vector<pair<int, int>> result;
+        sort(people.begin(), people.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
+            return a.first > b.first || (a.first == b.first && a.second < b.second);
+        });
+        for (auto p : people) {
+            result.insert(result.begin() + p.second, p);
+        }
+        return result;
+    }
+};
+int main()
+{
+    vector<pair<int, int>> people;
+    people.push_back(make_pair(7, 0));
+    people.push_back(make_pair(4, 4));
+    people.push_back(make_pair(7, 1));
+    people.push_back(make_pair(5, 0));
+    people.push_back(make_pair(6, 1));
+    people.push_back(make_pair(5, 2));
+    Solution406 s;
+    s.reconstructQueue3(people);
+    return 0;
+}
