@@ -12241,7 +12241,7 @@ public:
         return result;
     }
 };
-int main()
+int main406()
 {
     vector<pair<int, int>> people;
     people.push_back(make_pair(7, 0));
@@ -12252,5 +12252,50 @@ int main()
     people.push_back(make_pair(5, 2));
     Solution406 s;
     s.reconstructQueue3(people);
+    return 0;
+}
+//435. 无重叠区间
+struct Interval {
+    int start;
+    int end;
+    Interval() : start(0), end(0) {}
+    Interval(int s, int e) : start(s), end(e) {}
+};
+bool cmp435(const Interval& a, const Interval& b)
+{
+    return a.end < b.end;
+}
+class Solution435 {
+public:
+    bool isMatch(Interval& a, Interval& b)
+    {
+        if (a.end <= b.start || b.end <= a.start)
+            return true;
+        return false;
+    }
+    int eraseOverlapIntervals(vector<Interval>& intervals) {
+        sort(intervals.begin(), intervals.end(), cmp435);
+        int ret = 0;
+        int last = 0;
+        for (int i = 1; i < intervals.size(); ++i)
+        {
+            if (isMatch(intervals[last],intervals[i]))
+                last = i;
+            else
+                ret++;
+        }
+        return ret;
+    }
+};
+int main435() 
+{
+    Solution435 s;
+    vector<Interval> intervals;
+    Interval a(1, 2);
+    intervals.push_back(a);
+    Interval b(2, 3);
+    intervals.push_back(b);
+    intervals.push_back(a);
+    s.eraseOverlapIntervals(intervals);
     return 0;
 }
