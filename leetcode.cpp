@@ -12078,3 +12078,32 @@ int main55()
     bool r = s.canJump(v);
     return 0;
 }
+//2019.04.21
+
+//134. ╪ссму╬
+class Solution134 {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+     
+        int ret = 0;
+        int gasSum = 0;
+        int costSum = 0;
+        int curGas = 0;
+        for (int i = 0; i < gas.size(); ++i)
+        {
+            curGas += gas[i];
+            gasSum += gas[i];
+            costSum += cost[i];
+            if (curGas >= cost[i])
+            {
+                curGas -= cost[i];
+            }
+            else
+            {
+                curGas = 0;
+                ret = i + 1;
+            }
+        }
+        return costSum > gasSum || ret >= gas.size() ? -1 : ret;
+    }
+};
