@@ -12107,3 +12107,25 @@ public:
         return costSum > gasSum || ret >= gas.size() ? -1 : ret;
     }
 };
+//376. °Ú¶¯ÐòÁÐ
+class Solution376 {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        if (nums.size() == 0)
+            return 0;
+        int ret = 1;
+        int lastSub = 0;
+        for (int i = 1; i < nums.size(); ++i)
+        {
+            int curSub = nums[i] - nums[i-1];
+            if (curSub == 0)
+                continue;
+            if ((curSub > 0 && lastSub <= 0) || (curSub < 0 && lastSub >= 0))
+            {
+                ret++;
+                lastSub = curSub;
+            }
+        }
+        return ret;
+    }
+};
