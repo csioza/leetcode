@@ -12349,4 +12349,136 @@ int main452()
     int r = s.findMinArrowShots(points);
     return 0;
 }
-//
+//621. 任务调度器
+class Solution621 {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        int abc[26];
+        memset(abc, 0, sizeof(abc));
+        int maxNum = 0;
+        for (int i = 0; i < tasks.size(); ++i)
+        {
+            abc[tasks[i] - 'A']++;
+            maxNum++;
+        }
+        priority_queue<int> pq;
+        //priority_queue<int, vector<int>, greater<int>> pq;
+        for (int i = 0; i < 26; ++i)
+        {
+            if (abc[i] > 0)
+            {
+                pq.push(abc[i]);
+            }
+        }
+        queue<int> lin;
+        for (int i = 0; i <= n; ++i)
+        {
+            lin.push(0);
+        }
+        int cnt = 0;
+        while (maxNum > 0)
+        {
+            if (!lin.empty())
+            {
+                if (lin.front() > 0)
+                {
+                    pq.push(lin.front());
+                }
+                lin.pop();
+            }
+            if (!pq.empty())
+            {
+                if (pq.top() > 1)
+                {
+                    lin.push(pq.top() - 1);
+                }
+                else
+                {
+                    lin.push(0);
+                }
+                maxNum--;
+                pq.pop();
+            }
+            else
+            {
+                lin.push(0);
+            }
+            cnt++;
+        }
+        return cnt;
+    }
+    int leastInterval2(vector<char>& tasks, int n) {
+        int abc[26];
+        memset(abc, 0, sizeof(abc));
+        int maxNum = 0;
+        for (int i = 0; i < tasks.size(); ++i)
+        {
+            abc[tasks[i] - 'A']++;
+            maxNum++;
+        }
+        priority_queue<pair<int, char>, vector<pair<int, char>>, greater<pair<int, char>>> pq;
+        for (int i = 0; i < 26; ++i)
+        {
+            if (abc[i] > 0)
+            {
+                pq.push(make_pair(abc[i], i + 'A'));
+            }
+        }
+        queue<pair<int, char>> lin;
+        for (int i = 0; i <= n; ++i)
+        {
+            lin.push(make_pair(0, 0));
+        }
+        int cnt = 0;
+        while (maxNum > 0)
+        {
+            if (!lin.empty())
+            {
+                if (lin.front().first > 0)
+                {
+                    pq.push(lin.front());
+                }
+                lin.pop();
+            }
+            if (!pq.empty())
+            {
+                if (pq.top().first > 1)
+                {
+                    lin.push(make_pair(pq.top().first - 1, pq.top().second));
+                }
+                else
+                {
+                    lin.push(make_pair(0, 0));
+                }
+                maxNum--;
+                pq.pop();
+            }
+            else
+            {
+                lin.push(make_pair(0, 0));
+            }
+            cnt++;
+        }
+        return cnt;
+    }
+};
+int main621()
+{
+    Solution621 s;
+    vector<char> tasks;
+    tasks.push_back('A');
+    tasks.push_back('A');
+    tasks.push_back('A');
+    tasks.push_back('A');
+    tasks.push_back('A');
+    tasks.push_back('A');
+    tasks.push_back('B');
+    tasks.push_back('C');
+    tasks.push_back('D');
+    tasks.push_back('E');
+    tasks.push_back('F');
+    tasks.push_back('G');
+    int n = 2;
+    int r = s.leastInterval(tasks,n);
+    return 0;
+}
