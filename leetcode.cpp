@@ -12304,17 +12304,49 @@ int main435()
 //452. 用最少数量的箭引爆气球
 bool cmp452(const pair<int, int>& a, const pair<int, int>& b)
 {
-    return a.first > b.first;
+    return a.first < b.first;
 }
 class Solution452 {
 public:
     int findMinArrowShots(vector<pair<int, int>>& points) {
+        if (points.size() == 0)
+            return 0;
         sort(points.begin(), points.end(), cmp452);
-        int last = 0;
-        int cnt = 0;
-        for (int i = 0; i < points.size(); ++i)
+        int lastFirst  = points[0].first;
+        int lastSecond = points[0].second;
+        int cnt = 1;
+        for (int i = 1; i < points.size(); ++i)
         {
+            if (lastSecond < points[i].first)
+            {
+                cnt++;
+                lastFirst = points[i].first;
+                lastSecond = points[i].second;
+            }
+            else
+            {
+                lastFirst = points[i].first;
+                if (points[i].second < lastSecond)
+                {
+                    lastSecond = points[i].second;
+                }
+            }
         }
         return cnt;
     }
 };
+int main452()
+{
+    Solution452 s;
+    vector<pair<int, int>> points;
+    points.push_back(make_pair(9, 12));
+    points.push_back(make_pair(1, 10));
+    points.push_back(make_pair(4, 11));
+    points.push_back(make_pair(8, 12));
+    points.push_back(make_pair(3, 9));
+    points.push_back(make_pair(6, 9));
+    points.push_back(make_pair(6, 7));
+    int r = s.findMinArrowShots(points);
+    return 0;
+}
+//
