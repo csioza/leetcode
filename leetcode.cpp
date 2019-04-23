@@ -12299,3 +12299,22 @@ int main435()
     s.eraseOverlapIntervals(intervals);
     return 0;
 }
+//2019.04.23
+
+//452. 用最少数量的箭引爆气球
+bool cmp452(const pair<int, int>& a, const pair<int, int>& b)
+{
+    return a.first > b.first;
+}
+class Solution452 {
+public:
+    int findMinArrowShots(vector<pair<int, int>>& points) {
+        sort(points.begin(), points.end(), cmp452);
+        int last = 0;
+        int cnt = 0;
+        for (int i = 0; i < points.size(); ++i)
+        {
+        }
+        return cnt;
+    }
+};
