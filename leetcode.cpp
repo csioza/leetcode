@@ -395,110 +395,99 @@ int main8()
     return 0;
 }
 //9. 回文数
-bool isPalindrome(int x) {
-    if (x < 0)
-    {
+class Solution9 {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0)
+            return false;
+        else if (x == 0)
+            return true;
+        long long xx = x;
+        long long xxx = x;
+        long long rnum = 0;
+        while (xx > 0)
+        {
+            if (rnum > 0xffffffffffffff)
+                break;
+            int yu = xx % 10;
+            rnum = rnum * 10 + yu;
+            xx = xx / 10;
+        }
+        if (xxx == rnum)
+            return true;
         return false;
     }
-    else if (x == 0)
-    {
-        return true;
-    }
-    long long xx = x;
-    long long xxx = x;
-    long long rnum = 0;
-    while (xx > 0)
-    {
-        if (rnum > 0xffffffffffffff)
+    bool isPalindrome2(int x) {
+        if (x < 0 || (x != 0 && x % 10 == 0))
+            return false;
+        else if (x == 0)
+            return true;
+        long long xx = x;
+        long long rnum = 0;
+        while (xx > rnum)
         {
-            break;
+            if (rnum > 0xffffffffffffff)
+                break;
+            rnum = rnum * 10 + xx % 10;
+            xx = xx / 10;
         }
-        int yu = xx % 10;
-        rnum = rnum * 10 + yu;
-        xx = xx / 10;
+        return (xx == rnum) || ((rnum / 10) == xx);
     }
-    if (xxx == rnum)
-    {
-        return true;
-    }
-    return false;
-}
-bool isPalindrome2(int x) {
-    if (x < 0 || (x != 0 && x % 10 == 0))
-    {
-        return false;
-    }
-    else if (x == 0)
-    {
-        return true;
-    }
-    long long xx = x;
-    long long rnum = 0;
-    while (xx > rnum)
-    {
-        if (rnum > 0xffffffffffffff)
-        {
-            break;
-        }
-        rnum = rnum * 10 + xx % 10;
-        xx = xx / 10;
-    }
-    return (xx == rnum) || ((rnum / 10) == xx);
-}
+};
 //10. 正则表达式匹配
-bool isMatch(string s, string p) {//错误答案
-    int slen = s.size();
-    int plen = p.size();
-    if (slen == 0 || plen == 0)
-        return false;
-    int charIndex = -1; 
-    int i = 0, j = 0;
-    for ( ; i < slen; i++)
-    {
-        if (j >= plen)
+class Solution10 {
+public:
+    bool isMatch(string s, string p) {//错误答案
+        int slen = s.size();
+        int plen = p.size();
+        if (slen == 0 || plen == 0)
             return false;
-        if (p[j] == '.')
-            j++;
-        else if (p[j] == '*')
+        int charIndex = -1;
+        int i = 0, j = 0;
+        for (; i < slen; i++)
         {
-            if (i > 0 && s[i] == s[i - 1]) 
+            if (j >= plen)
+                return false;
+            if (p[j] == '.')
+                j++;
+            else if (p[j] == '*')
             {
+                if (i > 0 && s[i] == s[i - 1])
+                {
 
+                }
+                else if (j > 0 && p[j - 1] == '.') {}
+                else
+                {
+                    for (j++; j < plen && (/*p[j] == '*' || p[j] == '.' ||*/p[j] == s[i - 1]); j++);
+                    i--;
+                }
             }
-            else if (j > 0 && p[j - 1] == '.') {}
-            else
+            else if (s[i] == p[j])
+                j++;
+            else if (s[i] != p[j] && j + 1 < plen && p[j + 1] == '*')
             {
-                for (j++; j < plen && (/*p[j] == '*' || p[j] == '.' ||*/p[j] == s[i - 1]); j++);
                 i--;
+                j += 2;
             }
         }
-        else if (s[i] == p[j])
-            j++;
-        else if (s[i] != p[j] && j + 1 < plen && p[j + 1] == '*')
-        {
-            i--;
-            j+=2;
-        }
-    }
-    if (j < plen)
-    {
-        for (; j < plen && p[j] == '*'; j++);
         if (j < plen)
-            return false;
+        {
+            for (; j < plen && p[j] == '*'; j++);
+            if (j < plen)
+                return false;
+        }
+        return true;
     }
-    return true;
-}
+};
 int main10()
 {
-    bool ss = isMatch("ab",".*c");
+    Solution10 s10;
+    bool ss = s10.isMatch("ab",".*c");
     if (ss)
-    {
         printf("true");
-    }
     else
-    {
         printf("false");
-    }
     getchar();
     return 0;
 }
@@ -507,160 +496,210 @@ int main10()
 //    
 //}
 //14. 最长公共前缀
-string longestCommonPrefix(vector<string>& strs) 
-{
-    int strnum = strs.size();
-    string rlt;
-    if (strnum <= 0 || strs[0].size() <= 0)
+class Solution14 {
+public:
+    string longestCommonPrefix(vector<string>& strs)
     {
-        return rlt;
-    }
-    int size0 = strs[0].size();
-    for (int j = 0; size0 > j; ++j)
-    {
-        char tmp = strs[0][j];
-        for (int i = 1; i < strnum; ++i)
+        int strnum = strs.size();
+        string rlt;
+        if (strnum <= 0 || strs[0].size() <= 0)
+            return rlt;
+        int size0 = strs[0].size();
+        for (int j = 0; size0 > j; ++j)
         {
-            if (j < strs[i].size())
+            char tmp = strs[0][j];
+            for (int i = 1; i < strnum; ++i)
             {
-                if (tmp == strs[i][j])
+                if (j < strs[i].size())
                 {
-
+                    if (tmp != strs[i][j])
+                        return rlt;
                 }
                 else
-                {
                     return rlt;
-                }
             }
-            else
-            {
-                return rlt;
-            }
+            rlt.push_back(tmp);
         }
-        rlt.push_back(tmp);
+        return rlt;
     }
-    return rlt;
-}
-//20. 有效的括号
-bool isValid(string s) {
-    int slen = s.size();
-    string stack;
-    for (int i = 0; i < slen; ++i)
-    {
-        int k = stack.size();
-        if (k > 0)
+};
+//19. 删除链表的倒数第N个节点
+class Solution19 {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* pre = head;
+        ListNode* end = head;
+        if (n <= 0)
+            return head;
+        int cnt = 0;
+        while (end)
         {
-            if (stack[k - 1] == '(' && s[i] == ')')
+            if (cnt > n)
+                pre = pre->next;
+            end = end->next;
+            cnt++;
+        }
+        if (cnt < n)
+            return head;
+        else if (cnt == n)
+        {
+            ListNode *d = head;
+            head = head->next;
+            delete d;
+            return head;
+        }
+        if (pre && pre->next)
+        {
+            ListNode *d = pre->next;
+            pre->next = pre->next->next;
+            delete d;
+        }
+        return head;
+    }
+};
+//20. 有效的括号
+class Solution20 {
+public:
+    bool isValid(string s) {
+        int slen = s.size();
+        string stack;
+        for (int i = 0; i < slen; ++i)
+        {
+            int k = stack.size();
+            if (k > 0)
             {
-                stack.erase(k - 1);
-            }
-            else if (stack[k - 1] == '{' && s[i] == '}')
-            {
-                stack.erase(k - 1);
-            }
-            else if (stack[k - 1] == '[' && s[i] == ']')
-            {
-                stack.erase(k - 1);
+                if (stack[k - 1] == '(' && s[i] == ')')
+                    stack.erase(k - 1);
+                else if (stack[k - 1] == '{' && s[i] == '}')
+                    stack.erase(k - 1);
+                else if (stack[k - 1] == '[' && s[i] == ']')
+                    stack.erase(k - 1);
+                else
+                    stack.push_back(s[i]);
             }
             else
             {
+                if (s[i] == ')' || s[i] == '}' || s[i] == ']')
+                    return false;
                 stack.push_back(s[i]);
             }
         }
-        else
-        {
-            if (s[i] == ')' || s[i] == '}' || s[i] == ']')
-            {
-                return false;
-            }
-            stack.push_back(s[i]);
-        }
+        int m = stack.size();
+        if (m > 0)
+            return false;
+        return true;
     }
-    int m = stack.size();
-    if (m > 0)
-    {
-        return false;
-    }
-    return true;
-}
+};
 //21. 合并两个有序链表
-ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-    if (l1 == NULL)
-        return l2;
-    if (l2 == NULL)
-        return l1;
-    ListNode *head = l1;
-    ListNode *pre = NULL;
-    while (l1 && l2)
-    {
-        if (l1->val <= l2->val)
+class Solution21 {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if (l1 == NULL)
+            return l2;
+        if (l2 == NULL)
+            return l1;
+        ListNode *head = l1;
+        ListNode *pre = NULL;
+        while (l1 && l2)
         {
-            pre = l1;
-            l1 = l1->next;
+            if (l1->val <= l2->val)
+            {
+                pre = l1;
+                l1 = l1->next;
+            }
+            else
+            {
+                int tmp = l1->val;
+                l1->val = l2->val;
+                l2->val = tmp;
+                //
+                ListNode *l11 = l1->next;
+                ListNode *l22 = l2->next;
+                l1->next = l2;
+                l2->next = l11;
+                pre = l1;
+                l1 = l1->next;
+                l2 = l22;
+            }
         }
-        else
+        if (l1 == NULL && pre && l2)
+            pre->next = l2;
+        return head;
+    }
+};
+//24. 两两交换链表中的节点
+class Solution24 {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == NULL || head->next == NULL)
+            return head;
+        ListNode *p = head;
+        ListNode *q = head->next;
+        ListNode *pre = head;
+        while (q)
         {
-            int tmp = l1->val;
-            l1->val = l2->val;
-            l2->val = tmp;
-            //
-            ListNode *l11 = l1->next;
-            ListNode *l22 = l2->next;
-            l1->next = l2;
-            l2->next = l11;
-            pre = l1;
-            l1 = l1->next;
-            l2 = l22;
+            if (pre == head)
+            {
+                ListNode *t = q->next;
+                q->next = pre;
+                pre->next = t;
+                head = q;
+            }
+            else
+            {
+                ListNode *t = q->next;
+                q->next = pre->next;
+                pre->next = q;
+                p->next = t;
+            }
+            pre = p;
+            p = p->next;
+            if (p && p->next)
+            {
+                q = p->next;
+            }
+            else
+                break;
         }
+        return head;
     }
-    if (l1 == NULL && pre && l2)
-    {
-        pre->next = l2;
-    }
-    return head;
-}
+};
 //26. 删除排序数组中的重复项
-int removeDuplicates(vector<int>& nums) {
-    int len = nums.size();
-    if (len == 0 || len == 1)
-    {
-        return len;
-    }
-    int gap = 0;
-    for (int i = 1; i < len; ++i)
-    {
-        if (nums[i] == nums[i - 1])
+class Solution26 {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int len = nums.size();
+        if (len == 0 || len == 1)
+            return len;
+        int gap = 0;
+        for (int i = 1; i < len; ++i)
         {
-            gap++;
+            if (nums[i] == nums[i - 1])
+                gap++;
+            else
+                nums[i - gap] = nums[i];
         }
-        else
-        {
-            nums[i - gap] = nums[i];
-        }
+        return len - gap;
     }
-    return len - gap;
-}
+};
 //27. 移除元素
-int removeElement(vector<int>& nums, int val) {
-    int len = nums.size();
-    if (len == 0)
-    {
-        return len;
-    }
-    int gap = 0;
-    for (int i = 0; i < len; ++i)
-    {
-        if (nums[i] == val)
+class Solution27 {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int len = nums.size();
+        if (len == 0)
+            return len;
+        int gap = 0;
+        for (int i = 0; i < len; ++i)
         {
-            gap++;
+            if (nums[i] == val)
+                gap++;
+            else
+                nums[i - gap] = nums[i];
         }
-        else
-        {
-            nums[i - gap] = nums[i];
-        }
+        return len - gap;
     }
-    return len - gap;
-}
+};
 //28. 实现strStr()
 class Solution28 {
 public:
@@ -668,21 +707,15 @@ public:
         int hlen = haystack.size();
         int nlen = needle.size();
         if (nlen == 0)
-        {
             return 0;
-        }
         if (hlen == 0)
-        {
             return -1;
-        }
         for (int i = 0; i < hlen; i++)
         {
             int k = 0, j = i;
             for (; k < nlen && j < hlen && haystack[j] == needle[k]; j++, k++);
             if (k == nlen)
-            {
                 return i;
-            }
         }
         return -1;
     }
@@ -3208,71 +3241,6 @@ int islandPerimeter(vector<vector<int>>& grid) {
         }
     }
     return sum;
-}
-//19. 删除链表的倒数第N个节点
-ListNode* removeNthFromEnd(ListNode* head, int n) {
-    ListNode* pre = head;
-    ListNode* end = head;
-    if (n <= 0)
-        return head;
-    int cnt = 0;
-    while (end)
-    {
-        if (cnt > n)
-            pre = pre->next;
-        end = end->next;
-        cnt++;
-    }
-    if (cnt < n)
-        return head;
-    else if (cnt == n)
-    {
-        ListNode *d = head;
-        head = head->next;
-        delete d;
-        return head;
-    }
-    if (pre && pre->next)
-    {
-        ListNode *d = pre->next;
-        pre->next = pre->next->next;
-        delete d;
-    }
-    return head;
-}
-//24. 两两交换链表中的节点
-ListNode* swapPairs(ListNode* head) {
-    if (head == NULL || head->next == NULL)
-        return head;
-    ListNode *p = head;
-    ListNode *q = head->next;
-    ListNode *pre = head;
-    while (q)
-    {
-        if (pre == head)
-        {
-            ListNode *t = q->next;
-            q->next = pre;
-            pre->next = t;
-            head = q;
-        }
-        else
-        {
-            ListNode *t = q->next;
-            q->next = pre->next;
-            pre->next = q;
-            p->next = t;
-        }
-        pre = p;
-        p = p->next;
-        if (p && p->next)
-        {
-            q = p->next;
-        }
-        else
-            break;
-    }
-    return head;
 }
 //25. k个一组翻转链表
 //ListNode* reverseKGroup2(ListNode* head, int k) {
@@ -8452,14 +8420,9 @@ public:
             if (s[i] == '(')
             {
                 if (dp[i] > 0)
-                {
                     dp[i + 1] = -1;
-                }
                 else
-                {
                     dp[i + 1] = dp[i] - 1;
-                }
-                
             }
             else
             {
@@ -8468,14 +8431,10 @@ public:
                 {
                     num++;
                     if (max < num)
-                    {
                         max = num;
-                    }
                 }
                 else
-                {
                     num = 0;
-                }
             }
         }
         return max*2;
