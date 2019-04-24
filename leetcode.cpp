@@ -225,40 +225,29 @@ public:
 //5. 最长回文子串
 class Solution5 {
 public:
-    string longestPalindrome(string s) {
-        if (s.empty()) return "";
-        int len = s.size();
-        if (len == 1) return s;
-        int longest = 1;
-        int start = 0;
-        vector<vector<int>> dp(len, vector<int>(len));
-        for (int i = 0; i < len; i++)
+    string longestPalindrome(string s) {//网上找的
+        int n = s.size();
+        if (n == 0) 
+            return s;
+        vector<vector<bool>> dp(n, vector<bool>(n,false));
+        //memset(dp, 0, sizeof(dp));
+        int maxlen = 1, start = 0;
+        for (int i = 0; i < n; i++)
         {
-            dp[i][i] = 1;
-            if (i < len - 1)
+            for (int j = 0; j <= i; j++)
             {
-                if (s[i] == s[i + 1])
+                if (i - j < 2) 
+                    dp[i][j] = (s[i] == s[j]);
+                else
+                    dp[i][j] = (s[i] == s[j] && dp[i - 1][j + 1] == 1);
+                if (dp[i][j] && maxlen < i - j + 1)
                 {
-                    dp[i][i + 1] = 1;
-                    start = i;
-                    longest = 2;
+                    maxlen = i - j + 1;
+                    start = j;
                 }
             }
         }
-        for (int l = 3; l <= len; l++)//子串长度
-        {
-            for (int i = 0; i + l - 1 < len; i++)//枚举子串的起始点
-            {
-                int j = l + i - 1;//终点
-                if (s[i] == s[j] && dp[i + 1][j - 1] == 1)
-                {
-                    dp[i][j] = 1;
-                    start = i;
-                    longest = l;
-                }
-            }
-        }
-        return s.substr(start, longest);
+        return s.substr(start, maxlen);
     }
 };
 int main5()
