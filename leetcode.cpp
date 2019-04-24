@@ -334,68 +334,62 @@ int main7()
     return 0;
 }
 //8. ×Ö·û´®×ª»»ÕûÊý (atoi)
-int myAtoi(string str) {
-    const char * s = str.c_str();
-    int len = strlen(s);
-    int isFirst = true;
-    int f = 1;
-    long long num = 0;
-    for (int i = 0; i < len; i++)
-    {
-        if (isFirst)
+class Solution8 {
+public:
+    int myAtoi(string str) {
+        const char * s = str.c_str();
+        int len = strlen(s);
+        int isFirst = true;
+        int f = 1;
+        long long num = 0;
+        for (int i = 0; i < len; i++)
         {
-            if (s[i] == ' ')
+            if (isFirst)
             {
+                if (s[i] == ' ')
+                {
+                }
+                else if (s[i] == '-')
+                {
+                    f = -1;
+                    isFirst = false;
+                }
+                else if (s[i] == '+')
+                {
+                    isFirst = false;
+                }
+                else if (s[i] >= '0' && s[i] <= '9')
+                {
+                    num = s[i] - '0';
+                    isFirst = false;
+                }
+                else
+                    return 0;
+                continue;
             }
-            else if (s[i] == '-')
+            if (s[i] >= '0' && s[i] <= '9')
             {
-                f = -1;
-                isFirst = false;
-            }
-            else if (s[i] == '+')
-            {
-                isFirst = false;
-            }
-            else if (s[i] >= '0' && s[i] <= '9')
-            {
-                num = s[i] - '0';
-                isFirst = false;
+                if (num > 0xffffffffffffff)
+                    break;
+                num *= 10;
+                num += s[i] - '0';
             }
             else
-            {
-                return 0;
-            }
-            continue;
-        }
-        if (s[i] >= '0' && s[i] <= '9')
-        {
-            if (num > 0xffffffffffffff)
-            {
                 break;
-            }
-            num *= 10;
-            num += s[i] - '0';
         }
-        else
-        {
-            break;
-        }
+        //
+        if (f < 0 && num > 0x80000000)
+            return 0x80000000;
+        if (f > 0 && num > 0x7fffffff)
+            return 0x7fffffff;
+        num *= f;
+        return int(num);
     }
-    //
-    if (f < 0 && num > 0x80000000)
-    {
-        return 0x80000000;
-    }
-    if (f > 0 && num > 0x7fffffff)
-    {
-        return 0x7fffffff;
-    }
-    num *= f;
-    return int(num);
-}
+};
 int main8()
 {
-    int ss = myAtoi("-91283472332");
+    Solution8 s8;
+    int ss = s8.myAtoi("-91283472332");
     printf("%d", ss);
     getchar();
     return 0;
