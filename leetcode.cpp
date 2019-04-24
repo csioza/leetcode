@@ -265,8 +265,8 @@ int main5()
 {
     Solution5 s;
     string ss = "abcabcbb";
-    int num = s.lengthOfLongestSubstring(ss);
-    printf("%d", num);
+    string num = s.longestPalindrome(ss);
+    printf("%s", num);
     return 0;
 }
 //6. Z ×ÖÐÎ±ä»» 
