@@ -1804,6 +1804,100 @@ public:
         return head;
     }
 };
+//62. 不同路径
+class Solution62 {
+public:
+    int uniquePaths(int m, int n) {
+        if (m <= 0 || n <= 0)
+            return 0;
+        //vector<vector<int> > dp(n, vector<int>(m));
+        int* *dp = new int*[n];
+        for (int i = 0; i < n; i++)
+            dp[i] = new int[m];
+        dp[0][0] = 1;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                if (i > 0 && j > 0)
+                    dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
+                else if (i > 0)
+                    dp[i][j] = dp[i - 1][j];
+                else if (j > 0)
+                    dp[i][j] = dp[i][j - 1];
+            }
+        }
+        int res = dp[n - 1][m - 1];
+        delete[] dp;
+        return res;
+    }
+};
+int main62()
+{
+    Solution62 s62;
+    int r = s62.uniquePaths(3, 2);
+    return 0;
+}
+//63. 不同路径 II
+int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+    int n = obstacleGrid.size();
+    if (n <= 0)
+        return 0;
+    int m = obstacleGrid[0].size();
+    if (m <= 0)
+        return 0;
+    long long **dp = new long long*[n];
+    for (int i = 0; i < n; i++)
+        dp[i] = new long long[m];
+    dp[0][0] = 1;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (obstacleGrid[i][j])
+            {
+                dp[i][j] = 0;
+                continue;
+            }
+            if (i > 0 && j > 0)
+                dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
+            else if (i > 0)
+                dp[i][j] = dp[i - 1][j];
+            else if (j > 0)
+                dp[i][j] = dp[i][j - 1];
+        }
+    }
+    int res = dp[n - 1][m - 1];
+    delete[] dp;
+    return res;
+}
+//64. 最小路径和
+int minPathSum(vector<vector<int>>& grid) {
+    int n = grid.size();
+    if (n <= 0)
+        return 0;
+    int m = grid[0].size();
+    if (m <= 0)
+        return 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (i > 0 && j > 0)
+            {
+                if (grid[i][j - 1] > grid[i - 1][j])
+                    grid[i][j] = grid[i][j] + grid[i - 1][j];
+                else
+                    grid[i][j] = grid[i][j] + grid[i][j - 1];
+            }
+            else if (i > 0)
+                grid[i][j] = grid[i][j] + grid[i - 1][j];
+            else if (j > 0)
+                grid[i][j] = grid[i][j] + grid[i][j - 1];
+        }
+    }
+    return grid[n - 1][m - 1];
+}
 //67. 二进制求和
 string addBinary(string a, string b) {//错误答案
     //a = "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101"
@@ -4841,96 +4935,6 @@ string longestPalindrome2(string s)//网上找的
         }
     }
     return s.substr(start, longest);
-}
-//62. 不同路径
-int uniquePaths(int m, int n) {
-    if (m <= 0 || n <= 0)
-        return 0;
-    //vector<vector<int> > dp(n, vector<int>(m));
-    int* *dp = new int*[n];
-    for (int i = 0; i < n; i++)
-        dp[i] = new int[m];
-    dp[0][0] = 1;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (i > 0 && j > 0)
-                dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
-            else if (i > 0)
-                dp[i][j] = dp[i - 1][j];
-            else if (j > 0)
-                dp[i][j] = dp[i][j - 1];
-        }
-    }
-    int res = dp[n-1][m-1];
-    delete[] dp;
-    return res;
-}
-int main62()
-{
-    int r = uniquePaths(3,2);
-    return 0;
-}
-//63. 不同路径 II
-int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-    int n = obstacleGrid.size();
-    if (n <= 0)
-        return 0;
-    int m = obstacleGrid[0].size();
-    if (m <= 0)
-        return 0;
-    long long **dp = new long long*[n];
-    for (int i = 0; i < n; i++)
-        dp[i] = new long long[m];
-    dp[0][0] = 1;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (obstacleGrid[i][j])
-            {
-                dp[i][j] = 0;
-                continue;
-            }
-            if (i > 0 && j > 0)
-                dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
-            else if (i > 0)
-                dp[i][j] = dp[i - 1][j];
-            else if (j > 0)
-                dp[i][j] = dp[i][j - 1];
-        }
-    }
-    int res = dp[n - 1][m - 1];
-    delete[] dp;
-    return res;
-}
-//64. 最小路径和
-int minPathSum(vector<vector<int>>& grid) {
-    int n = grid.size();
-    if (n <= 0)
-        return 0;
-    int m = grid[0].size();
-    if (m <= 0)
-        return 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (i > 0 && j > 0)
-            {
-                if (grid[i][j - 1] > grid[i - 1][j])
-                    grid[i][j] = grid[i][j] + grid[i - 1][j];
-                else
-                    grid[i][j] = grid[i][j] + grid[i][j - 1];
-            }
-            else if (i > 0)
-                grid[i][j] = grid[i][j] + grid[i - 1][j];
-            else if (j > 0)
-                grid[i][j] = grid[i][j] + grid[i][j - 1];
-        }
-    }
-    return grid[n-1][m-1];
 }
 //91. 解码方法
 int numDecodings(string s) {//我的正确答案
