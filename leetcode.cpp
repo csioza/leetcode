@@ -820,168 +820,610 @@ public:
     }
 };
 //35. 搜索插入位置
-int searchInsert(vector<int>& nums, int target) {
-    int max = nums.size() - 1;
-    int min = 0;
-    int mid = 0;
-    for (; min < max;)
-    {
-        mid = min + (max - min) / 2;
-        if (nums[mid] == target)
+class Solution35 {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int max = nums.size() - 1;
+        int min = 0;
+        int mid = 0;
+        for (; min < max;)
         {
-            return mid;
+            mid = min + (max - min) / 2;
+            if (nums[mid] == target)
+                return mid;
+            else if (target > nums[mid])
+                min = mid + 1;
+            else
+                max = mid - 1;
         }
-        else if (target > nums[mid])
-        {
-            min = mid + 1;
-        }
-        else
-        {
-            max = mid - 1;
-        }
-    }
-    if (min > max)
-        return min;
-    if (nums[max] < target)
-    {
-        return max + 1;
-    }
-    return max;
-}
-int searchInsert2(vector<int>& nums, int target) {//错误答案
-    int max = nums.size();//考虑不减一情况
-    int min = 0;
-    int mid = 0;
-    for (; min < max;)
-    {
-        mid = min + (max - min) / 2;
-        if (nums[mid] == target)
-        {
-            return mid;
-        }
-        else if (target > nums[mid])
-        {
-            min = mid + 1;
-        }
-        else
-        {
-            max = mid - 1;
-        }
-    }
-    if (min == max)
-    {
+        if (min > max)
+            return min;
+        if (nums[max] < target)
+            return max + 1;
         return max;
     }
-    if (nums[min] < target)
-    {
-        return min + 1;
-    }
-    return min;
-}
+};
 //38. 报数
-string countAndSay(int n) {
-    string s;
-    if (n <= 0)
-    {
+class Solution38 {
+public:
+    string countAndSay(int n) {
+        string s;
+        if (n <= 0)
+            return s;
+        s.push_back('1');
+        for (int i = 2; i <= n; i++)
+        {
+            string t;
+            int len = s.size();
+            int cnt = 1;
+            int j = 1;
+            for (; j < len; j++)
+            {
+                if (s[j] == s[j - 1])
+                    cnt++;
+                else
+                {
+                    t.push_back('0' + cnt);
+                    t.push_back(s[j - 1]);
+                    cnt = 1;
+                }
+            }
+            t.push_back('0' + cnt);
+            t.push_back(s[j - 1]);
+            s = t;
+        }
         return s;
     }
-    s.push_back('1');
-    for (int i = 2; i <= n; i++)
+};
+
+//52. N皇后 II
+
+//int len = 0;
+//int **queen;
+//int totalNQueensHelp(int n/*, vector<vector<int>> &queen*/)
+//{
+//    int num = 0;
+//    if (n <= 0)
+//        return 1;
+//    int index = len - n;
+//    if (index > 0)
+//    {
+//        //memset(queen[index], 0, sizeof(queen[index]));
+//        for (int i = 0; i < len; ++i)
+//        {
+//            if (queen[index - 1][i] & 0x2)
+//                queen[index][i] |= 0x2;
+//            if (i > 0 && (queen[index - 1][i] & 0x4))
+//                queen[index][i - 1] |= 0x4;
+//            if (i < len - 1 && (queen[index - 1][i] & 0x1))
+//                queen[index][i + 1] |= 0x1;
+//        }
+//    }
+//    for (int i = 0; i < len; ++i)
+//    {
+//        if (queen[index][i] > 0)
+//            continue;
+//        queen[index][i] = 7;
+//        num += totalNQueensHelp(n - 1);
+//        queen[index][i] = 0;
+//    }
+//    return num;
+//}
+//int totalNQueens2(int n) {
+//    if (n <= 0)
+//        return 0;
+//    len = n;
+//    queen = new int*[n];
+//    for (int i = 0; i < n; ++i)
+//    {
+//        queen[i] = new int[n];
+//        memset(queen[i], 0, sizeof(queen[i]));
+//    }
+//    //vector<vector<int>> queen(n, vector<int>(n,0));
+//    return totalNQueensHelp(n);
+//}
+
+//////////////////////////////////////////////////////////////////////////
+int **queen16;
+int len16;
+int lenmem16;
+int totalNQueensHelp16(int n)
+{
+    int num = 0;
+    if (n <= 0)
+        return 1;
+    int index = len16 - n;
+    if (index > 0)
     {
-        string t;
-        int len = s.size();
-        int cnt = 1;
-        int j = 1;
-        for (; j < len; j++)
+        memset(queen16[index], 0, lenmem16);
+        for (int i = 0; i < len16; ++i)
         {
-            if (s[j] == s[j - 1])
+            //if (queen16[index - 1][i] <= 0)
+            //    continue;
+            if (queen16[index - 1][i] & 0x2)
+                queen16[index][i] |= 0x2;
+            if (i > 0 && (queen16[index - 1][i] & 0x4))
+                queen16[index][i - 1] |= 0x4;
+            if (i < len16 - 1 && (queen16[index - 1][i] & 0x1))
+                queen16[index][i + 1] |= 0x1;
+        }
+    }
+    for (int i = 0; i < len16; ++i)
+    {
+        if (queen16[index][i] > 0)
+            continue;
+        queen16[index][i] = 7;
+        num += totalNQueensHelp16(n - 1);
+        queen16[index][i] = 0;
+    }
+    return num;
+}
+int totalNQueens16(int n) {
+    if (n <= 0)
+        return 0;
+    len16 = n;
+    queen16 = new int *[n];
+    lenmem16 = sizeof(int)*len16;
+    for (int i = 0; i < n; i++)
+    {
+        queen16[i] = new int[n];
+        memset(queen16[i], 0, lenmem16);
+    }
+    return totalNQueensHelp16(n);
+}
+//////////////////////////////////////////////////////////////////////////
+int totalNQueensHelp2(int n, vector<vector<int>> &queen)
+{
+    int num = 0;
+    if (n <= 0)
+        return 1;
+    int len = queen.size();
+    int index = len - n;
+    if (index > 0)
+    {
+        for (int i = 0; i < len; ++i)
+            queen[index][i] = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            if (queen[index - 1][i] & 0x2)
+                queen[index][i] |= 0x2;
+            if (i > 0 && (queen[index - 1][i] & 0x4))
+                queen[index][i - 1] |= 0x4;
+            if (i < len - 1 && (queen[index - 1][i] & 0x1))
+                queen[index][i + 1] |= 0x1;
+        }
+    }
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen[index][i] > 0)
+            continue;
+        queen[index][i] = 7;
+        num += totalNQueensHelp2(n - 1, queen);
+        queen[index][i] = 0;
+    }
+    return num;
+}
+int totalNQueens3(int n) {
+    if (n <= 0)
+        return 0;
+    vector<vector<int>> queen(n, vector<int>(n, 0));
+    return totalNQueensHelp2(n, queen);
+}
+
+int totalNQueensHelp(int n, vector<vector<int>> &queen)
+{
+    int num = 0;
+    if (n <= 0)
+        return 1;
+    int len = queen.size();
+    int index = len - n;
+    if (index < len - 1)//预处理index+1层
+    {
+        for (int i = 0; i < len; ++i)
+            queen[index + 1][i] = 0;
+        bool isT = true;
+        for (int i = 0; i < len; ++i)
+        {
+            if (queen[index][i] <= 0)
+                isT = false;
+            if (queen[index][i] & 0x2)
+                queen[index + 1][i] |= 0x2;
+            if (i > 0 && (queen[index][i] & 0x4))
+                queen[index + 1][i - 1] |= 0x4;
+            if (i < len - 1 && (queen[index][i] & 0x1))
+                queen[index + 1][i + 1] |= 0x1;
+        }
+        if (isT)
+            return 0;
+    }
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen[index][i] > 0)
+            continue;
+        int left = -1;
+        int zhong = -1;
+        int right = -1;
+        if (index < len - 1)
+        {
+            zhong = queen[index + 1][i];
+            queen[index + 1][i] |= 0x2;
+            if (i > 0)
             {
-                cnt++;
+                left = queen[index + 1][i - 1];
+                queen[index + 1][i - 1] |= 0x4;
             }
-            else
+            if (i < len - 1)
             {
-                t.push_back('0' + cnt);
-                t.push_back(s[j - 1]);
-                cnt = 1;
+                right = queen[index + 1][i + 1];
+                queen[index + 1][i + 1] |= 0x1;
             }
         }
-        t.push_back('0' + cnt);
-        t.push_back(s[j - 1]);
-        s = t;
-        printf("%s\n", s.c_str());
+        num += totalNQueensHelp(n - 1, queen);
+        if (left >= 0)
+            queen[index + 1][i - 1] = left;
+        if (zhong >= 0)
+            queen[index + 1][i] = zhong;
+        if (right >= 0)
+            queen[index + 1][i + 1] = right;
     }
-    return s;
+    return num;
+}
+int totalNQueens2(int n) {
+    if (n <= 0)
+        return 0;
+    vector<vector<int>> queen(n, vector<int>(n, 0));
+    return totalNQueensHelp(n, queen);
+}
+
+int totalNQueensHelp3(int n, vector<int> queen)
+{
+    int num = 0;
+    int len = queen.size();
+    vector<int> queen2(len, 0);
+    if (n <= 0)
+        return 1;
+    int index = len - n;
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen[i] > 0)
+        {
+            if (queen[i] & 0x2)
+                queen2[i] |= 0x2;
+            if (i > 0 && (queen[i] & 0x4))
+                queen2[i - 1] |= 0x4;
+            if (i < len - 1 && (queen[i] & 0x1))
+                queen2[i + 1] |= 0x1;
+        }
+    }
+    for (int i = 0; i < len; ++i)
+    {
+        if (queen2[i] > 0)
+            continue;
+        queen2[i] = 0x7;
+        num += totalNQueensHelp3(n - 1, queen2);
+        queen2[i] = 0;
+    }
+    return num;
+}
+int totalNQueens(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n, 0);
+    return totalNQueensHelp3(n, queen);
+}
+//////////////////////////////////////////////////////////////////////////
+
+int queenLen = 0;
+int totalNQueensHelp15(int n, int *queen)
+{
+    int num = 0;
+    int *queen2 = new int[queenLen];
+    memset(queen2, 0, sizeof(queen2));
+    if (n <= 0)
+        return 1;
+    int index = queenLen - n;
+    for (int i = 0; i < queenLen; ++i)
+    {
+        if (queen[i] & 0x2)
+            queen2[i] |= 0x2;
+        if (i > 0 && (queen[i] & 0x4))
+            queen2[i - 1] |= 0x4;
+        if (i < queenLen - 1 && (queen[i] & 0x1))
+            queen2[i + 1] |= 0x1;
+    }
+    for (int i = 0; i < queenLen; ++i)
+    {
+        if (queen2[i] > 0)
+            continue;
+        queen2[i] = 0x7;
+        num += totalNQueensHelp15(n - 1, queen2);
+        queen2[i] = 0;
+    }
+    return num;
+}
+int totalNQueens15(int n) {
+    if (n <= 0)
+        return 0;
+    queenLen = n;
+    int *queen = new int[queenLen];
+    memset(queen, 0, sizeof(queen));
+    return totalNQueensHelp15(n, queen);
+}
+//////////////////////////////////////////////////////////////////////////
+int *indexs;
+int num = 0;
+bool CheckCan(int k, int target)
+{
+    for (int i = k - 1; i >= 0; i--)
+        if (indexs[i] == target
+            || indexs[i] - (k - i) == target
+            || indexs[i] + (k - i) == target)
+            return false;
+    return true;
+}
+bool CheckCan2(int k, int target)
+{
+    for (int i = 0; i < k; ++i)
+        if (indexs[i] == target
+            || indexs[i] - (k - i) == target
+            || indexs[i] + (k - i) == target)
+            return false;
+    return true;
+}
+void Check(int k, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        //bool result = false;               //这样反而会变慢
+        //for (int j = k - 1; j >= 0; j--)
+        //    if (indexs[j] == i
+        //        || indexs[j] - (k - j) == i
+        //        || indexs[j] + (k - j) == i)
+        //        result = true;
+        //if (!result)
+        if (CheckCan(k, i))
+        {
+            indexs[k] = i;
+            if (k == n - 1)
+                num++;
+            else
+                Check(k + 1, n);
+        }
+    }
+}
+int totalNQueens4(int n)//别人的代码
+{
+    indexs = new int[n];
+    Check(0, n);
+    return num;
+}
+
+int *indexs11;
+bool isCanPut11(int k, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (indexs11[j] == putId
+            || indexs11[j] - k + j == putId
+            || indexs11[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp11(int k, int n) {
+    for (int i = 0; i < n; ++i)
+    {
+        if (isCanPut11(k, i))
+        {
+            indexs11[k] = i;
+            if (k == n - 1)
+                num++;
+            else
+                totalNQueensHelp11(k + 1, n);
+        }
+    }
+    return 0;
+}
+int totalNQueens11(int n) {
+    if (n <= 0)
+        return 0;
+    indexs11 = new int[n];
+    totalNQueensHelp11(0, n);
+    return num;
+}
+
+vector<int> queen;
+bool isCanPut13(int k, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp13(int k) {
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut13(k, i))
+        {
+            queen[k] = i;
+            if (k == len - 1)
+                num++;
+            else
+                totalNQueensHelp13(k + 1);
+        }
+    }
+    return 0;
+}
+int totalNQueens13(int n) {
+    if (n <= 0)
+        return 0;
+    for (int i = 0; i < n; i++)
+    {
+        queen.push_back(0);
+    }
+    totalNQueensHelp13(0);
+    return num;
+}
+
+bool isCanPut12(int k, vector<int> queen, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp12(int k, vector<int> queen) {
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut12(k, queen, i))
+        {
+            queen[k] = i;
+            if (k == len - 1)
+                num++;
+            else
+                totalNQueensHelp12(k + 1, queen);
+        }
+    }
+    return 0;
+}
+int totalNQueens12(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n, 0);
+    totalNQueensHelp12(0, queen);
+    return num;
+}
+
+bool isCanPut10(int k, vector<int> &queen, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp10(int k, vector<int> &queen) {
+    int len = queen.size();
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut10(k, queen, i))
+        {
+            queen[k] = i;
+            if (k == len - 1)
+                num++;
+            else
+                totalNQueensHelp10(k + 1, queen);
+        }
+    }
+    return 0;
+}
+int totalNQueens10(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n, 0);
+    totalNQueensHelp10(0, queen);
+    return num;
+}
+
+bool isCanPut9(int k, vector<int> &queen, int putId)
+{
+    for (int j = 0; j < k; ++j)
+    {
+        if (queen[j] == putId
+            || queen[j] - k + j == putId
+            || queen[j] + k - j == putId)
+            return false;
+    }
+    return true;
+}
+int totalNQueensHelp9(int k, vector<int> &queen) {
+    int num = 0;
+    int len = queen.size();
+    if (k == len)
+        return 1;
+    for (int i = 0; i < len; ++i)
+    {
+        if (isCanPut9(k, queen, i))
+        {
+            queen[k] = i;
+            num += totalNQueensHelp9(k + 1, queen);
+        }
+    }
+    return num;
+}
+int totalNQueens9(int n) {
+    if (n <= 0)
+        return 0;
+    vector<int> queen(n, 0);
+    return totalNQueensHelp9(0, queen);
+}
+
+int nn;
+void FindNQueen(int k, int l, int r)
+{
+    if (k == nn)
+    {
+        num++;
+        return;
+    }
+    int z = nn & (~(k | l | r));  //能走的位置， 和nn取并可以去掉前面多余的1
+    while (z != 0)
+    {
+        int index = z & (~z + 1);   //最右边的一个1， 即要放皇后的位置。
+        z -= index;   //去掉这个位置。
+        FindNQueen(k | index, (l | index) << 1, (r | index) >> 1);   //查找下一个。
+    }
+}
+int main52()
+{
+    int nn = 12;
+    {
+        int old = clock();
+        int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
+    }
+    {
+        int old = clock();
+        int numnum = totalNQueens16(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
+        printf("%d, %d\n", numnum, clock() - old);
+    }
+    getchar();
+    return 0;
 }
 //53. 最大子序和
-int maxSubArray(vector<int>& nums) {//我的答案，有点笨
-    int len = nums.size();
-    if (len <= 0)
-    {
-        return 0;
+class Solution53 {
+public:
+    int maxSubArray(vector<int>& nums) {//优秀答案
+        int len = nums.size();
+        if (len <= 0)
+            return 0;
+        int max = nums[0];
+        int sum = 0;
+        for (int i = 0; i < len; i++)
+        {
+            if (sum > 0)
+                sum = sum + nums[i];
+            else
+                sum = nums[i];
+            if (sum > max)
+                max = sum;
+        }
+        return max;
     }
-    if (len == 1)
-    {
-        return nums[0];
-    }
-    vector<int> sums;
-    sums.resize(len);
-    sums[0] = nums[0];
-    for (int i = 1; i < len; i++)
-    {
-        if (sums[i-1] > 0)
-        {
-            sums[i] = sums[i - 1] + nums[i];
-        }
-        else
-        {
-            sums[i] = nums[i];
-        }
-    }
-    vector<int> sums2;
-    sums2.resize(len);
-    sums2[len - 1] = nums[len - 1];
-    int max = sums[len - 1] + sums2[len - 1] - nums[len - 1];
-    for (int j = len - 2; j >= 0; j--)
-    {
-        if (sums2[j + 1] > 0)
-        {
-            sums2[j] = sums2[j + 1] + nums[j];
-        }
-        else
-        {
-            sums2[j] = nums[j];
-        }
-        int max2 = sums[j] + sums2[j] - nums[j];
-        if (max < max2)
-        {
-            max = max2;
-        }
-    }
-    return max;
-}
-int maxSubArray2(vector<int>& nums) {//优秀答案
-    int len = nums.size();
-    if (len <= 0)
-        return 0;
-    int max = nums[0];
-    int sum = 0;
-    for (int i = 0; i < len; i++)
-    {
-        if (sum > 0)
-        {
-            sum = sum + nums[i];
-        }
-        else
-        {
-            sum = nums[i];
-        }
-        if (sum > max)
-        {
-            max = sum;
-        }
-    }
-    return max;
-}
+};
 int main53()
 {
     vector<int> nums;
@@ -994,184 +1436,90 @@ int main53()
     nums.push_back(1);
     nums.push_back(-5);
     nums.push_back(4);
-    int ss = maxSubArray2(nums);
+    Solution53 s53;
+    int ss = s53.maxSubArray(nums);
     printf("%d", ss);
     getchar();
     return 0;
 }
 //54. 螺旋矩阵
-vector<int> spiralOrder(vector<vector<int>>& matrix) {
-    vector<int> rlt;
-    if (matrix.size() <= 0)
-    {
+class Solution54 {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> rlt;
+        if (matrix.size() <= 0)
+            return rlt;
+        int up = 0;
+        int down = matrix.size() - 1;
+        int left = 0;
+        int right = matrix[0].size() - 1;
+        bool isL2R = true;
+        bool isZheng = true;
+        int i = 0, j = 0;
+        while (up <= down && left <= right)
+        {
+            if (isL2R)
+            {
+                if (isZheng)
+                {
+                    rlt.push_back(matrix[i][j]);
+                    if (j < right)
+                        j++;
+                    else
+                    {
+                        up++;
+                        isL2R = false;
+                        isZheng = true;
+                        i = up;
+                    }
+                }
+                else
+                {
+                    rlt.push_back(matrix[i][j]);
+                    if (j > left)
+                        j--;
+                    else
+                    {
+                        down--;
+                        isL2R = false;
+                        isZheng = false;
+                        i = down;
+                    }
+                }
+            }
+            else
+            {
+                if (isZheng)
+                {
+                    rlt.push_back(matrix[i][j]);
+                    if (i < down)
+                        i++;
+                    else
+                    {
+                        right--;
+                        isL2R = true;
+                        isZheng = false;
+                        j = right;
+                    }
+                }
+                else
+                {
+                    rlt.push_back(matrix[i][j]);
+                    if (i > up)
+                        i--;
+                    else
+                    {
+                        left++;
+                        isL2R = true;
+                        isZheng = true;
+                        j = left;
+                    }
+                }
+            }
+        }
         return rlt;
     }
-    int up = 0; 
-    int down = matrix.size() - 1;
-    int left = 0;
-    int right = matrix[0].size() - 1;
-    bool isL2R = true;
-    bool isZheng = true;
-    int i = 0, j = 0;
-    while (up <= down && left <= right)
-    {
-        if (isL2R)
-        {
-            if (isZheng)
-            {
-                rlt.push_back(matrix[i][j]);
-                if (j < right)
-                {
-                    j++;
-                }
-                else
-                {
-                    up++;
-                    isL2R = false;
-                    isZheng = true;
-                    i = up;
-                }
-            }
-            else
-            {
-                rlt.push_back(matrix[i][j]);
-                if (j > left)
-                {
-                    j--;
-                }
-                else
-                {
-                    down--;
-                    isL2R = false;
-                    isZheng = false;
-                    i = down;
-                }
-            }
-        }
-        else
-        {
-            if (isZheng)
-            {
-                rlt.push_back(matrix[i][j]);
-                if (i < down)
-                {
-                    i++;
-                }
-                else
-                {
-                    right--;
-                    isL2R = true;
-                    isZheng = false;
-                    j = right;
-                }
-            }
-            else
-            {
-                rlt.push_back(matrix[i][j]);
-                if (i > up)
-                {
-                    i--;
-                }
-                else
-                {
-                    left++;
-                    isL2R = true;
-                    isZheng = true;
-                    j = left;
-                }
-            }
-        }
-    }
-    return rlt;
-}
-//59. 螺旋矩阵 II
-vector<vector<int>> generateMatrix(int n) {
-    vector<vector<int>> matrix;
-    for (int i = 0; i < n; i++)
-    {
-        vector<int> nums;
-        nums.resize(n);
-        matrix.push_back(nums);
-    }
-    int up = 0;
-    int down = n - 1;
-    int left = 0;
-    int right = n - 1;
-    bool isL2R = true;
-    bool isZheng = true;
-    int i = 0, j = 0;
-    int cnt = 1;
-    while (up <= down && left <= right)
-    {
-        if (isL2R)
-        {
-            if (isZheng)
-            {
-                matrix[i][j] = cnt++;
-                if (j < right)
-                {
-                    j++;
-                }
-                else
-                {
-                    up++;
-                    isL2R = false;
-                    isZheng = true;
-                    i = up;
-                }
-            }
-            else
-            {
-                matrix[i][j] = cnt++;
-                if (j > left)
-                {
-                    j--;
-                }
-                else
-                {
-                    down--;
-                    isL2R = false;
-                    isZheng = false;
-                    i = down;
-                }
-            }
-        }
-        else
-        {
-            if (isZheng)
-            {
-                matrix[i][j] = cnt++;
-                if (i < down)
-                {
-                    i++;
-                }
-                else
-                {
-                    right--;
-                    isL2R = true;
-                    isZheng = false;
-                    j = right;
-                }
-            }
-            else
-            {
-                matrix[i][j] = cnt++;
-                if (i > up)
-                {
-                    i--;
-                }
-                else
-                {
-                    left++;
-                    isL2R = true;
-                    isZheng = true;
-                    j = left;
-                }
-            }
-        }
-    }
-    return matrix;
-}
+}; 
 int main54()
 {
     vector<vector<int>> matrix;
@@ -1190,122 +1538,276 @@ int main54()
     matrix.push_back(nums1);
     matrix.push_back(nums2);
     matrix.push_back(nums3);
-
-    vector<int> ss = spiralOrder(matrix);
+    Solution54 s54;
+    vector<int> ss = s54.spiralOrder(matrix);
     //printf("%d", ss);
     getchar();
     return 0;
 }
+//55. 跳跃游戏
+class Solution55 {
+public:
+    bool canJump(vector<int>& nums) {
+        int len = nums.size() - 1;
+        for (int i = 0; i < nums.size();)
+        {
+            if (i + nums[i] >= len)
+                return true;
+            else
+            {
+                if (nums[i] == 0)
+                    return false;
+                int maxid = i + 1;
+                for (int j = i + 2; j <= i + nums[i]; ++j)
+                    if (nums[maxid] + maxid <= nums[j] + j)
+                        maxid = j;
+                i = maxid;
+            }
+        }
+        return false;
+    }
+};
+int main55()
+{
+    Solution55 s;
+    vector<int> v;
+    v.push_back(3);
+    v.push_back(2);
+    v.push_back(1);
+    v.push_back(0);
+    v.push_back(4);
+    bool r = s.canJump(v);
+    return 0;
+}
 //58. 最后一个单词的长度
-int lengthOfLastWord(string s) {
-    int len = s.size();
-    int cnt = 0;
-    for (int i = len - 1; i >= 0; i--)
-    {
-        if (s[i] == ' ')
+class Solution58 {
+public:
+    int lengthOfLastWord(string s) {
+        int len = s.size();
+        int cnt = 0;
+        for (int i = len - 1; i >= 0; i--)
         {
-            if (cnt == 0)
+            if (s[i] == ' ')
             {
-                continue;
+                if (cnt == 0)
+                    continue;
+                else
+                    break;
+            }
+            else
+                cnt++;
+        }
+        return cnt;
+    }
+};
+//59. 螺旋矩阵 II
+class Solution59 {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> matrix;
+        for (int i = 0; i < n; i++)
+        {
+            vector<int> nums;
+            nums.resize(n);
+            matrix.push_back(nums);
+        }
+        int up = 0;
+        int down = n - 1;
+        int left = 0;
+        int right = n - 1;
+        bool isL2R = true;
+        bool isZheng = true;
+        int i = 0, j = 0;
+        int cnt = 1;
+        while (up <= down && left <= right)
+        {
+            if (isL2R)
+            {
+                if (isZheng)
+                {
+                    matrix[i][j] = cnt++;
+                    if (j < right)
+                        j++;
+                    else
+                    {
+                        up++;
+                        isL2R = false;
+                        isZheng = true;
+                        i = up;
+                    }
+                }
+                else
+                {
+                    matrix[i][j] = cnt++;
+                    if (j > left)
+                        j--;
+                    else
+                    {
+                        down--;
+                        isL2R = false;
+                        isZheng = false;
+                        i = down;
+                    }
+                }
             }
             else
             {
-                break;
+                if (isZheng)
+                {
+                    matrix[i][j] = cnt++;
+                    if (i < down)
+                        i++;
+                    else
+                    {
+                        right--;
+                        isL2R = true;
+                        isZheng = false;
+                        j = right;
+                    }
+                }
+                else
+                {
+                    matrix[i][j] = cnt++;
+                    if (i > up)
+                        i--;
+                    else
+                    {
+                        left++;
+                        isL2R = true;
+                        isZheng = true;
+                        j = left;
+                    }
+                }
             }
         }
-        else
-        {
-            cnt++;
-        }
+        return matrix;
     }
-    return cnt;
-}
+};
 //60. 第k个排列
-string getPermutation(int n, int k) {
-    vector<int> nn;
-    vector<int> n1;
-    n1.resize(n);
-    for (int i = 1; i <= n; i++)
-    {
-        nn.push_back(i);
+class Solution60 {
+public:
+    string getPermutation(int n, int k) {//网上找的
+        string res;
+        string num = "123456789";
+        vector<int> f(n, 1);
+        for (int i = 1; i < n; ++i) 
+            f[i] = f[i - 1] * i;
+        --k;
+        for (int i = n; i >= 1; --i) {
+            int j = k / f[i - 1];
+            k %= f[i - 1];
+            res.push_back(num[j]);
+            num.erase(j, 1);
+        }
+        return res;
     }
-    int sum = 1;
-    for (int j = 1; j <= n; j++)
-    {
-        sum *= j;
-        n1[n - j] = sum;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        if (k >= n1[i])
+    string getPermutation2(int n, int k) {//我的笨方法
+        vector<int> nn;
+        vector<int> n1;
+        n1.resize(n);
+        for (int i = 1; i <= n; i++)
         {
-            if (k = 1)
+            nn.push_back(i);
+        }
+        int sum = 1;
+        for (int j = 1; j <= n; j++)
+        {
+            sum *= j;
+            n1[n - j] = sum;
+        }
+        for (int i = 0; i < n; i++)
+        {
+            if (k >= n1[i])
             {
-                break;
-            }
-            if (i == 0)
-            {
-                int start = i;
-                int end = n - 1;
-                while (start < end)
+                if (k = 1)
                 {
-                    int tmp = nn[start];
-                    nn[start] = nn[end];
-                    nn[end] = tmp;
-                    start++;
-                    end--;
+                    break;
                 }
-                break;
-            }
-            int zheng = k / n1[i];
-            int tmp = nn[i - 1];
-            nn[i - 1] = nn[i - 1 + zheng];
-            nn[i - 1 + zheng] = nn[i];
-            nn[i] = tmp;
-            int yu = k % n1[i];
-            if (yu == 0)
-            {
-                int start = i + 1;
-                int end = n - 1;
-                while (start < end)
+                if (i == 0)
                 {
-                    int tmp = nn[start];
-                    nn[start] = nn[end];
-                    nn[end] = tmp;
-                    start++;
-                    end--;
+                    int start = i;
+                    int end = n - 1;
+                    while (start < end)
+                    {
+                        int tmp = nn[start];
+                        nn[start] = nn[end];
+                        nn[end] = tmp;
+                        start++;
+                        end--;
+                    }
+                    break;
                 }
-                break;
-            }
-            else if (yu == 1)
-            {
-                break;
-            }
-            else
-            {
-                k = yu;
+                int zheng = k / n1[i];
+                int tmp = nn[i - 1];
+                nn[i - 1] = nn[i - 1 + zheng];
+                nn[i - 1 + zheng] = nn[i];
+                nn[i] = tmp;
+                int yu = k % n1[i];
+                if (yu == 0)
+                {
+                    int start = i + 1;
+                    int end = n - 1;
+                    while (start < end)
+                    {
+                        int tmp = nn[start];
+                        nn[start] = nn[end];
+                        nn[end] = tmp;
+                        start++;
+                        end--;
+                    }
+                    break;
+                }
+                else if (yu == 1)
+                {
+                    break;
+                }
+                else
+                {
+                    k = yu;
+                }
             }
         }
+        string rlt;
+        for (int i = 0; i < n; i++)
+        {
+            rlt.push_back('0' + nn[i]);
+        }
+        return rlt;
     }
-    string rlt;
-    for (int i = 0; i < n; i++)
-    {
-        rlt.push_back('0' + nn[i]);
-    }
-    return rlt;
-}
+};
 int main60()
 {
-    string ss = getPermutation(3,1);
+    Solution60 s60;
+    string ss = s60.getPermutation(3,1);
     printf("%s",ss.c_str());
     getchar();
     return 0;
 }
+//61. 旋转链表
+class Solution61 {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (head == NULL || head->next == NULL || k <= 0)
+            return head;
+        ListNode *p = head;
+        int cnt = 1;
+        while (p->next) {
+            cnt++;
+            p = p->next;
+        }
+        p->next = head;
+        k %= cnt;
+        for (int i = 0; i < cnt - k; i++)
+            p = p->next;
+        head = p->next;
+        p->next = NULL;
+        return head;
+    }
+};
 //67. 二进制求和
 string addBinary(string a, string b) {//错误答案
     //a = "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101"
     //b = "110101001011101110001111100110001010100001101011101010000011011011001011101111001100000011011110011"
-
     int aa = a.size();
     int bb = b.size();
     int cnt = 0;
@@ -3371,26 +3873,6 @@ int main25()
     n5->next = NULL;
     reverseKGroup(n1,2);
     return 0;
-}
-//61. 旋转链表
-ListNode* rotateRight(ListNode* head, int k) {
-    if (head == NULL || head->next == NULL || k <= 0)
-        return head;
-    ListNode *p = head;
-    int cnt = 1;
-    while (p->next) {
-        cnt++;
-        p = p->next;
-    }
-    p->next = head;
-    k %= cnt;
-    for (int i = 0; i < cnt - k; i++)
-    {
-        p = p->next;
-    }
-    head = p->next;
-    p->next = NULL;
-    return head;
 }
 //82. 删除排序链表中的重复元素 II
 ListNode* deleteDuplicates2(ListNode* head) {
@@ -5495,636 +5977,6 @@ vector<int> findMode(TreeNode* root) {
 
 //2019.03.12-13
 
-//52. N皇后 II
-
-//int len = 0;
-//int **queen;
-//int totalNQueensHelp(int n/*, vector<vector<int>> &queen*/)
-//{
-//    int num = 0;
-//    if (n <= 0)
-//        return 1;
-//    int index = len - n;
-//    if (index > 0)
-//    {
-//        //memset(queen[index], 0, sizeof(queen[index]));
-//        for (int i = 0; i < len; ++i)
-//        {
-//            if (queen[index - 1][i] & 0x2)
-//                queen[index][i] |= 0x2;
-//            if (i > 0 && (queen[index - 1][i] & 0x4))
-//                queen[index][i - 1] |= 0x4;
-//            if (i < len - 1 && (queen[index - 1][i] & 0x1))
-//                queen[index][i + 1] |= 0x1;
-//        }
-//    }
-//    for (int i = 0; i < len; ++i)
-//    {
-//        if (queen[index][i] > 0)
-//            continue;
-//        queen[index][i] = 7;
-//        num += totalNQueensHelp(n - 1);
-//        queen[index][i] = 0;
-//    }
-//    return num;
-//}
-//int totalNQueens2(int n) {
-//    if (n <= 0)
-//        return 0;
-//    len = n;
-//    queen = new int*[n];
-//    for (int i = 0; i < n; ++i)
-//    {
-//        queen[i] = new int[n];
-//        memset(queen[i], 0, sizeof(queen[i]));
-//    }
-//    //vector<vector<int>> queen(n, vector<int>(n,0));
-//    return totalNQueensHelp(n);
-//}
-
-//////////////////////////////////////////////////////////////////////////
-int **queen16;
-int len16;
-int lenmem16;
-int totalNQueensHelp16(int n)
-{
-    int num = 0;
-    if (n <= 0)
-        return 1;
-    int index = len16 - n;
-    if (index > 0)
-    {
-        memset(queen16[index], 0, lenmem16);
-        for (int i = 0; i < len16; ++i)
-        {
-            //if (queen16[index - 1][i] <= 0)
-            //    continue;
-            if (queen16[index - 1][i] & 0x2)
-                queen16[index][i] |= 0x2;
-            if (i > 0 && (queen16[index - 1][i] & 0x4))
-                queen16[index][i - 1] |= 0x4;
-            if (i < len16 - 1 && (queen16[index - 1][i] & 0x1))
-                queen16[index][i + 1] |= 0x1;
-        }
-    }
-    for (int i = 0; i < len16; ++i)
-    {
-        if (queen16[index][i] > 0)
-            continue;
-        queen16[index][i] = 7;
-        num += totalNQueensHelp16(n - 1);
-        queen16[index][i] = 0;
-    }
-    return num;
-}
-int totalNQueens16(int n) {
-    if (n <= 0)
-        return 0;
-    len16 = n;
-    queen16 = new int *[n];
-    lenmem16 = sizeof(int)*len16;
-    for (int i = 0; i < n; i++)
-    {
-        queen16[i] = new int[n];
-        memset(queen16[i], 0, lenmem16);
-    }
-    return totalNQueensHelp16(n);
-}
-//////////////////////////////////////////////////////////////////////////
-int totalNQueensHelp2(int n, vector<vector<int>> &queen)
-{
-    int num = 0;
-    if (n <= 0)
-        return 1;
-    int len = queen.size();
-    int index = len - n;
-    if (index > 0)
-    {
-        for (int i = 0; i < len; ++i)
-            queen[index][i] = 0;
-        for (int i = 0; i < len; ++i)
-        {
-            if (queen[index - 1][i] & 0x2)
-                queen[index][i] |= 0x2;
-            if (i > 0 && (queen[index - 1][i] & 0x4))
-                queen[index][i - 1] |= 0x4;
-            if (i < len - 1 && (queen[index - 1][i] & 0x1))
-                queen[index][i + 1] |= 0x1;
-        }
-    }
-    for (int i = 0; i < len; ++i)
-    {
-        if (queen[index][i] > 0)
-            continue;
-        queen[index][i] = 7;
-        num += totalNQueensHelp2(n - 1, queen);
-        queen[index][i] = 0;
-    }
-    return num;
-}
-int totalNQueens3(int n) {
-    if (n <= 0)
-        return 0;
-    vector<vector<int>> queen(n, vector<int>(n, 0));
-    return totalNQueensHelp2(n, queen);
-}
-
-int totalNQueensHelp(int n, vector<vector<int>> &queen)
-{
-    int num = 0;
-    if (n <= 0)
-        return 1;
-    int len = queen.size();
-    int index = len - n;
-    if (index < len - 1)//预处理index+1层
-    {
-        for (int i = 0; i < len; ++i)
-            queen[index + 1][i] = 0;
-        bool isT = true;
-        for (int i = 0; i < len; ++i)
-        {
-            if (queen[index][i] <= 0)
-                isT = false;
-            if (queen[index][i] & 0x2)
-                queen[index + 1][i] |= 0x2;
-            if (i > 0 && (queen[index][i] & 0x4))
-                queen[index + 1][i - 1] |= 0x4;
-            if (i < len - 1 && (queen[index][i] & 0x1))
-                queen[index + 1][i + 1] |= 0x1;
-        }
-        if (isT)
-            return 0;
-    }
-    for (int i = 0; i < len; ++i)
-    {
-        if (queen[index][i] > 0)
-            continue;
-        int left = -1;
-        int zhong = -1;
-        int right = -1;
-        if (index < len - 1)
-        {
-            zhong = queen[index + 1][i];
-            queen[index + 1][i] |= 0x2;
-            if (i > 0)
-            {
-                left = queen[index + 1][i - 1];
-                queen[index + 1][i - 1] |= 0x4;
-            }
-            if (i < len - 1)
-            {
-                right = queen[index + 1][i + 1];
-                queen[index + 1][i + 1] |= 0x1;
-            }
-        }
-        num += totalNQueensHelp(n - 1, queen);
-        if (left >= 0)
-            queen[index + 1][i - 1] = left;
-        if (zhong >= 0)
-            queen[index + 1][i] = zhong;
-        if (right >= 0)
-            queen[index + 1][i + 1] = right;
-    }
-    return num;
-}
-int totalNQueens2(int n) {
-    if (n <= 0)
-        return 0;
-    vector<vector<int>> queen(n, vector<int>(n, 0));
-    return totalNQueensHelp(n, queen);
-}
-
-int totalNQueensHelp3(int n, vector<int> queen)
-{
-    int num = 0;
-    int len = queen.size();
-    vector<int> queen2(len, 0);
-    if (n <= 0)
-        return 1;
-    int index = len - n;
-    for (int i = 0; i < len; ++i)
-    {
-        if (queen[i] > 0 )
-        {
-            if (queen[i] & 0x2)
-                queen2[i] |= 0x2;
-            if (i > 0 && (queen[i] & 0x4))
-                queen2[i - 1] |= 0x4;
-            if (i < len - 1 && (queen[i] & 0x1))
-                queen2[i + 1] |= 0x1;
-        }
-    }
-    for (int i = 0; i < len; ++i)
-    {
-        if (queen2[i] > 0)
-            continue;
-        queen2[i] = 0x7;
-        num += totalNQueensHelp3(n - 1, queen2);
-        queen2[i] = 0;
-    }
-    return num;
-}
-int totalNQueens(int n) {
-    if (n <= 0)
-        return 0;
-    vector<int> queen(n,0);
-    return totalNQueensHelp3(n, queen);
-}
-//////////////////////////////////////////////////////////////////////////
-
-int queenLen = 0;
-int totalNQueensHelp15(int n, int *queen)
-{
-    int num = 0;
-    int *queen2 = new int[queenLen];
-    memset(queen2, 0, sizeof(queen2));
-    if (n <= 0)
-        return 1;
-    int index = queenLen - n;
-    for (int i = 0; i < queenLen; ++i)
-    {
-        if (queen[i] & 0x2)
-            queen2[i] |= 0x2;
-        if (i > 0 && (queen[i] & 0x4))
-            queen2[i - 1] |= 0x4;
-        if (i < queenLen - 1 && (queen[i] & 0x1))
-            queen2[i + 1] |= 0x1;
-    }
-    for (int i = 0; i < queenLen; ++i)
-    {
-        if (queen2[i] > 0)
-            continue;
-        queen2[i] = 0x7;
-        num += totalNQueensHelp15(n - 1, queen2);
-        queen2[i] = 0;
-    }
-    return num;
-}
-int totalNQueens15(int n) {
-    if (n <= 0)
-        return 0;
-    queenLen = n;
-    int *queen = new int[queenLen];
-    memset(queen,0,sizeof(queen));
-    return totalNQueensHelp15(n, queen);
-}
-//////////////////////////////////////////////////////////////////////////
-int *indexs;
-int num = 0;
-bool CheckCan(int k, int target)
-{
-    for (int i = k - 1; i >= 0; i--)
-        if (indexs[i] == target
-            || indexs[i] - (k - i) == target
-            || indexs[i] + (k - i) == target)
-            return false;
-    return true;
-}
-bool CheckCan2(int k, int target)
-{
-    for (int i = 0; i < k; ++i)
-        if (indexs[i] == target
-            || indexs[i] - (k - i) == target
-            || indexs[i] + (k - i) == target)
-            return false;
-    return true;
-}
-void Check(int k, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        //bool result = false;               //这样反而会变慢
-        //for (int j = k - 1; j >= 0; j--)
-        //    if (indexs[j] == i
-        //        || indexs[j] - (k - j) == i
-        //        || indexs[j] + (k - j) == i)
-        //        result = true;
-        //if (!result)
-        if (CheckCan(k, i))
-        {
-            indexs[k] = i;
-            if (k == n - 1)
-                num++;
-            else
-                Check(k + 1, n);
-        }
-    }
-}
-int totalNQueens4(int n)//别人的代码
-{
-    indexs = new int[n];
-    Check(0, n);
-    return num;
-}
-
-int *indexs11;
-bool isCanPut11(int k, int putId)
-{
-    for (int j = 0; j < k; ++j)
-    {
-        if (indexs11[j] == putId
-            || indexs11[j] - k + j == putId
-            || indexs11[j] + k - j == putId)
-            return false;
-    }
-    return true;
-}
-int totalNQueensHelp11(int k, int n) {
-    for (int i = 0; i < n; ++i)
-    {
-        if (isCanPut11(k, i))
-        {
-            indexs11[k] = i;
-            if (k == n - 1)
-                num++;
-            else
-                totalNQueensHelp11(k + 1,n);
-        }
-    }
-    return 0;
-}
-int totalNQueens11(int n) {
-    if (n <= 0)
-        return 0;
-    indexs11 = new int[n];
-    totalNQueensHelp11(0, n);
-    return num;
-}
-
-vector<int> queen;
-bool isCanPut13(int k, int putId)
-{
-    for (int j = 0; j < k; ++j)
-    {
-        if (queen[j] == putId
-            || queen[j] - k + j == putId
-            || queen[j] + k - j == putId)
-            return false;
-    }
-    return true;
-}
-int totalNQueensHelp13(int k) {
-    int len = queen.size();
-    for (int i = 0; i < len; ++i)
-    {
-        if (isCanPut13(k, i))
-        {
-            queen[k] = i;
-            if (k == len - 1)
-                num++;
-            else
-                totalNQueensHelp13(k + 1);
-        }
-    }
-    return 0;
-}
-int totalNQueens13(int n) {
-    if (n <= 0)
-        return 0;
-    for (int i = 0; i < n; i++)
-    {
-        queen.push_back(0);
-    }
-    totalNQueensHelp13(0);
-    return num;
-}
-
-bool isCanPut12(int k, vector<int> queen, int putId)
-{
-    for (int j = 0; j < k; ++j)
-    {
-        if (queen[j] == putId
-            || queen[j] - k + j == putId
-            || queen[j] + k - j == putId)
-            return false;
-    }
-    return true;
-}
-int totalNQueensHelp12(int k, vector<int> queen) {
-    int len = queen.size();
-    for (int i = 0; i < len; ++i)
-    {
-        if (isCanPut12(k, queen, i))
-        {
-            queen[k] = i;
-            if (k == len - 1)
-                num++;
-            else
-                totalNQueensHelp12(k + 1, queen);
-        }
-    }
-    return 0;
-}
-int totalNQueens12(int n) {
-    if (n <= 0)
-        return 0;
-    vector<int> queen(n, 0);
-    totalNQueensHelp12(0, queen);
-    return num;
-}
-
-bool isCanPut10(int k, vector<int> &queen, int putId)
-{
-    for (int j = 0; j < k; ++j)
-    {
-        if (queen[j] == putId
-            || queen[j] - k + j == putId
-            || queen[j] + k - j == putId)
-            return false;
-    }
-    return true;
-}
-int totalNQueensHelp10(int k, vector<int> &queen) {
-    int len = queen.size();
-    for (int i = 0; i < len; ++i)
-    {
-        if (isCanPut10(k, queen, i))
-        {
-            queen[k] = i;
-            if (k == len - 1)
-                num++;
-            else
-                totalNQueensHelp10(k + 1, queen);
-        }
-    }
-    return 0;
-}
-int totalNQueens10(int n) {
-    if (n <= 0)
-        return 0;
-    vector<int> queen(n, 0);
-    totalNQueensHelp10(0, queen);
-    return num;
-}
-
-bool isCanPut9(int k, vector<int> &queen, int putId)
-{
-    for (int j = 0; j < k; ++j)
-    {
-        if (queen[j] == putId
-            || queen[j] - k + j == putId
-            || queen[j] + k - j == putId)
-            return false;
-    }
-    return true;
-}
-int totalNQueensHelp9(int k, vector<int> &queen) {
-    int num = 0;
-    int len = queen.size();
-    if (k == len)
-        return 1;
-    for (int i = 0; i < len; ++i)
-    {
-        if (isCanPut9(k, queen, i))
-        {
-            queen[k] = i;
-            num += totalNQueensHelp9(k + 1, queen);
-        }
-    }
-    return num;
-}
-int totalNQueens9(int n) {
-    if (n <= 0)
-        return 0;
-    vector<int> queen(n, 0);
-    return totalNQueensHelp9(0, queen);
-}
-
-int count1;
-int max1;
-int*  lines;
-int dx, dy, ii, jj;
-bool av;
-bool avalid(int x, int y, int x2, int y2)
-{
-    if (y == y2)
-        return false;
-    dx = x - x2;
-    dy = y - y2;
-    if (dx == dy || dx == -dy)
-        return false;
-    return true;
-}
-int findnext(int x, int starty)
-{
-    if (x == max1)
-    {
-        count1++;
-        return -1;
-    }
-    for (ii = starty; ii < max1; ii++)
-    {
-        av = true;
-        for (jj = 0; jj < x; jj++)
-        {
-            if (!avalid(jj, lines[jj], x, ii))
-            {
-                av = false;
-                break;
-            }
-        }
-        if (av)
-            return ii;
-    }
-    return -1;
-}
-void gonext(int currentx, int nextstarty)
-{
-    int next = -1;
-    while (true)
-    {
-    gotonextline: currentx++;
-        next = findnext(currentx, 0);
-    panduan:  if (next >= 0)
-        {
-            //向下继续;
-            lines[currentx] = next;
-            goto gotonextline;
-        }
-        else
-        {
-            //向上返回;
-            if (currentx == 1)
-                break;
-            currentx--;
-            next = findnext(currentx, lines[currentx] + 1);
-            goto panduan;
-        }
-    }
-}
-int totalNQueens8(int n)
-{
-    if (n == 1)
-    {
-        return 1;
-    }
-    count1 = 0;
-    max1 = n;
-    lines = new int[n];
-    int cishu = n / 2;
-    if (n % 2 == 0)
-    {
-        for (int i = 0; i < cishu; i++)
-        {
-            lines[0] = i;
-            gonext(0, 0);
-        }
-        count1 = count1 * 2;
-    }
-    else
-    {
-        lines[0] = cishu;
-        gonext(0, 0);
-        int temp = count1;
-        count1 = 0;
-        for (int i = 0; i < cishu; i++)
-        {
-            lines[0] = i;
-            gonext(0, 0);
-        }
-        count1 = count1 * 2;
-        count1 = count1 + temp;
-    }
-    return count1;
-}
-
-int nn;
-void FindNQueen(int k, int l, int r)
-{
-    if (k == nn)
-    {
-        num++;
-        return;
-    }
-    int z = nn & (~(k | l | r));  //能走的位置， 和nn取并可以去掉前面多余的1
-    while (z != 0)
-    {
-        int index = z & (~z + 1);   //最右边的一个1， 即要放皇后的位置。
-        z -= index;   //去掉这个位置。
-        FindNQueen(k | index, (l | index) << 1, (r | index) >> 1);   //查找下一个。
-    }
-}
-int main52()
-{
-    int nn = 12;
-    {
-        int old = clock();
-        int numnum = totalNQueens4(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        printf("%d, %d\n", numnum, clock() - old);
-    }
-    {
-        int old = clock();
-        int numnum = totalNQueens16(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        printf("%d, %d\n", numnum, clock() - old);
-    }
-    {
-        int old = clock();
-        int numnum = totalNQueens8(nn);//11 //速度:totalNQueens > totalNQueens3 > totalNQueens2
-        printf("%d, %d\n", numnum, clock() - old);
-    }
-    getchar();
-    return 0;
-}
 //129. 求根到叶子节点数字之和
 int sumNumbers(TreeNode* root, int pre) {
     if (root == NULL)
@@ -11968,41 +11820,6 @@ public:
         return res;
     }
 };
-//55. 跳跃游戏
-class Solution55 {
-public:
-    bool canJump(vector<int>& nums) {
-        int len = nums.size() - 1;
-        for (int i = 0; i < nums.size();)
-        {
-            if (i + nums[i] >= len)
-                return true;
-            else
-            {
-                if (nums[i] == 0)
-                    return false;
-                int maxid = i + 1;
-                for (int j = i + 2; j <= i + nums[i]; ++j)
-                    if (nums[maxid] + maxid <= nums[j] + j)
-                        maxid = j;
-                i = maxid;
-            }
-        }
-        return false;
-    }
-};
-int main55()
-{
-    Solution55 s;
-    vector<int> v;
-    v.push_back(3);
-    v.push_back(2);
-    v.push_back(1);
-    v.push_back(0);
-    v.push_back(4);
-    bool r = s.canJump(v);
-    return 0;
-}
 //2019.04.21
 
 //134. 加油站
