@@ -1875,189 +1875,142 @@ public:
     }
 };
 //64. 最小路径和
-int minPathSum(vector<vector<int>>& grid) {
-    int n = grid.size();
-    if (n <= 0)
-        return 0;
-    int m = grid[0].size();
-    if (m <= 0)
-        return 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
+class Solution64 {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int n = grid.size();
+        if (n <= 0)
+            return 0;
+        int m = grid[0].size();
+        if (m <= 0)
+            return 0;
+        for (int i = 0; i < n; i++)
         {
-            if (i > 0 && j > 0)
+            for (int j = 0; j < m; j++)
             {
-                if (grid[i][j - 1] > grid[i - 1][j])
+                if (i > 0 && j > 0)
+                {
+                    if (grid[i][j - 1] > grid[i - 1][j])
+                        grid[i][j] = grid[i][j] + grid[i - 1][j];
+                    else
+                        grid[i][j] = grid[i][j] + grid[i][j - 1];
+                }
+                else if (i > 0)
                     grid[i][j] = grid[i][j] + grid[i - 1][j];
-                else
+                else if (j > 0)
                     grid[i][j] = grid[i][j] + grid[i][j - 1];
             }
-            else if (i > 0)
-                grid[i][j] = grid[i][j] + grid[i - 1][j];
-            else if (j > 0)
-                grid[i][j] = grid[i][j] + grid[i][j - 1];
         }
+        return grid[n - 1][m - 1];
     }
-    return grid[n - 1][m - 1];
-}
+};
 //67. 二进制求和
-string addBinary(string a, string b) {//错误答案
-    //a = "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101"
-    //b = "110101001011101110001111100110001010100001101011101010000011011011001011101111001100000011011110011"
-    int aa = a.size();
-    int bb = b.size();
-    int cnt = 0;
-    int num = 0;
-    for (int i = aa - 1, j = bb - 1; i >= 0 || j >= 0; i--,j--,cnt++)
-    {
-        if (i >= 0)
+class Solution67 {
+public:
+    string addBinary2(string a, string b) {//我的正确答案
+        int aa = a.size();
+        int bb = b.size();
+        string ss;
+        int cnt = 0;
+        int jin = 0;
+        for (int i = aa - 1, j = bb - 1; i >= 0 || j >= 0; i--, j--, cnt++)
         {
-            int t = a[i] - '0';
-            num += (t << cnt);
+            int num = jin;
+            if (i >= 0)
+            {
+                int t = a[i] - '0';
+                num += t;
+            }
+            if (j >= 0)
+            {
+                int t = b[j] - '0';
+                num += t;
+            }
+            //
+            if (num == 0)
+            {
+                jin = 0;
+                ss.push_back('0');
+            }
+            else if (num == 1)
+            {
+                jin = 0;
+                ss.push_back('1');
+            }
+            else if (num == 2)
+            {
+                jin = 1;
+                ss.push_back('0');
+            }
+            else if (num == 3)
+            {
+                jin = 1;
+                ss.push_back('1');
+            }
         }
-        if (j >= 0)
+        if (jin > 0)
         {
-            int t = b[j] - '0';
-            num += (t << cnt);
+            ss.push_back('1');//漏写了
         }
+        cnt = ss.size();
+        for (int i = 0, j = cnt - 1; i < j; i++, j--)
+        {
+            char tmp = ss[i];
+            ss[i] = ss[j];
+            ss[j] = tmp;
+        }
+        return ss;
     }
-    
-    if (num & (1<<cnt))//多加了个1 .cnt+1
-    {
-        cnt++;
-    }
-    string ss;
-    for (int i = cnt - 1; i >= 0; i--)
-    {
-        if (num & (1 << i))
-        {
-            ss.push_back('1');
-        }
-        else
-        {
-            ss.push_back('0');
-        }
-    }
-    return ss;
-}
-string addBinary2(string a, string b) {//我的正确答案
-    int aa = a.size();
-    int bb = b.size();
-    string ss;
-    int cnt = 0;
-    int jin = 0;
-    for (int i = aa - 1, j = bb - 1; i >= 0 || j >= 0; i--, j--, cnt++)
-    {
-        int num = jin;
-        if (i >= 0)
-        {
-            int t = a[i] - '0';
-            num += t;
-        }
-        if (j >= 0)
-        {
-            int t = b[j] - '0';
-            num += t;
-        }
-        //
-        if (num == 0)
-        {
-            jin = 0;
-            ss.push_back('0');
-        }
-        else if (num == 1)
-        {
-            jin = 0;
-            ss.push_back('1');
-        }
-        else if (num == 2)
-        {
-            jin = 1;
-            ss.push_back('0');
-        }
-        else if (num == 3)
-        {
-            jin = 1;
-            ss.push_back('1');
-        }
-    }
-    if (jin > 0)
-    {
-        ss.push_back('1');//漏写了
-    }
-    cnt = ss.size();
-    for (int i = 0,j = cnt - 1; i < j; i++,j--)
-    {
-        char tmp = ss[i];
-        ss[i] = ss[j];
-        ss[j] = tmp;
-    }
-    return ss;
-}
+};
 int main67()
 {
-    string ss = addBinary2("11","1");
+    Solution67 s67;
+    string ss = s67.addBinary2("11","1");
     printf("%s", ss.c_str());
-    getchar();
     return 0;
 }
 //69. x 的平方根
-int mySqrt(int x) {
-    long long min = 0;
-    long long max = x;
-    while (min < max)
-    {
-        long long mid = min + (max - min) / 2;//边界问题确实恶心
-        long long mm = mid * mid;//int老溢出 
-        if (x > mm)
+class Solution69 {
+public:
+    int mySqrt(int x) {
+        long long min = 0;
+        long long max = x;
+        while (min < max)
         {
-            min = mid + 1;
+            long long mid = min + (max - min) / 2;//边界问题确实恶心
+            long long mm = mid * mid;//int老溢出 
+            if (x > mm)
+                min = mid + 1;
+            else if (x < mm)
+                max = mid - 1;
+            else//x == mm
+                return mid;
         }
-        else if (x < mm)
-        {
-            max = mid - 1;
-        }
-        else//x == mm
-        {
-            return mid;
-        }
+        int rlt = min > max ? max : min;
+        if (rlt * rlt > x)
+            rlt--;
+        return rlt;
     }
-    int rlt = min > max ? max : min;
-    if (rlt * rlt > x)
-    {
-        rlt--;
+    int mySqrt2(int x) {//神奇的代码
+        long long t = x;
+        t = 0x5f3759df - (t >> 1);
+        while (!(t*t <= x && (t + 1)*(t + 1) > x))
+            t = (x / t + t) / 2;
+        return (int)t;
+
     }
-    return rlt;
-}
-int mySqrt2(int x) {//神奇的代码
-    long long t = x;
-    t = 0x5f3759df - (t >> 1);
-    while (!(t*t <= x && (t + 1)*(t + 1) > x))
-        t = (x / t + t) / 2;
-    return (int)t;
-}
+};
 int main69()
 {
-    int ss = mySqrt(8);
+    Solution69 s69;
+    int ss = s69.mySqrt(8);
     printf("%d", ss);
-    getchar();
     return 0;
 }
 //70. 爬楼梯
 int climbStairs(int n) {
-    if (n == 0)
-    {
-        return 0;
-    }
-    if (n == 1)
-    {
-        return 1;
-    }
-    if (n == 2)
-    {
-        return 2;
-    }
+    if (n < 3)
+        return n;
     int f1 = 1;
     int f2 = 2;
     int sum = 0;
@@ -2077,15 +2030,6 @@ int main70()
     return 0;
 }
 //83. 删除排序链表中的重复元素
-/**
-*Definition for singly - linked list.
-* struct ListNode {
-    *int val;
-    *ListNode *next;
-    *ListNode(int x) : val(x), next(NULL) {}
-    *
-};
-*/
 ListNode* deleteDuplicates(ListNode* head) {
     if (!head)
     {
