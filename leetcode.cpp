@@ -2008,23 +2008,27 @@ int main69()
     return 0;
 }
 //70. ÅÀÂ¥Ìİ
-int climbStairs(int n) {
-    if (n < 3)
-        return n;
-    int f1 = 1;
-    int f2 = 2;
-    int sum = 0;
-    for (int i = 3; i <= n; i++)
-    {
-        sum = f1 + f2;
-        f1 = f2;
-        f2 = sum;
+class Solution70 {
+public:
+    int climbStairs(int n) {
+        if (n < 3)
+            return n;
+        int f1 = 1;
+        int f2 = 2;
+        int sum = 0;
+        for (int i = 3; i <= n; i++)
+        {
+            sum = f1 + f2;
+            f1 = f2;
+            f2 = sum;
+        }
+        return sum;
     }
-    return sum;
-}
+};
 int main70()
 {
-    int ss = climbStairs(2);
+    Solution70 s70;
+    int ss = s70.climbStairs(2);
     printf("%d", ss);
     getchar();
     return 0;
