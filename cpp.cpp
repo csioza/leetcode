@@ -15,14 +15,14 @@ public:
         {
             pthread_mutex_lock(mtx);
             if (instance == NULL)
-            {
                 instance = new Singlton();
-            }
             pthread_mutex_unlock(mtx);
         }
         return instance;
     }
 };
-pthread_mutex_t Singlton::mtx = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t Singlton::mtx = PTHREAD_MUTEX_INITIALIZER;//# define PTHREAD_MUTEX_INITIALIZER { { 0, 0, 0, 0, 0, 0, { 0, 0 } } }
 Singlton* Singlton::instance = NULL;
 #endif
+
+    
