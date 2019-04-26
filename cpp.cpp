@@ -124,7 +124,7 @@ class Base
 {
 public:
     int a;
-    virtual void f(){}
+    /*virtual*/ void f(){}
 };
 class Der1: public virtual Base
 {
@@ -132,13 +132,21 @@ public:
     int b;
     void f() {}
 };
-class Der2: public Der1
+class Der2: public /*virtual*/ Der1
 {
 public:
     int c;
     void f() {}
 };
 
+int main()
+{
+    Der2 d2;
+    d2.a = 1;
+    d2.b = 2;
+    d2.c = 3;
+    return 0;
+}
 //////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////
