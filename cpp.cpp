@@ -143,19 +143,19 @@ int EmptyClass::b = 0;
 class Base
 {
 public:
-    int a;
+    //int a;
     //int m;
     //std::string l = "a";
     //char k;
     //int m3;
     //long long a2;
     //int m0;
-    ///*virtual*/ void f(){}
+    virtual void f(){}
 };
 class Der1: public virtual Base
 {
 public:
-    int b;
+    //int b;
     //int mz;
     //void f() {}
 };
@@ -168,7 +168,7 @@ public:
 class Der3 : public Base
 {
 public:
-    int b;
+    //int b;
     //void f() {}
 };
 class Der4 : public virtual EmptyClass
@@ -183,20 +183,20 @@ public:
     int b;
     //void f() {}
 };
-
+//https://blog.csdn.net/xiejingfa/article/details/48028491
 int main()
 {
-    //Der1 d1;
+    Der1 d1;
     //Der2 d2;
-    //Der3 d3;
+    Der3 d3;
     //d2.a = 1;
     //d2.b = 2;
     //d2.c = 3;
-    int s1 = sizeof(int *);
-    //int s2 = sizeof(Der1);
+    int s1 = sizeof(Base);
+    int s2 = sizeof(Der1);
     //int s3 = sizeof(Der2);
     //int s4 = sizeof(EmptyClass);
-    //int s5 = sizeof(Der3);
+    int s5 = sizeof(Der3);
     //int s6 = sizeof(d1);
     //int s7 = sizeof(d2);
     //int s8 = sizeof(d3);
