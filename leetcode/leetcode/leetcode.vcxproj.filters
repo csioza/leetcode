@@ -4,6 +4,7 @@
     <ClCompile Include="..\..\leetcode.cpp" />
     <ClCompile Include="..\..\tool.cpp" />
     <ClCompile Include="..\..\leetcode2.cpp" />
+    <ClCompile Include="..\..\cpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\note.txt" />

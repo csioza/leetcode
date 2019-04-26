@@ -1,18 +1,28 @@
+//#define LINUX
 //1.手撕线程安全的单例模式
+#ifdef LINUX
 class Singlton
 {
-public:
-    Singlton();
-    ~Singlton();
-
 private:
-
+    static pthread_mutex_t mtx;
+    static Singlton* instance;
+    Singlton() {}
+    ~Singlton() {}
+public:
+    static Singlton* getInstance()
+    {
+        if (instance == NULL)
+        {
+            pthread_mutex_lock(mtx);
+            if (instance == NULL)
+            {
+                instance = new Singlton();
+            }
+            pthread_mutex_unlock(mtx);
+        }
+        return instance;
+    }
 };
-
-Singlton::Singlton()
-{
-}
-
-Singlton::~Singlton()
-{
-}
+pthread_mutex_t Singlton::mtx = PTHREAD_MUTEX_INITIALIZER;
+Singlton* Singlton::instance = NULL;
+#endif

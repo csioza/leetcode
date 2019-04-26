@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\cpp.cpp" />
     <ClCompile Include="..\..\leetcode.cpp" />
     <ClCompile Include="..\..\leetcode2.cpp" />
     <ClCompile Include="..\..\tool.cpp" />
