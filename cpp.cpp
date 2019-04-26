@@ -143,9 +143,9 @@ int EmptyClass::b = 0;
 class Base
 {
 public:
-    //int a;
+    int a;
     //int m;
-    std::string l = "a";
+    //std::string l = "a";
     //char k;
     //int m3;
     //long long a2;
