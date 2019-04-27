@@ -144,13 +144,15 @@ class Base
 {
 public:
     //int a;
-    //int m;
-    //std::string l = "a";
-    //char k;
-    //int m3;
+    ////int m;
+    ////std::string l = "a";
     //long long a2;
+    //int a1;
+    //int a42;
+    char k[8];
+    int a3;
     //int m0;
-    virtual void f(){}
+    //virtual void f(){}
 };
 class Der1: public virtual Base
 {
