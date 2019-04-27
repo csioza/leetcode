@@ -143,25 +143,28 @@ int EmptyClass::b = 0;
 class Base
 {
 public:
-    //int a;
+    int a;
+    int f;
+    int fr;
     ////int m;
     ////std::string l = "a";
     //long long a2;
     //int a1;
     //int a42;
-    char k[8];
-    int a3;
+    //int a3;
     //int m0;
     //virtual void f(){}
 };
 class Der1: public virtual Base
 {
 public:
-    //int b;
+    int b;
+    int c;
+    int d;
     //int mz;
     //void f() {}
 };
-class Der2: public /*virtual*/ Der1
+class Der2: public /*virtual*/ Base
 {
 public:
     int c;
@@ -186,19 +189,25 @@ public:
     //void f() {}
 };
 //https://blog.csdn.net/xiejingfa/article/details/48028491
-int main()
+int main1()
 {
     Der1 d1;
-    //Der2 d2;
-    Der3 d3;
+    Der2 d2;
+    //Der3 d3;
     //d2.a = 1;
     //d2.b = 2;
     //d2.c = 3;
-    int s1 = sizeof(Base);
-    int s2 = sizeof(Der1);
-    //int s3 = sizeof(Der2);
+    int base = sizeof(Base);
+    int der1 = sizeof(Der1);
+    //int der2 = sizeof(Der2);
+    //int p1 = 0;
+    //int p2 = 0;
+    //int *p1 = NULL;
+    //int *p2 = NULL;
+    //int *pp1 = &p1;
+    //int *pp2 = &p2;
     //int s4 = sizeof(EmptyClass);
-    int s5 = sizeof(Der3);
+    //int s5 = sizeof(Der3);
     //int s6 = sizeof(d1);
     //int s7 = sizeof(d2);
     //int s8 = sizeof(d3);
@@ -206,6 +215,35 @@ int main()
     //int s10 = sizeof(Der5);
     return 0;
 }
+
+class A
+{
+public:
+    int a;
+};
+class B: public /*virtual*/ A
+{
+public:
+    int b;
+};
+class C: public virtual A
+{
+public:
+    int c;
+};
+class D : public virtual B, public virtual C
+{
+public:
+    int d;
+};
+
+int main()
+{
+    D d;
+    int d1 = sizeof(d);
+    return 0;
+}
+
 //////////////////////////////////////////////////////////////////////////
 //空类型不包含任何信息，按理来说它的sizeof应该是0。但是，要考虑的是当我们声明该类型的实例的时候，
 //它必须在内存中占有一定的空间，否则它就是不存在的而无法使用这些实例。
