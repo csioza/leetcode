@@ -220,29 +220,61 @@ class A
 {
 public:
     int a;
+    virtual void f() {}
+    //virtual void f2() {}
+    //void f4() { printf("a"); }
 };
 class B: public /*virtual*/ A
 {
 public:
     int b;
+    /*virtual*/ void f() {}
+    //void f4() { printf("c"); }
 };
 class C: public virtual A
 {
 public:
     int c;
+    /*virtual*/ void f() {}
+    //virtual void f3() {}
+    //void f4() { printf("c"); }
 };
-class D : public virtual B, public virtual C
+class D : public C
 {
 public:
     int d;
+    /*virtual*/ void f() {}
 };
 
 int main()
 {
     D d;
+    A a;
+    B b;
+    C c;
+    int sa = sizeof(A);
+    int sb = sizeof(B);
+    int sc = sizeof(C);
+    int sd = sizeof(D);
     int d1 = sizeof(d);
+    A *aa = new B;
     return 0;
 }
+
+//成为虚函数的条件：
+//1.要能取地址
+//2.依赖对象调用
+
+//构造函数 不可以 系统调用 不依赖对象调用
+//析构函数 可以
+//内联函数 不可以 不能取地址 函数在调用点直接展开
+//static函数 不可以 无this指针 不依赖对象调用
+
+//虚函数表：
+//第一行：RTTL（run time type information）运行时类型信息
+//第二行：虚函数指针的偏移
+//第三行：虚函数的入口地址
+//虚表的写入时机 构造函数的执行之前
 
 //////////////////////////////////////////////////////////////////////////
 //空类型不包含任何信息，按理来说它的sizeof应该是0。但是，要考虑的是当我们声明该类型的实例的时候，
@@ -258,9 +290,13 @@ int main()
 //函数占的空间不在sizeof里，而在代码区里
 //静态成员占的空间不在sizeof里，而在全局区里
 
-
 //////////////////////////////////////////////////////////////////////////
-
+//实现一个vector？是1.5还是2倍，各有什么优缺点？
+//1.5倍优势：可以重用之前分配并且释放的内存
+//2倍劣势：每次申请的内存都不可以重用
+//1，2，4，8，16，32，...
+//可以看到到第三次resize(4)的时候，前面释放的总和只有1 + 2 = 3，到第四次resize(8)的时候前面释放的总和只有1 + 2 + 4 = 7，
+//每次需要申请的空间都无法用到前面释放的内存。
 //////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////
