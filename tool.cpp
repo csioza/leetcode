@@ -142,3 +142,10 @@
 //vector 
 #include <vector>
 using namespace std;
+
+static int sjj = 8;
+extern int ejj = 9;
+int sfun()
+{
+    return 0;
+}

@@ -1,5 +1,6 @@
 //#define LINUX
 #include <string>
+//#include "tool.cpp"
 //////////////////////////////////////////////////////////////////////////
 //#1.手撕线程安全的单例模式
 #ifdef LINUX
@@ -296,8 +297,12 @@ int main22()
     printf("%s,%s,%d,%d,%d,%d", getm(), p,getm2,&i,&ii,&p);
     return 0;
 }
+extern int ejj;
+extern int sjj=8;
+extern int sfun();
 int main()
 {
+    int ss = sfun() + sjj;
     int i = 5.01;
     float f = 5;
     printf("%f\n", 5);
