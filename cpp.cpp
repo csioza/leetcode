@@ -246,21 +246,67 @@ public:
     /*virtual*/ void f() {}
 };
 
-int main()
+int max1(int x, int y)
 {
-    D d;
-    A a;
-    B b;
-    C c;
-    int sa = sizeof(A);
-    int sb = sizeof(B);
-    int sc = sizeof(C);
-    int sd = sizeof(D);
-    int d1 = sizeof(d);
-    A *aa = new B;
+    return x > y ? x : y;
+}
+int main39()
+{
+    //D d;
+    //A a;
+    //B b;
+    //C c;
+    //int sa = sizeof(A);
+    //int sb = sizeof(B);
+    //int sc = sizeof(C);
+    //int sd = sizeof(D);
+    //int d1 = sizeof(d);
+    //A *aa = new B;
+    {
+        char *str[] = { "wel","topyu","fortem","nanjing" };
+        char **p = str + 1;
+        str[0] = (*p++) + 2;
+        str[1] = *(p + 1);
+        str[2] = p[1] + 3;
+        str[3] = p[0] + (str[2] - str[1]);
+    }
+
+    int(*p[2])(int,int);
+    int max1(int,int);
+    p[0] = max1;
+    int ret = (p[0])(3,2);
     return 0;
 }
 
+char * getm()
+{
+    char p[] = "hello";
+    return p;
+}
+char * getm2()
+{
+    char *p = "hello";
+    return p;
+}
+int main22()
+{
+    int i = 0;
+    int ii = 0;
+    char * p = getm2();
+    printf("%s,%s,%d,%d,%d,%d", getm(), p,getm2,&i,&ii,&p);
+    return 0;
+}
+int main()
+{
+    int i = 5.01;
+    float f = 5;
+    printf("%f\n", 5);
+    printf("%1f\n", 5.01);
+    printf("%f\n", f);
+    printf("%d\n", 5.01);
+    printf("%d\n", i);
+    return 0;
+}
 //成为虚函数的条件：
 //1.要能取地址
 //2.依赖对象调用
