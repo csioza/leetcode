@@ -307,18 +307,30 @@ public:
         printf("\n11111111,%d",this);
     }
     AA() {
-        AA(0);
         printf("\n22222222,%d", this);
+    }
+    ~AA() {
+        printf("\n44444444,%d", this);
+    }
+    AA(AA &a) {
+        aa = a.aa;
+        printf("\n33333333,%d", this);
     }
     void fun(){}
 
 public:
     int aa;
 };
+AA play(AA a)
+{
+    printf("\n66666666,%d", &a);
+    return a;
+}
 int main()
 {
     AA aa;
-    printf("\n33333333,%d,%d", &aa,aa.aa);
+    /*AA bb =*/ play(2);
+    //printf("\n55555555,%d", &bb);
 
     //aa.fun();
     //aab.fun();
