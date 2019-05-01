@@ -300,12 +300,32 @@ int main22()
 extern int ejj;
 extern int sjj=8;
 extern int sfun();
+class AA
+{
+public:
+    AA(int a) {
+        printf("11111111");
+    }
+    AA() {
+        printf("22222222");
+    }
+    void fun(){}
+
+public:
+    int a;
+};
+AA aa;
 int main()
 {
+    printf("33333333333");
+    AA aa2(1);
+    AA aab();
+    //aa.fun();
+    //aab.fun();
+    //aab.a;
     int ss = sfun() + sjj;
     int i = 5.01;
     float f = 5;
-    printf("%f\n", 5);
     printf("%1f\n", 5.01);
     printf("%f\n", f);
     printf("%d\n", 5.01);
