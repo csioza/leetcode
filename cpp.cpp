@@ -303,33 +303,33 @@ extern int sfun();
 class AA
 {
 public:
-    AA(int a) {
-        printf("11111111");
+    AA(int a):aa(a) {
+        printf("\n11111111,%d",this);
     }
     AA() {
-        printf("22222222");
+        AA(0);
+        printf("\n22222222,%d", this);
     }
     void fun(){}
 
 public:
-    int a;
+    int aa;
 };
-AA aa;
 int main()
 {
-    printf("33333333333");
-    AA aa2(1);
-    AA aab();
+    AA aa;
+    printf("\n33333333,%d,%d", &aa,aa.aa);
+
     //aa.fun();
     //aab.fun();
     //aab.a;
-    int ss = sfun() + sjj;
-    int i = 5.01;
-    float f = 5;
-    printf("%1f\n", 5.01);
-    printf("%f\n", f);
-    printf("%d\n", 5.01);
-    printf("%d\n", i);
+    //int ss = sfun() + sjj;
+    //int i = 5.01;
+    //float f = 5;
+    //printf("%1f\n", 5.01);
+    //printf("%f\n", f);
+    //printf("%d\n", 5.01);
+    //printf("%d\n", i);
     return 0;
 }
 //成为虚函数的条件：
