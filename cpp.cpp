@@ -145,31 +145,27 @@ class Base
 {
 public:
     int a;
-    int f;
-    int fr;
-    ////int m;
-    ////std::string l = "a";
-    //long long a2;
-    //int a1;
-    //int a42;
-    //int a3;
-    //int m0;
-    //virtual void f(){}
+    virtual void f(){}
+};
+class Base2
+{
+public:
+    int a2;
+    virtual void f3() {}
 };
 class Der1: public virtual Base
 {
 public:
     int b;
-    int c;
-    int d;
-    //int mz;
-    //void f() {}
+    void virtual f() {}
+    //void virtual f2() {}
 };
-class Der2: public /*virtual*/ Base
+class Der2: public virtual Base, public Base2
 {
 public:
     int c;
-    //void f() {}
+    void f() {}
+    void virtual f2() {}
 };
 class Der3 : public Base
 {
@@ -190,8 +186,9 @@ public:
     //void f() {}
 };
 //https://blog.csdn.net/xiejingfa/article/details/48028491
-int main1()
+int main()
 {
+    Base d0;
     Der1 d1;
     Der2 d2;
     //Der3 d3;
@@ -200,6 +197,7 @@ int main1()
     //d2.c = 3;
     int base = sizeof(Base);
     int der1 = sizeof(Der1);
+    int der2 = sizeof(Der2);
     //int der2 = sizeof(Der2);
     //int p1 = 0;
     //int p2 = 0;
@@ -332,7 +330,7 @@ AA play(AA a)
     printf("\n66666666,%d", &a);
     return a;
 }
-int main()
+int main66()
 {
     AA *aaa = new('s') AA;
     printf("\n66666666,%c", *(char* )aaa);
