@@ -303,23 +303,29 @@ extern int sfun();
 class AA
 {
 public:
-    AA(int a):aa(a) {
-        printf("\n11111111,%d",this);
-    }
-    AA() {
-        printf("\n22222222,%d", this);
+    //AA(int a):aa(a) {
+    //    printf("\n11111111,%d",this);
+    //}
+    AA() /*:aa(2)*/ {
+        //printf("\n22222222,%d,%d", aa, this);
     }
     ~AA() {
-        printf("\n44444444,%d", this);
+        //printf("\n44444444,%d,%d", aa,this);
     }
-    AA(AA &a) {
-        aa = a.aa;
-        printf("\n33333333,%d", this);
+    //AA(AA &a) {
+    //    aa = a.aa;
+    //    printf("\n33333333,%d", this);
+    //}
+    void fun() {};
+    void *operator new(size_t size, char caint)
+    {
+        void *tmp = malloc(size);
+        memset(tmp, caint, size);
+        printf("\noperator,%c", *(char *)tmp);
+        return tmp;
     }
-    void fun(){}
-
 public:
-    int aa;
+    //int aa;
 };
 AA play(AA a)
 {
@@ -328,8 +334,9 @@ AA play(AA a)
 }
 int main()
 {
-    AA aa;
-    /*AA bb =*/ play(2);
+    AA *aaa = new('s') AA;
+    printf("\n66666666,%c", *(char* )aaa);
+    ///*AA bb =*/ play(2);
     //printf("\n55555555,%d", &bb);
 
     //aa.fun();
