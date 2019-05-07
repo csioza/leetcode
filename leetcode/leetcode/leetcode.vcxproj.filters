@@ -13,5 +13,6 @@
     <None Include="..\..\ds.doc" />
     <None Include="..\..\net.doc" />
     <None Include="..\..\os.doc" />
+    <None Include="..\..\cpp.doc" />
   </ItemGroup>
 </Project>

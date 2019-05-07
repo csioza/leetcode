@@ -119,6 +119,7 @@
     <Text Include="..\..\note.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\cpp.doc" />
     <None Include="..\..\ds.doc" />
     <None Include="..\..\net.doc" />
     <None Include="..\..\os.doc" />
