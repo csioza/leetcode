@@ -118,6 +118,11 @@
   <ItemGroup>
     <Text Include="..\..\note.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\ds.doc" />
+    <None Include="..\..\net.doc" />
+    <None Include="..\..\os.doc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
