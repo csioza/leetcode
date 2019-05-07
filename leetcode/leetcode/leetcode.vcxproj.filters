@@ -7,9 +7,6 @@
     <ClCompile Include="..\..\cpp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\note.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\..\ds.doc" />
     <None Include="..\..\net.doc" />
     <None Include="..\..\os.doc" />

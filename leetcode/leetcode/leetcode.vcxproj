@@ -116,9 +116,6 @@
     <ClCompile Include="..\..\tool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\note.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\..\cpp.doc" />
     <None Include="..\..\ds.doc" />
     <None Include="..\..\net.doc" />
