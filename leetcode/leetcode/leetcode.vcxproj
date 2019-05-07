@@ -113,7 +113,6 @@
     <ClCompile Include="..\..\cpp.cpp" />
     <ClCompile Include="..\..\leetcode.cpp" />
     <ClCompile Include="..\..\leetcode2.cpp" />
-    <ClCompile Include="..\..\tool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\cpp.doc" />
