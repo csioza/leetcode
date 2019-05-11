@@ -195,7 +195,7 @@ public:
     //void f() {}
 };
 //https://blog.csdn.net/xiejingfa/article/details/48028491
-int main()
+int main999()
 {
     Base d0;
     Der1 d1;
@@ -448,13 +448,55 @@ int main66()
 
 //////////////////////////////////////////////////////////////////////////
 //如何得到一个结构体内成员的偏移量？
-#define offsetof(type, number) ((size_t)&((type *)0)->number)
+#define offsetof(type, member) ((size_t)&((type *)0)->member)
 
 //手写如何通过一个结构体的成员变量得到一个结构体的地址？
-#define container_of(ptr, type, number) ({ \
-                                            const typeof(((type*)0)->number) * __mptr = (ptr);\
-                                            (type*)((char*) __mptr - offsetof(type, number));\
-                                         })
+//#define container_of(ptr, type, member) ({ \
+//                                            const typeof(((type*)0)->member) * __mptr = (ptr);\
+//                                            (type*)((char*) __mptr - offsetof(type, member)); })
+#define container_off(ptr, type, member) ({ \
+     const typeof( ((type *)0)->member ) *__mptr = (ptr); \
+     (type *)( (char *)__mptr - offsetof(type,member) );})  
+
+#define QUEUE_DATA(ptr, type, field)                                          \
+  ((type *) ((char *) (ptr) - offsetof(type, field)))
+
+#define NAME_STR_LEN  32
+
+typedef struct student_info
+{
+    int  id;
+    char name[NAME_STR_LEN];
+    int  age;
+}student_info;
+
+typedef struct student_info2
+{
+    int  id;
+    int  age;
+}student_info2;
+
+int main()
+{
+    student_info2 *sdfsdf = new student_info2;
+    long long iii = long long (858270960);
+    student_info * sss = (student_info *)0;
+    printf("sss->age: %u， %u\n", (&sss->age), sdfsdf);
+    size_t off_set = 0;
+    off_set = offsetof(student_info, id);
+    printf("id offset: %u\n", off_set);
+    off_set = offsetof(student_info, name);
+    printf("name offset: %u\n", off_set);
+    off_set = offsetof(student_info, age);
+    printf("age offset: %u\n", off_set);
+    student_info *stu = (student_info *)malloc(sizeof(student_info));
+    stu->age = 10;
+    student_info *ptr = QUEUE_DATA(&(stu->age), student_info, age);
+    printf("age:%d\n", ptr->age);
+    printf("stu address:%p\n", stu);
+    printf("ptr address:%p\n", ptr);
+    return 0;
+}
 //////////////////////////////////////////////////////////////////////////
 //构造函数能不能虚函数？为什么？那拷贝构造函数能不能为虚函数？为什么？
 //不可以为虚函数，因为在调用构造函数时，虚表指针并没有在对象的内存空间中，必须要构造函数调用完成后才会形成虚表指针。
