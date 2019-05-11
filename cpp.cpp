@@ -451,10 +451,7 @@ int main66()
 #define offsetof(type, member) ((size_t)&((type *)0)->member)
 
 //手写如何通过一个结构体的成员变量得到一个结构体的地址？
-//#define container_of(ptr, type, member) ({ \
-//                                            const typeof(((type*)0)->member) * __mptr = (ptr);\
-//                                            (type*)((char*) __mptr - offsetof(type, member)); })
-#define container_off(ptr, type, member) ({ \
+#define container_of(ptr, type, member) ({ \
      const typeof( ((type *)0)->member ) *__mptr = (ptr); \
      (type *)( (char *)__mptr - offsetof(type,member) );})  
 
