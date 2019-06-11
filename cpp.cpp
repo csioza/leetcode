@@ -473,25 +473,37 @@ typedef struct student_info2
     int  age;
 }student_info2;
 
+typedef unsigned char byte;
+enum i3 : int
+{
+    iiiiii = 256,
+    iiiiii2
+};
+
+int kkk = i3::iiiiii;
+
 int main()
 {
-    student_info2 *sdfsdf = new student_info2;
-    long long iii = long long (858270960);
-    student_info * sss = (student_info *)0;
-    printf("sss->age: %u£¬ %u\n", (&sss->age), sdfsdf);
-    size_t off_set = 0;
-    off_set = offsetof(student_info, id);
-    printf("id offset: %u\n", off_set);
-    off_set = offsetof(student_info, name);
-    printf("name offset: %u\n", off_set);
-    off_set = offsetof(student_info, age);
-    printf("age offset: %u\n", off_set);
-    student_info *stu = (student_info *)malloc(sizeof(student_info));
-    stu->age = 10;
-    student_info *ptr = QUEUE_DATA(&(stu->age), student_info, age);
-    printf("age:%d\n", ptr->age);
-    printf("stu address:%p\n", stu);
-    printf("ptr address:%p\n", ptr);
+    int sss = 257;
+    printf("ptr address:%d %d\n", iiiiii, sss);
+    //student_info2 *sdfsdf = new student_info2;
+    //long long iii = long long (858270960);
+    //student_info * sss = (student_info *)0;
+    //printf("sss->age: %u£¬ %u\n", (&sss->age), sdfsdf);
+    //size_t off_set = 0;
+    //off_set = offsetof(student_info, id);
+    //printf("id offset: %u\n", off_set);
+    //off_set = offsetof(student_info, name);
+    //printf("name offset: %u\n", off_set);
+    //off_set = offsetof(student_info, age);
+    //printf("age offset: %u\n", off_set);
+    //student_info *stu = (student_info *)malloc(sizeof(student_info));
+    //stu->age = 10;
+    //student_info *ptr = QUEUE_DATA(&(stu->age), student_info, age);
+    //printf("age:%d\n", ptr->age);
+    //printf("stu address:%p\n", stu);
+    //printf("ptr address:%p\n", ptr);
+    getchar();
     return 0;
 }
 //////////////////////////////////////////////////////////////////////////
