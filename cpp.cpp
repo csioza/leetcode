@@ -482,7 +482,7 @@ enum i3 : int
 
 int kkk = i3::iiiiii;
 
-int main()
+int main2222222()
 {
     int sss = 257;
     printf("ptr address:%d %d\n", iiiiii, sss);

@@ -526,22 +526,22 @@ public:
 //19. 删除链表的倒数第N个节点
 class Solution19 {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* removeNthFromEnd(ListNode* head, int k) {
         ListNode* pre = head;
         ListNode* end = head;
-        if (n <= 0)
+        if (k <= 0)
             return head;
         int cnt = 0;
         while (end)
         {
-            if (cnt > n)
+            if (cnt > k)
                 pre = pre->next;
             end = end->next;
             cnt++;
         }
-        if (cnt < n)
+        if (cnt < k)
             return head;
-        else if (cnt == n)
+        else if (cnt == k)
         {
             ListNode *d = head;
             head = head->next;
@@ -557,6 +557,24 @@ public:
         return head;
     }
 };
+int main() {
+    ListNode * n1 = new ListNode(1);
+    ListNode * n2 = new ListNode(2);
+    ListNode * n3 = new ListNode(3);
+    ListNode * n4 = new ListNode(4);
+    ListNode * n5 = new ListNode(5);
+    ListNode * n6 = new ListNode(6);
+    ListNode * n7 = new ListNode(7);
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    n5->next = n6;
+    n6->next = n7;
+    Solution19 s;
+    ListNode * rlt = s.removeNthFromEnd(n1, 3);
+    getchar();
+}
 //20. 有效的括号
 class Solution20 {
 public:
