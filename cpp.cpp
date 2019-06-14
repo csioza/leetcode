@@ -89,8 +89,22 @@ public:
 };
 pthread_mutex_t Singlton::mtx = PTHREAD_MUTEX_INITIALIZER;//# define PTHREAD_MUTEX_INITIALIZER { { 0, 0, 0, 0, 0, 0, { 0, 0 } } }
 Singlton* Singlton::instance = NULL;
-#endif
 
+#else
+
+class Singlton
+{
+private://私有，考点
+    Singlton() {}
+    ~Singlton() {}
+public:
+    static Singlton* getInstance()
+    {
+        static Singlton* instance = new Singlton();
+        return instance;
+    }
+};
+#endif
 //////////////////////////////////////////////////////////////////////////
 //引用和指针的区别？
 //指针：是一个变量类型；指针可以不进行初始化；指针初始化后可以改变，在写代码时需要大量的检测
