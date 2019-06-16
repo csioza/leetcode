@@ -12197,3 +12197,44 @@ int main621()
     int r = s.leastInterval(tasks,n);
     return 0;
 }
+
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int sn1[26];
+        int sn2[26];
+        memset(sn1, 0, sizeof(sn1));
+        memset(sn2, 0, sizeof(sn2));
+        for (int i = 0; i < s1.size(); ++i)
+        {
+            sn1[s1[i]]++;
+        }
+        for (int i = 0; i < s2.size(); ++i)
+        {
+            sn2[s2[i]]++;
+        }
+        int i = 0;
+        for (; i < 26 && sn1[i] <= sn2[i]; ++i);
+        return i >= 26;
+    }
+};
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        string res = "";
+        int m = num1.size(), n = num2.size();
+        vector<int> vals(m + n);
+        for (int i = m - 1; i >= 0; --i) {
+            for (int j = n - 1; j >= 0; --j) {
+                int mul = (num1[i] - '0') * (num2[j] - '0');
+                int p1 = i + j, p2 = i + j + 1, sum = mul + vals[p2];
+                vals[p1] += sum / 10;
+                vals[p2] = sum % 10;
+            }
+        }
+        for (int val : vals) {
+            if (!res.empty() || val != 0) res.push_back(val + '0');
+        }
+        return res.empty() ? "0" : res;
+    }
+};
